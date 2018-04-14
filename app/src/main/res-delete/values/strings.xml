@@ -1,0 +1,103 @@
+<resources>
+    <string name="app_name">Easy Cover</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="forgot_password_underline"><u>Forgot Password</u></string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="login">Login</string>
+    <string name="hint_password">Enter Password</string>
+    <string name="hint_email">Enter Email Address</string>
+    <string name="donot_have_account">Haven\'t got an account? Sing Up!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="done">Done</string>
+    <string name="work_in_progress">Work in progress...</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_underline"><u>Sign Up</u></string>
+    <string name="user_name">UserName</string>
+    <string name="user_first_name">Firstname</string>
+    <string name="user_sur_name">SurName</string>
+    <string name="password">Password</string>
+    <string name="select_role">Select your role</string>
+    <string name="agent">Agent</string>
+    <string name="customer">Customer</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="register">Register</string>
+    <string name="full_name">Full Name</string>
+    <string name="confirm_pass">Confirm Password</string>
+    <string name="contact_num">Mobile Number</string>
+    <string name="next">Next</string>
+    <string name="home">Home</string>
+    <string name="notification">Notifications</string>
+    <string name="qoutation">Quotation</string>
+    <string name="history">History</string>
+    <string name="purchased">Order History</string>
+    <string name="prefer">Prefer</string>
+    <string name="upload_pic">Upload Picture</string>
+    <string name="choose_file">Choose File</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="udate">Update</string>
+    <string name="address">Address</string>
+    <string name="post_code">Post Code</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+    <string name="date_of_birth">Date Of Birth</string>
+    <string name="try_now">Try Now</string>
+    <string name="refferal">Refferal</string>
+    <string name="refferal_code">Refferal Code</string>
+    <string name="share_refferal_code">Share you refferal code</string>
+    <string name="text_email_for_reset_password">We just need your registered E-mail to send your password recover instrucions</string>
+    <string name="hint_full_name_as_nric">Full name as per NRIC</string>
+    <string name="hint_nrice_number">NRIC number</string>
+    <string name="send">Send</string>
+    <string name="upload_related_doc">Upload related document</string>
+    <string name="text_file_upload">(Upload,grant, past policy and relevant docs to quicken process.)</string>
+    <string name="rm">RM</string>
+    <string name="reload_credit">Reload Credit</string>
+    <string name="job_wall">Job Wall</string>
+    <string name="completed_jobs">Completed Jobs</string>
+    <string name="accepted_jobs">Accepted Jobs</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="renew">Renew</string>
+    <string name="interested">Interested</string>
+    <string name="indicative_sum">Indicative Sum</string>
+    <string name="expired_date">Expired Date</string>
+    <string name="phoneno">Mobile number</string>
+    <string name="supported_docs">Supported Documents</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="piam_number">PIAM Number</string>
+    <string name="service_location">Service Location</string>
+    <string name="clear">Clear</string>
+    <string name="quotation_remarks">Quotation Upfront</string>
+    <string name="quotation_total_sum">Quotation Total Sum</string>
+    <string name="please_wait">Plesae wait</string>
+    <string name="verify">Verify</string>
+    <string name="resend">Re-send code</string>
+    <string name="confirmCode">Confirm Code</string>
+    <string name="enter_code">Enter Verification Code</string>
+    <string name="required">Required</string>
+    <string name="logout">Logout</string>
+    <string name="skip_verification">Skip Verification</string>
+    <string name="reset_password_message">A link to reset your password\nwas delievered to your mailbox.</string>
+    <string name="invalid_password">Invalid Password</string>
+    <string name="no_internet">No Internet Connection</string>
+    <string name="permission_header_txt">If you will not accept permission, then this can not be performed</string>
+    <string name="job_success">Purchase New product is requested.\nOur agent will come back to you very soon.</string>
+    <string name="file_upload_fail">File Upload Failed</string>
+
+
+    <string-array name="insurance_types">
+
+
+    </string-array>
+    <string name="title_activity_maps">Map</string>
+
+
+</resources>

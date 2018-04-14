@@ -1,0 +1,231 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".customer.ui.fragments.CreateJobFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="@dimen/_15sdp">
+
+
+        <EditText
+
+            android:id="@+id/edtFullName"
+            style="@style/edit_txt_single_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtUserName"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:hint="@string/hint_full_name_as_nric"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/edtNricNumber"
+            style="@style/edit_txt_single_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtFullName"
+            android:layout_marginTop="@dimen/_5sdp"
+
+            android:hint="@string/hint_nrice_number"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp" />
+
+        <EditText
+            android:id="@+id/edtContact"
+            style="@style/edit_txt_single_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtNricNumber"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:hint="@string/contact_num"
+            android:inputType="phone"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/bg_white_edit"
+            android:minHeight="@dimen/_30sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp">
+
+            <Spinner
+                android:id="@+id/spinnerInsuranceType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_1sdp"
+                android:minHeight="@dimen/_28sdp"
+                />
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/edtIndicativeSum"
+            style="@style/edit_txt_single_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtNricNumber"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:hint="@string/indicative_sum"
+            android:inputType="phone"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+
+            />
+
+        <EditText
+            android:id="@+id/expired_date"
+            style="@style/edit_txt_single_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:editable="false"
+            android:ems="10"
+            android:hint="@string/expired_date"
+            android:inputType="time"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp" />
+
+        <TextView
+            style="@style/field_header_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upload_related_doc"
+
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_white_edit"
+            android:padding="@dimen/_1sdp">
+
+            <naveed.khakhrani.miscellaneous.util.AppButton
+                android:id="@+id/btnChooseFile"
+                style="@style/app_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_file"
+                android:textColor="@android:color/black"
+
+                />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rViewUploadedFiles"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            android:visibility="gone"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_file_upload" />
+
+        <TextView
+            style="@style/field_header_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/service_location"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/edtAddress"
+            style="@style/edit_txt_single_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imvLogo"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:hint="@string/address"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/edtPostCode"
+            style="@style/edit_txt_single_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imvLogo"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:hint="@string/post_code"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:visibility="visible" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/bg_white_edit"
+            android:minHeight="@dimen/_30sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp">
+
+            <Spinner
+                android:id="@+id/spinnerCompany"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_1sdp"
+                android:minHeight="@dimen/_28sdp"
+                />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/edtState"
+            style="@style/edit_txt_single_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imvLogo"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:hint="@string/state"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/edtCountry"
+            style="@style/edit_txt_single_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imvLogo"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:hint="@string/country"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:visibility="visible" />
+
+
+        <naveed.khakhrani.miscellaneous.util.AppButton
+            android:id="@+id/btnSend"
+            style="@style/app_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/send"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:btn_color="?attr/colorPrimary" />
+
+
+    </LinearLayout>
+
+</ScrollView>

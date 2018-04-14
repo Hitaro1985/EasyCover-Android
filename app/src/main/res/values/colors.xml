@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimaryAgent">#FF9960</color>
+    <color name="colorPrimaryDarkAgent">#FF9960</color>
+    <color name="colorAccent">#777777</color>
+
+
+    <color name="colorPrimaryCustomer">#01BC6F</color>
+    <color name="colorPrimaryDarkCustomer">#01BC6F</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="ratingbarColor">#4FC3F7</color>
+
+    <color name="colorTabUnselectedAgent">#E74B01</color>
+    <color name="colorTabUnselectedCustomer">#006600</color>
+    <color name="bgColor">#FFEEEEEE</color>
+    <color name="spinnerBgColorAgent">#fed0bd</color>
+    <color name="light_grey">#E0E0E0</color>
+</resources>

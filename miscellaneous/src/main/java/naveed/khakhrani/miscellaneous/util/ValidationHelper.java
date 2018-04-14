@@ -1,0 +1,86 @@
+package naveed.khakhrani.miscellaneous.util;
+
+import android.content.Context;
+import android.widget.EditText;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import naveed.khakhrani.miscellaneous.R;
+
+/**
+ * Created by naveedali on 9/16/17.
+ */
+
+public class ValidationHelper {
+    Context mContext;
+
+    public ValidationHelper(Context pContext) {
+        mContext = pContext;
+    }
+
+    public boolean isEmailValid(EditText emailEdt) {
+        String email = emailEdt.getText().toString();
+        if (!email.isEmpty() && RegexComparison.isValidEmail(email)) {
+            return true;
+        } else {
+            emailEdt.setError("Enter Valid Email Address");
+            return false;
+        }
+    }
+
+    public boolean isPasswordValid(EditText editTextPass) {
+        String password = editTextPass.getText().toString();
+        if (password.isEmpty()) {
+            editTextPass.setError("Enter Password");
+            return false;
+        } else if (password.length() < 6) {
+            editTextPass.setError(mContext.getString(R.string.min_length_check));
+            return false;
+        } else
+            return true;
+    }
+
+    public boolean isUserNameValid(EditText pUserNameEdt) {
+        String userName = pUserNameEdt.getText().toString();
+        if (userName.isEmpty() && userName.length() < 3) {
+            pUserNameEdt.setError("Invalid UserName");
+            return false;
+        } else
+            return true;
+    }
+
+    public boolean isFullNameValid(EditText pFullNameEdt) {
+        String fullName = pFullNameEdt.getText().toString();
+        if (fullName.isEmpty() && fullName.length() < 3) {
+            pFullNameEdt.setError("Invalid User Name");
+            return false;
+        } else
+            return true;
+    }
+
+    public boolean isContactValid(EditText pContactEdt) {
+        String contact = pContactEdt.getText().toString();
+        if (contact.isEmpty() && contact.length() < 10) {
+            pContactEdt.setError("Invalid Contact No.");
+            return false;
+        } else
+            return true;
+    }
+
+    public boolean isDate(EditText pDate) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date now = Calendar.getInstance().getTime();
+        String dtStart = pDate.getText().toString();
+        try {
+            Date date = format.parse(dtStart);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+
+}

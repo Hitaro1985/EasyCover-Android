@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/_10sdp"
+    tools:context=".shared.ui.fragments.LoginFragment">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:src="@drawable/logo_short" />
+
+    <LinearLayout
+        android:id="@+id/layoutLoginForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                style="@style/field_header_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="@string/user_name"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/edtEmailAddress"
+                style="@style/edit_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                style="@style/field_header_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="@string/password"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/edtPassword"
+                style="@style/edit_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:hint="@string/hint_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword" />
+
+
+            <naveed.khakhrani.miscellaneous.util.AppButton
+                android:id="@+id/btnForgotPassword"
+                style="@style/app_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/bg_scrim_for_black"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="@dimen/_5sdp"
+                android:text="@string/forgot_password"
+                android:textAllCaps="false"
+                android:textColor="@android:color/black"
+                app:btn_color="@android:color/transparent" />
+
+            <naveed.khakhrani.miscellaneous.util.AppButton
+
+                android:id="@+id/btnLogin"
+                style="@style/app_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:text="@string/login"
+                app:btn_color="?attr/colorPrimary" />
+
+            <naveed.khakhrani.miscellaneous.util.AppButton
+                android:id="@+id/btnDoNotHaveAccount"
+                style="@style/app_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_scrim"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="@string/donot_have_account"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:btn_color="@android:color/transparent" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Miscellaneous</string>
+    <string name="login_with_fb">Login With Fb</string>
+    <string name="login_with_google">Login With Google</string>
+    <string name="min_length_check">Min. Length should be 6</string>
+    <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet, pellentesque mi. Id sem gravida, per tellus et. At a, etiam consectetuer. Etiam pharetra dolor.</string>
+    <string name="lorem_ipsum_medium">Lorem ipsum dolor sit amet, officia mattis adipiscing cras integer, dui vestibulum eleifend non, aenean neque curabitur minus, nam lacus elit vitae. Nostra ligula nonummy sed vestibulum, ante enim neque turpis, nulla aenean gravida fusce vitae. Pharetra vestibulum vestibulum gravida nisl, odio pretium mi torquent purus, ultrices mauris convallis mauris integer. Hendrerit donec ipsum mattis wisi, orci bibendum velit pulvinar, eu risus vel nec turpis, enim in in et feugiat.</string>
+    <string name="chose_source">Choose Source</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="browse_gallery">Browse Gallery</string>
+    <string name="from_directory">From Directory</string>
+    <string name="password_mismatch">Password Mismatch</string>
+    <string name="verifycode_mismatch">VerifyCode length must be 6</string>
+</resources>

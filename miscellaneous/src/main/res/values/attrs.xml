@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="AppButtonAttr">
+        <attr name="btn_color" format="reference" />
+        <attr name="btn_rad" format="reference" />
+    </declare-styleable>
+
+</resources>

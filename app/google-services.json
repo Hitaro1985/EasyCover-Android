@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "624365640151",
+    "firebase_url": "https://easycovertest.firebaseio.com",
+    "project_id": "easycovertest",
+    "storage_bucket": "easycovertest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624365640151:android:40a0c9781835485f",
+        "android_client_info": {
+          "package_name": "com.insurance.easycoveragent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624365640151-hfe9s6qhn0nohcripb6p6rhs974q06cf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwiJtAEvLPrU8Buz8mXbv2SdtlmfUvXvI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624365640151:android:7514e2a54cdfcae1",
+        "android_client_info": {
+          "package_name": "com.insurance.easycover"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624365640151-hfe9s6qhn0nohcripb6p6rhs974q06cf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwiJtAEvLPrU8Buz8mXbv2SdtlmfUvXvI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
