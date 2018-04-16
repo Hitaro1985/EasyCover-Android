@@ -101,7 +101,7 @@ public class AgentHomeActivity extends HomeActivity {
                 changeFragment(JobWallFragment.newInstance(), R.id.fragmentContainer);
                 break;
             case 3:
-                changeFragment(HistoryFragment.newInstance(), R.id.fragmentContainer);
+                changeFragment(HistoryFragment.newInstance(1), R.id.fragmentContainer);
                 break;
             case 4:
                 changeFragment(ReloadCreditFragment.newInstance(), R.id.fragmentContainer);

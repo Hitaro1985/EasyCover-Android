@@ -323,12 +323,20 @@ public class NotiDetailFragment extends BaseFragment {
 
                 filePath = Environment
                         .getExternalStorageDirectory().toString()
-                        + "/" +filename;
+                        + "/easycover/" +filename;
+
+                String easycoverFolder = Environment
+                        .getExternalStorageDirectory().toString()
+                        + "/easycover";
+                File dir = new File(easycoverFolder);
+
+                if (!dir.exists())
+                    dir.mkdir();
 
                 // Output stream
                 OutputStream output = new FileOutputStream(Environment
                         .getExternalStorageDirectory().toString()
-                        + "/" + filename);
+                        + "/easycover/" + filename);
 
 
                 byte data[] = new byte[1024];

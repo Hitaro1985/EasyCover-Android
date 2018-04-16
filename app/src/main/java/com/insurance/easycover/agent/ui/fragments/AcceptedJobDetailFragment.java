@@ -12,6 +12,7 @@ package com.insurance.easycover.agent.ui.fragments;
         import android.support.v4.app.Fragment;
         import android.support.v4.content.FileProvider;
         import android.text.Layout;
+        import android.util.EventLog;
         import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -188,13 +189,26 @@ public class AcceptedJobDetailFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void onJobDetailEvent(SingleDataEvent<Object> event) {
+    public void onCompleteEvent(SimpleEvent event) {
         if (event.getStatus()) {
             if (event.getEventId() == EventsIds.ID_COMPLETE) {
                 showToast(event.getMessage());
                 dismissProgress();
-                changeFragment(AcceptedJobFragment.newInstance(),R.id.fragmentContainer);
-            } else if (event.getEventId() == EventsIds.ID_GETJOBDETAIL) {
+                changeFragment(HistoryFragment.newInstance(1), R.id.fragmentContainer);
+            } else {
+                showToast(event.getMessage());
+                dismissProgress();
+            }
+        } else {
+            showToast(event.getMessage());
+            dismissProgress();
+        }
+    }
+
+    @Subscribe
+    public void onJobDetailEvent(SingleDataEvent<Object> event) {
+        if (event.getStatus()) {
+            if (event.getEventId() == EventsIds.ID_GETJOBDETAIL) {
                 jobDetail = (ShowJob)event.data;
                 for (int i = 0; i < jobDetail.getDocuments().size(); i ++) {
                     String fileName = jobDetail.getDocuments().get(i).getFileName();
@@ -299,7 +313,7 @@ public class AcceptedJobDetailFragment extends BaseFragment {
     //Event Handling
     @OnClick(R.id.btnCompleteBack)
     public void onClickBack() {
-        changeFragment(HistoryFragment.newInstance(),R.id.fragmentContainer);
+        changeFragment(HistoryFragment.newInstance(1),R.id.fragmentContainer);
     }
 
     @OnClick(R.id.btnComplete)
@@ -351,12 +365,20 @@ public class AcceptedJobDetailFragment extends BaseFragment {
 
                 filePath = Environment
                         .getExternalStorageDirectory().toString()
-                        + "/" +filename;
+                        + "/easycover/" +filename;
+
+                String easycoverFolder = Environment
+                        .getExternalStorageDirectory().toString()
+                        + "/easycover";
+                File dir = new File(easycoverFolder);
+
+                if (!dir.exists())
+                    dir.mkdir();
 
                 // Output stream
                 OutputStream output = new FileOutputStream(Environment
                         .getExternalStorageDirectory().toString()
-                        + "/" + filename);
+                        + "/easycover/" + filename);
 
 
                 byte data[] = new byte[1024];

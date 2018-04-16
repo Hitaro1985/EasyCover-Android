@@ -270,7 +270,7 @@ public class CompleteDetailFragment extends BaseFragment {
     //Event Handling
     @OnClick(R.id.btnBack)
     public void onClickBack() {
-        changeFragment(HistoryFragment.newInstance(),R.id.fragmentContainer);
+        changeFragment(HistoryFragment.newInstance(2),R.id.fragmentContainer);
         //changeChildFragment(AcceptedJobFragment.newInstance(),R.id.childFragmentContainer);
     }
 
@@ -315,12 +315,20 @@ public class CompleteDetailFragment extends BaseFragment {
 
                 filePath = Environment
                         .getExternalStorageDirectory().toString()
-                        + "/" +filename;
+                        + "/easycover/" +filename;
+
+                String easycoverFolder = Environment
+                        .getExternalStorageDirectory().toString()
+                        + "/easycover";
+                File dir = new File(easycoverFolder);
+
+                if (!dir.exists())
+                    dir.mkdir();
 
                 // Output stream
                 OutputStream output = new FileOutputStream(Environment
                         .getExternalStorageDirectory().toString()
-                        + "/" + filename);
+                        + "/easycover/" + filename);
 
 
                 byte data[] = new byte[1024];

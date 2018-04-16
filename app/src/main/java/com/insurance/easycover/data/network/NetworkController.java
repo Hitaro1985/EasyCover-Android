@@ -424,7 +424,7 @@ public class NetworkController {
                     }
                 } else {
                     try {
-                        postEventSingleResponse(false, EventsIds.ID_COMPLETE, getErrorMessage("" + response.errorBody().string()), null);
+                        postEventSimpleResponse(false, EventsIds.ID_COMPLETE, getErrorMessage("" + response.errorBody().string()));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

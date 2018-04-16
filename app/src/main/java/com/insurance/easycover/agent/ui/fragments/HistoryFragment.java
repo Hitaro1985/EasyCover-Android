@@ -29,14 +29,16 @@ public class HistoryFragment extends BaseFragment implements TabLayout.OnTabSele
 
     private int containerId;
     private int[] tabsValues = {R.string.accepted_jobs, R.string.completed_jobs};
+    private static int position;
 
     public HistoryFragment() {
         // Required empty public constructor
     }
 
-    public static HistoryFragment newInstance() {
+    public static HistoryFragment newInstance(int pos) {
         //Bundle args = new Bundle();
         HistoryFragment fragment = new HistoryFragment();
+        position = pos;
         //fragment.setArguments(args);
         return fragment;
     }
@@ -54,7 +56,8 @@ public class HistoryFragment extends BaseFragment implements TabLayout.OnTabSele
         mUnbinder = ButterKnife.bind(this, view);
         containerId = R.id.childFragmentContainer;
         initTabs();
-        changeChildFragment(AcceptedJobFragment.newInstance(), containerId);
+        if (position == 1) changeChildFragment(AcceptedJobFragment.newInstance(), containerId);
+        else changeChildFragment(CompletedFragment.newInstance(), containerId);
 
     }
 
@@ -64,6 +67,10 @@ public class HistoryFragment extends BaseFragment implements TabLayout.OnTabSele
             mTabLayout.addTab(tab);
         }
         mTabLayout.addOnTabSelectedListener(this);
+        if (position == 2){
+            TabLayout.Tab tab = mTabLayout.getTabAt(1);
+            tab.select();
+        }
     }
 
 
