@@ -35,5 +35,5 @@ public interface EventsIds {
     int ID_UPLOAD_IMAGE = 24;
     int ID_GETQUOTDOCUMENT = 25;
     int ID_RESET_PASS = 26;
-    //int ID_UPDATE_PROFILE = 7;
+    int ID_COMPLETE = 27;
 }

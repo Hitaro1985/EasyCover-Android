@@ -21,6 +21,7 @@ import com.insurance.easycover.data.models.response.RenewData;
 import com.insurance.easycover.data.models.response.RequestAccept;
 import com.insurance.easycover.data.models.response.RequestAcceptAgent;
 import com.insurance.easycover.data.models.response.RequestAddQuotation;
+import com.insurance.easycover.data.models.response.RequestComplete;
 import com.insurance.easycover.data.models.response.RequestGetQuotDocument;
 import com.insurance.easycover.data.models.response.RequestJobDetail;
 import com.insurance.easycover.data.models.response.RequestResetPassword;
@@ -407,6 +408,36 @@ public class NetworkController {
         });
     }
 
+    public void completeJob(RequestComplete rec) {
+        String token = AppSession.getInstance().getToken();
+        if (token.equals("")) {Toast.makeText(getContext(), "Please login", Toast.LENGTH_SHORT).show();return;}
+        Call<TopResponse> call = EasyCoverServiceFactory.getInstance().completeJob("Bearer " + token, rec);
+        call.enqueue(new Callback<TopResponse>() {
+            @Override
+            public void onResponse(Call<TopResponse> call, Response<TopResponse> response) {
+                TopResponse resp = response.body();
+                if (resp != null) {
+                    if (resp.responseCode == 1) {
+                        postEventSimpleResponse(true, EventsIds.ID_COMPLETE, resp.message);
+                    } else {
+                        postEventSimpleResponse(false,EventsIds.ID_COMPLETE,resp.message);
+                    }
+                } else {
+                    try {
+                        postEventSingleResponse(false, EventsIds.ID_COMPLETE, getErrorMessage("" + response.errorBody().string()), null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TopResponse> call, Throwable t) {
+                postEventSimpleResponse(false, EventsIds.ID_COMPLETE, t.getMessage());
+            }
+        });
+    }
+
     public void reNewData(RenewData renewdata) {
         String token = AppSession.getInstance().getToken();
         if (token.equals("")) {Toast.makeText(getContext(), "Please login", Toast.LENGTH_SHORT).show();return;}
@@ -706,6 +737,36 @@ public class NetworkController {
             @Override
             public void onFailure(Call<TopListDataResponse<ResponseAcceptedJobs>> call, Throwable t) {
                 postEventListResponse(false, EventsIds.ID_ACCEPTEDJOB, t.getMessage(), null);
+            }
+        });
+    }
+
+    public void getAgentHistory() {
+        String token = AppSession.getInstance().getToken();
+        if (token.equals("")) {Toast.makeText(getContext(), "Please login", Toast.LENGTH_SHORT).show();return;}
+        Call<TopListDataResponse<ResponseCompletedJobs>> call = EasyCoverServiceFactory.getInstance().getAgentHistory("Bearer " + token);
+        call.enqueue(new Callback<TopListDataResponse<ResponseCompletedJobs>>() {
+            @Override
+            public void onResponse(Call<TopListDataResponse<ResponseCompletedJobs>> call, Response<TopListDataResponse<ResponseCompletedJobs>> response) {
+                TopListDataResponse<ResponseCompletedJobs> resp = response.body();
+                if (resp != null) {
+                    if (resp.responseCode == 1) {
+                        postEventListResponse(true,EventsIds.ID_GETCOMPLETEDJOBS,resp.message, resp.data);
+                    } else {
+                        postEventListResponse(false,EventsIds.ID_GETCOMPLETEDJOBS,resp.message,null);
+                    }
+                } else {
+                    try {
+                        postEventListResponse(false, EventsIds.ID_GETCOMPLETEDJOBS, getErrorMessage("" + response.errorBody().string()), null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TopListDataResponse<ResponseCompletedJobs>> call, Throwable t) {
+                postEventListResponse(false, EventsIds.ID_GETCOMPLETEDJOBS, t.getMessage(), null);
             }
         });
     }

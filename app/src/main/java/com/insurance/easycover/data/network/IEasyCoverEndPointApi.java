@@ -12,6 +12,7 @@ import com.insurance.easycover.data.models.response.RequestAccept;
 import com.insurance.easycover.data.models.response.RequestAcceptAgent;
 import com.insurance.easycover.data.models.response.RequestAddQuotation;
 import com.insurance.easycover.data.models.response.RequestAssignedJob;
+import com.insurance.easycover.data.models.response.RequestComplete;
 import com.insurance.easycover.data.models.response.RequestGetQuotDocument;
 import com.insurance.easycover.data.models.response.RequestJobDetail;
 import com.insurance.easycover.data.models.response.RequestResetPassword;
@@ -105,6 +106,9 @@ public interface IEasyCoverEndPointApi {
     Call<TopListDataResponse<ResponseAcceptedJobs>> getAcceptedJobList(@Header("Authorization") String token);
 
     @POST("agent/view/history")
+    Call<TopListDataResponse<ResponseCompletedJobs>> getAgentHistory(@Header("Authorization") String token);
+
+    @POST("agent/agentCompletedJob")
     Call<TopListDataResponse<ResponseCompletedJobs>> getCompletedJobList(@Header("Authorization") String token);
 
     @POST("jobs/jobDetail")
@@ -145,6 +149,9 @@ public interface IEasyCoverEndPointApi {
 
     @POST("jobs/handover")
     Call<TopDataResponse<ResponseHandOverData>> handoverJob(@Header("Authorization") String token, @Body HandOverData handOver);
+
+    @POST("jobs/completeJob")
+    Call<TopResponse> completeJob(@Header("Authorization") String token, @Body RequestComplete rec);
 
     @POST("jobs/renewJob")
     Call<TopDataResponse<ResponseHandOverData>> renewJob(@Header("Authorization") String token, @Body RenewData handOver);

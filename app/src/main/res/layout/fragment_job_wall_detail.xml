@@ -502,6 +502,41 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layoutCompleteButtons"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <naveed.khakhrani.miscellaneous.util.AppButton
+                        android:id="@+id/btnComplete"
+                        style="@style/app_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/complete"
+
+                        app:btn_color="?attr/colorPrimary" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"
+                        android:layout_weight="0.1" />
+
+                    <Button
+                        android:id="@+id/btnCompleteBack"
+                        style="@style/app_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_black_boundry_white_inside"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:text="@string/back"
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/layoutBack"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

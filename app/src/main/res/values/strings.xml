@@ -74,6 +74,7 @@
     <string name="supported_docs">Supported Documents</string>
     <string name="back">Back</string>
     <string name="accept">Accept</string>
+    <string name="complete">Complete</string>
     <string name="reject">Reject</string>
     <string name="piam_number">PIAM Number</string>
     <string name="service_location">Service Location</string>

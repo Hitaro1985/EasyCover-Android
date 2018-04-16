@@ -278,8 +278,8 @@ public class QuotationDetailFragment extends BaseFragment {
         layoutSend.setVisibility(View.VISIBLE);
         btnSend.setVisibility(View.GONE);
         btnClear.setVisibility(View.GONE);
-        edtRemarksQuotation.setText(((ResponseGetQuotation) job).getQuotationPrice());
-        edtQuotationTotalSum.setText(((ResponseGetQuotation) job).getQuotationDescription());
+        edtRemarksQuotation.setText(((ResponseGetQuotation) job).getQuotationDescription());
+        edtQuotationTotalSum.setText(((ResponseGetQuotation) job).getQuotationPrice());
         edtRemarksQuotation.setEnabled(false);
         edtQuotationTotalSum.setEnabled(false);
         /*if (jobDetail..getImage() != null) {

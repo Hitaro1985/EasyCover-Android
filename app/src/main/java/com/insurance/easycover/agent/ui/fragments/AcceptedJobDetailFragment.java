@@ -34,6 +34,7 @@ package com.insurance.easycover.agent.ui.fragments;
         import com.insurance.easycover.data.models.response.HandOverData;
         import com.insurance.easycover.data.models.response.RequestAccept;
         import com.insurance.easycover.data.models.response.RequestAddQuotation;
+        import com.insurance.easycover.data.models.response.RequestComplete;
         import com.insurance.easycover.data.models.response.RequestJobDetail;
         import com.insurance.easycover.data.models.response.ResponseAccept;
         import com.insurance.easycover.data.models.response.ResponseAcceptedJobs;
@@ -152,6 +153,9 @@ public class AcceptedJobDetailFragment extends BaseFragment {
     @BindView(R.id.tvDate)
     protected TextView tvDate;
 
+    @BindView(R.id.layoutCompleteButtons)
+    protected LinearLayout layoutCompleteButtons;
+
     public ArrayList<String> fileNameList;
     public static Object job;
 
@@ -184,10 +188,14 @@ public class AcceptedJobDetailFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void onJobDetailEvent(SingleDataEvent<ShowJob> event) {
+    public void onJobDetailEvent(SingleDataEvent<Object> event) {
         if (event.getStatus()) {
-            if (event.getEventId() == EventsIds.ID_GETJOBDETAIL) {
-                jobDetail = event.data;
+            if (event.getEventId() == EventsIds.ID_COMPLETE) {
+                showToast(event.getMessage());
+                dismissProgress();
+                changeFragment(AcceptedJobFragment.newInstance(),R.id.fragmentContainer);
+            } else if (event.getEventId() == EventsIds.ID_GETJOBDETAIL) {
+                jobDetail = (ShowJob)event.data;
                 for (int i = 0; i < jobDetail.getDocuments().size(); i ++) {
                     String fileName = jobDetail.getDocuments().get(i).getFileName();
                     fileNameList.add(fileName);
@@ -232,9 +240,11 @@ public class AcceptedJobDetailFragment extends BaseFragment {
                 }
             } else {
                 showToast(event.getMessage());
+                dismissProgress();
             }
         } else {
             showToast(event.getMessage());
+            dismissProgress();
         }
     }
 
@@ -253,10 +263,11 @@ public class AcceptedJobDetailFragment extends BaseFragment {
         tvInterestedInsurance.setText(((ResponseAcceptedJobs) job).getInsuranceType());
         tvIndicativeSum.setText(String.valueOf(((ResponseAcceptedJobs) job).getIndicativeSum()));
         layoutAccept.setVisibility(View.GONE);
-        layoutBack.setVisibility(View.VISIBLE);
+        layoutBack.setVisibility(View.GONE);
         layoutSend.setVisibility(View.GONE);
         btnSend.setVisibility(View.GONE);
         btnClear.setVisibility(View.GONE);
+        layoutCompleteButtons.setVisibility(View.VISIBLE);
         /*if (jobDetail..getImage() != null) {
             if (!((ResponseGetQuotation) job).getImage().equals("null")) {
                 new DownLoadImageTask(imvUser).execute(((ResponseGetQuotation) job).getImage());
@@ -286,10 +297,17 @@ public class AcceptedJobDetailFragment extends BaseFragment {
 
 
     //Event Handling
-    @OnClick(R.id.btnBack)
+    @OnClick(R.id.btnCompleteBack)
     public void onClickBack() {
         changeFragment(HistoryFragment.newInstance(),R.id.fragmentContainer);
-        //changeChildFragment(AcceptedJobFragment.newInstance(),R.id.childFragmentContainer);
+    }
+
+    @OnClick(R.id.btnComplete)
+    public void onClickComplete() {
+        RequestComplete rec = new RequestComplete();
+        rec.jobid = ((ResponseAcceptedJobs) job).getJobId();
+        showProgressDialog(R.string.please_wait);
+        NetworkController.getInstance().completeJob(rec);
     }
 
     /**
