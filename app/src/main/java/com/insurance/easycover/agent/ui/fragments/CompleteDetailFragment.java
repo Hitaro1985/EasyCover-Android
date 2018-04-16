@@ -20,10 +20,14 @@ import android.widget.TextView;
 
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.events.EventsIds;
+import com.insurance.easycover.data.events.ListDataEvent;
 import com.insurance.easycover.data.events.SingleDataEvent;
 import com.insurance.easycover.data.local.AppSharedPreferences;
+import com.insurance.easycover.data.models.response.RequestGetQuotationById;
 import com.insurance.easycover.data.models.response.RequestJobDetail;
+import com.insurance.easycover.data.models.response.ResponseAcceptedJobs;
 import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
+import com.insurance.easycover.data.models.response.ResponseGetQuotation;
 import com.insurance.easycover.data.models.response.ShowJob;
 import com.insurance.easycover.data.network.NetworkController;
 
@@ -223,6 +227,18 @@ public class CompleteDetailFragment extends BaseFragment {
         }
     }
 
+    @Subscribe
+    public void onGetQuotation(ListDataEvent<ResponseGetQuotation> event) {
+        if (event.getStatus()) {
+            if (event.getEventId() == EventsIds.ID_GETQUOTATION) {
+                edtQuotationTotalSum.setText(event.getListData().get(0).getQuotationPrice());
+                edtRemarksQuotation.setText(event.getListData().get(0).getQuotationDescription());
+            }
+        } else {
+            showToast(event.getMessage());
+        }
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -239,12 +255,14 @@ public class CompleteDetailFragment extends BaseFragment {
         tvIndicativeSum.setText(String.valueOf(((ResponseCompletedJobs) job).getIndicativeSum()));
         layoutAccept.setVisibility(View.GONE);
         layoutBack.setVisibility(View.VISIBLE);
-        layoutSend.setVisibility(View.GONE);
-        layoutQuotationButtons.setVisibility(View.VISIBLE);
+        layoutSend.setVisibility(View.VISIBLE);
         btnSend.setVisibility(View.GONE);
         btnClear.setVisibility(View.GONE);
-        edtRemarksQuotation.setText(((ResponseCompletedJobs) job).getQuotationId());
-        edtQuotationTotalSum.setText(((ResponseCompletedJobs) job).getQuotationPrice());
+        RequestGetQuotationById rQuotId = new RequestGetQuotationById();
+        rQuotId.quotationId = ((ResponseCompletedJobs) job).getQuotationId();
+        NetworkController.getInstance().getQuotationById(rQuotId);
+//        edtRemarksQuotation.setText(((ResponseCompletedJobs) job).getQuotationId());
+//        edtQuotationTotalSum.setText(((ResponseCompletedJobs) job).getQuotationPrice());
         edtRemarksQuotation.setEnabled(false);
         edtQuotationTotalSum.setEnabled(false);
         /*if (jobDetail..getImage() != null) {
