@@ -69,6 +69,7 @@ public class HistoryCompletedAdapter extends RecyclerView.Adapter<HistoryComplet
         });
         ResponseCompletedJobs job;
         job = jobList.get(position);
+        holder.edtusername.setText(job.getName());
         holder.tvName.setText(job.getInsuranceType());
         //holder.tvLanguage.setText(AppSharedPreferences.getInstance(mCtx).getCurrentLanguage());
         holder.tvPostCode.setText(job.getPostcode());
@@ -87,6 +88,7 @@ public class HistoryCompletedAdapter extends RecyclerView.Adapter<HistoryComplet
         TextView tvName;
         TextView tvPostCode;
         TextView tvCountry;
+        TextView edtusername;
 
         @BindView(R.id.layoutRoot)
         public RelativeLayout layoutRoot;
@@ -98,6 +100,7 @@ public class HistoryCompletedAdapter extends RecyclerView.Adapter<HistoryComplet
             tvLanguage = itemView.findViewById(R.id.tvLanguage);
             tvPostCode = itemView.findViewById(R.id.tvPostCode);
             tvCountry = itemView.findViewById(R.id.tvCountry);
+            edtusername = itemView.findViewById(R.id.edtusername);
         }
     }
 }

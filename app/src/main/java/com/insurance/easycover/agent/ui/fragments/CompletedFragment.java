@@ -76,7 +76,7 @@ public class CompletedFragment extends ListBaseFragment<Dummy> {
         //mAdapter = new HistoryAdapter(getContext(), mData);
         //mRecyclerView.setAdapter(mAdapter);
         showProgressDialog(getString(R.string.please_wait));
-        NetworkController.getInstance().getCompletedJobList();//agent/allview
+        NetworkController.getInstance().getCustomerCompletedJob();//agent/allview
 
     }
 

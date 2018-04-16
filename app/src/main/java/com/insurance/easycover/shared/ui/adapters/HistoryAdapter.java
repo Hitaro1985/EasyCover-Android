@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.models.response.ResponseAcceptedJobs;
 import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
@@ -89,6 +91,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         //holder.tvLanguage.setText(AppSharedPreferences.getInstance(mCtx).getCurrentLanguage());
         holder.tvPostCode.setText(job.getPostcode());
         holder.tvCountry.setText(job.getCountry());
+        holder.edtRating.setRating((float)1.5);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dtStart = job.getUpdatedAt();
         try {
@@ -132,6 +135,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         TextView tvDate;
         TextView edtUserName;
         ImageView imvUser;
+        SimpleRatingBar edtRating;
 
         @BindView(R.id.layoutRoot)
         public RelativeLayout layoutRoot;
@@ -146,6 +150,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             tvDate = itemView.findViewById(R.id.tvDate);
             edtUserName = itemView.findViewById(R.id.edtusername);
             imvUser = itemView.findViewById(R.id.imvUser);
+            edtRating = itemView.findViewById(R.id.edtRating);
         }
     }
 }

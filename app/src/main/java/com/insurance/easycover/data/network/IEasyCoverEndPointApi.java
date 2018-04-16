@@ -14,6 +14,7 @@ import com.insurance.easycover.data.models.response.RequestAddQuotation;
 import com.insurance.easycover.data.models.response.RequestAssignedJob;
 import com.insurance.easycover.data.models.response.RequestComplete;
 import com.insurance.easycover.data.models.response.RequestGetQuotDocument;
+import com.insurance.easycover.data.models.response.RequestGetQuotationById;
 import com.insurance.easycover.data.models.response.RequestJobDetail;
 import com.insurance.easycover.data.models.response.RequestResetPassword;
 import com.insurance.easycover.data.models.response.RequestSMS;
@@ -111,6 +112,9 @@ public interface IEasyCoverEndPointApi {
     @POST("agent/agentCompletedJob")
     Call<TopListDataResponse<ResponseCompletedJobs>> getCompletedJobList(@Header("Authorization") String token);
 
+    @POST("jobs/customerGetCompletedJob")
+    Call<TopListDataResponse<ResponseCompletedJobs>> getCustomerCompletedJob(@Header("Authorization") String token);
+
     @POST("jobs/jobDetail")
     Call<TopDataResponse<ShowJob>> getJobDetail(@Header("Authorization") String token,@Body RequestJobDetail detail);
 
@@ -140,6 +144,9 @@ public interface IEasyCoverEndPointApi {
 
     @POST("agent/getQuotation")
     Call<TopListDataResponse<ResponseGetQuotation>> getQuotation(@Header("Authorization") String token);
+
+    @POST("agent/getQuotation")
+    Call<TopListDataResponse<ResponseGetQuotation>> getQuotationById(@Header("Authorization") String token, @Body RequestGetQuotationById rQuotId);
 
     @POST("jobs/acceptedJobList")
     Call<TopListDataResponse<ResponseOrderHistory>> getOrderHistory(@Header("Authorization") String token);

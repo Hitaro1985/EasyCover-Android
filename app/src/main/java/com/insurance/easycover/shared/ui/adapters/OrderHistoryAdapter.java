@@ -17,6 +17,7 @@ import com.insurance.easycover.data.events.EventsIds;
 import com.insurance.easycover.data.events.ListDataEvent;
 import com.insurance.easycover.data.models.response.HandOverData;
 import com.insurance.easycover.data.models.response.RenewData;
+import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
 import com.insurance.easycover.data.models.response.ResponseGetQuotation;
 import com.insurance.easycover.data.models.response.ResponseOrderHistory;
 import com.insurance.easycover.data.models.response.assignJob.JobAssignJob;
@@ -45,7 +46,7 @@ import naveed.khakhrani.miscellaneous.util.Dummy;
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder>{
 
     private Context mCtx;
-    private List<ResponseOrderHistory> quotationList;
+    private List<ResponseCompletedJobs> quotationList;
 
     protected RecyclerViewItemSelectedListener recyclerViewItemSelectedListener;
 
@@ -58,7 +59,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         this.recyclerViewItemSelectedListener = recyclerViewItemSelectedListener;
     }
 
-    public OrderHistoryAdapter(Context context, List<ResponseOrderHistory> data) {
+    public OrderHistoryAdapter(Context context, List<ResponseCompletedJobs> data) {
         this.mCtx = context;
         this.quotationList = data;
     }
@@ -72,7 +73,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final ResponseOrderHistory quot;
+        final ResponseCompletedJobs quot;
         quot = quotationList.get(position);
 
         holder.layoutRoot.setOnClickListener(new View.OnClickListener() {

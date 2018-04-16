@@ -36,4 +36,5 @@ public interface EventsIds {
     int ID_GETQUOTDOCUMENT = 25;
     int ID_RESET_PASS = 26;
     int ID_COMPLETE = 27;
+    int ID_GETCUSTOMERCOMPLETEDJOB = 28;
 }

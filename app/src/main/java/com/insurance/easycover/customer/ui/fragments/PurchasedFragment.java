@@ -17,6 +17,7 @@ import com.insurance.easycover.R;
 import com.insurance.easycover.customer.ui.activities.JobCreateActivity;
 import com.insurance.easycover.data.events.EventsIds;
 import com.insurance.easycover.data.events.ListDataEvent;
+import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
 import com.insurance.easycover.data.models.response.ResponseGetInsuranceType;
 import com.insurance.easycover.data.models.response.ResponseOrderHistory;
 import com.insurance.easycover.data.network.NetworkController;
@@ -49,7 +50,7 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
     private Unbinder mUnbinder = null;
     @BindView(R.id.recyclerView)
     protected RecyclerView mRecyclerView;
-    private List<ResponseOrderHistory> resultData;
+    private List<ResponseCompletedJobs> resultData;
 
     public PurchasedFragment() {
         // Required empty public constructor
@@ -86,13 +87,13 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
         //mAdapter = new QuotationAdapter(getContext(), mData);
         //mRecyclerView.setAdapter(mAdapter);
         showProgressDialog(getString(R.string.please_wait));
-        NetworkController.getInstance().getOrderHistory();
+        NetworkController.getInstance().getCompletedJobList();
     }
 
     @Subscribe
-    public void onEvent(ListDataEvent<ResponseOrderHistory> event) {
+    public void onEvent(ListDataEvent<ResponseCompletedJobs> event) {
         if (event.getStatus()) {
-            if (event.getEventId() == EventsIds.ID_GETORDERHISTORY) {
+            if (event.getEventId() == EventsIds.ID_GETCUSTOMERCOMPLETEDJOB) {
                 //ResponseCompletedJobs jobDetail = new ResponseCompletedJobs();
                 /*for (int i = 0; i < event.getListData().size(); i ++){
                     jobDetail.jobId = event.getListData().get(i).getJobId();

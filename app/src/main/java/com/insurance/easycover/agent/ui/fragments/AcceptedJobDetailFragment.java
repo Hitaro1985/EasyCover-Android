@@ -36,6 +36,7 @@ package com.insurance.easycover.agent.ui.fragments;
         import com.insurance.easycover.data.models.response.RequestAccept;
         import com.insurance.easycover.data.models.response.RequestAddQuotation;
         import com.insurance.easycover.data.models.response.RequestComplete;
+        import com.insurance.easycover.data.models.response.RequestGetQuotationById;
         import com.insurance.easycover.data.models.response.RequestJobDetail;
         import com.insurance.easycover.data.models.response.ResponseAccept;
         import com.insurance.easycover.data.models.response.ResponseAcceptedJobs;
@@ -157,6 +158,9 @@ public class AcceptedJobDetailFragment extends BaseFragment {
     @BindView(R.id.layoutCompleteButtons)
     protected LinearLayout layoutCompleteButtons;
 
+    @BindView(R.id.layoutQuotationButtons)
+    protected LinearLayout layoutQuotationButtons;
+
     public ArrayList<String> fileNameList;
     public static Object job;
 
@@ -262,6 +266,18 @@ public class AcceptedJobDetailFragment extends BaseFragment {
         }
     }
 
+    @Subscribe
+    public void onGetQuotation(ListDataEvent<ResponseGetQuotation> event) {
+        if (event.getStatus()) {
+            if (event.getEventId() == EventsIds.ID_GETQUOTATION) {
+                edtQuotationTotalSum.setText(event.getListData().get(0).getQuotationPrice());
+                edtRemarksQuotation.setText(event.getListData().get(0).getQuotationDescription());
+            }
+        } else {
+            showToast(event.getMessage());
+        }
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -278,10 +294,17 @@ public class AcceptedJobDetailFragment extends BaseFragment {
         tvIndicativeSum.setText(String.valueOf(((ResponseAcceptedJobs) job).getIndicativeSum()));
         layoutAccept.setVisibility(View.GONE);
         layoutBack.setVisibility(View.GONE);
-        layoutSend.setVisibility(View.GONE);
+        layoutSend.setVisibility(View.VISIBLE);
         btnSend.setVisibility(View.GONE);
         btnClear.setVisibility(View.GONE);
         layoutCompleteButtons.setVisibility(View.VISIBLE);
+        RequestGetQuotationById rQuotId = new RequestGetQuotationById();
+        rQuotId.quotationId = ((ResponseAcceptedJobs) job).getQuotationId();
+        NetworkController.getInstance().getQuotationById(rQuotId);
+//        edtRemarksQuotation.setText(((ResponseGetQuotation) job).getQuotationDescription());
+//        edtQuotationTotalSum.setText(((ResponseGetQuotation) job).getQuotationPrice());
+        edtRemarksQuotation.setEnabled(false);
+        edtQuotationTotalSum.setEnabled(false);
         /*if (jobDetail..getImage() != null) {
             if (!((ResponseGetQuotation) job).getImage().equals("null")) {
                 new DownLoadImageTask(imvUser).execute(((ResponseGetQuotation) job).getImage());

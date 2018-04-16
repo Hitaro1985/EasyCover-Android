@@ -134,6 +134,9 @@ public class CompleteDetailFragment extends BaseFragment {
     @BindView(R.id.tvDate)
     protected TextView tvDate;
 
+    @BindView(R.id.layoutQuotationButtons)
+    protected LinearLayout layoutQuotationButtons;
+
     public ArrayList<String> fileNameList;
     public static Object job;
 
@@ -237,8 +240,13 @@ public class CompleteDetailFragment extends BaseFragment {
         layoutAccept.setVisibility(View.GONE);
         layoutBack.setVisibility(View.VISIBLE);
         layoutSend.setVisibility(View.GONE);
+        layoutQuotationButtons.setVisibility(View.VISIBLE);
         btnSend.setVisibility(View.GONE);
         btnClear.setVisibility(View.GONE);
+        edtRemarksQuotation.setText(((ResponseCompletedJobs) job).getQuotationId());
+        edtQuotationTotalSum.setText(((ResponseCompletedJobs) job).getQuotationPrice());
+        edtRemarksQuotation.setEnabled(false);
+        edtQuotationTotalSum.setEnabled(false);
         /*if (jobDetail..getImage() != null) {
             if (!((ResponseGetQuotation) job).getImage().equals("null")) {
                 new DownLoadImageTask(imvUser).execute(((ResponseGetQuotation) job).getImage());

@@ -23,6 +23,7 @@ import com.insurance.easycover.data.models.response.RequestAcceptAgent;
 import com.insurance.easycover.data.models.response.RequestAddQuotation;
 import com.insurance.easycover.data.models.response.RequestComplete;
 import com.insurance.easycover.data.models.response.RequestGetQuotDocument;
+import com.insurance.easycover.data.models.response.RequestGetQuotationById;
 import com.insurance.easycover.data.models.response.RequestJobDetail;
 import com.insurance.easycover.data.models.response.RequestResetPassword;
 import com.insurance.easycover.data.models.response.RequestSMS;
@@ -618,6 +619,36 @@ public class NetworkController {
         });
     }
 
+    public void getQuotationById(RequestGetQuotationById rQuotId) {
+        String token = AppSession.getInstance().getToken();
+        if (token.equals("")) {Toast.makeText(getContext(), "Please login", Toast.LENGTH_SHORT).show();return;}
+        Call<TopListDataResponse<ResponseGetQuotation>> call = EasyCoverServiceFactory.getInstance().getQuotationById("Bearer " + token, rQuotId);
+        call.enqueue(new Callback<TopListDataResponse<ResponseGetQuotation>>() {
+            @Override
+            public void onResponse(Call<TopListDataResponse<ResponseGetQuotation>> call, Response<TopListDataResponse<ResponseGetQuotation>> response) {
+                TopListDataResponse<ResponseGetQuotation> resp = response.body();
+                if (resp != null) {
+                    if (resp.responseCode == 1) {
+                        postEventListResponse(true,EventsIds.ID_GETQUOTATION,resp.message, resp.data);
+                    } else {
+                        postEventListResponse(false,EventsIds.ID_GETQUOTATION,resp.message, null);
+                    }
+                } else {
+                    try {
+                        postEventListResponse(false, EventsIds.ID_GETQUOTATION, getErrorMessage("" + response.errorBody().string()), null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TopListDataResponse<ResponseGetQuotation>> call, Throwable t) {
+                postEventListResponse(false, EventsIds.ID_GETQUOTATION, t.getMessage(), null);
+            }
+        });
+    }
+
     public void getOrderHistory() {
         String token = AppSession.getInstance().getToken();
         if (token.equals("")) {Toast.makeText(getContext(), "Please login", Toast.LENGTH_SHORT).show();return;}
@@ -775,6 +806,36 @@ public class NetworkController {
         String token = AppSession.getInstance().getToken();
         if (token.equals("")) {Toast.makeText(getContext(), "Please login", Toast.LENGTH_SHORT).show();return;}
         Call<TopListDataResponse<ResponseCompletedJobs>> call = EasyCoverServiceFactory.getInstance().getCompletedJobList("Bearer " + token);
+        call.enqueue(new Callback<TopListDataResponse<ResponseCompletedJobs>>() {
+            @Override
+            public void onResponse(Call<TopListDataResponse<ResponseCompletedJobs>> call, Response<TopListDataResponse<ResponseCompletedJobs>> response) {
+                TopListDataResponse<ResponseCompletedJobs> resp = response.body();
+                if (resp != null) {
+                    if (resp.responseCode == 1) {
+                        postEventListResponse(true,EventsIds.ID_GETCUSTOMERCOMPLETEDJOB,resp.message, resp.data);
+                    } else {
+                        postEventListResponse(false,EventsIds.ID_GETCUSTOMERCOMPLETEDJOB,resp.message,null);
+                    }
+                } else {
+                    try {
+                        postEventListResponse(false, EventsIds.ID_GETCUSTOMERCOMPLETEDJOB, getErrorMessage("" + response.errorBody().string()), null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TopListDataResponse<ResponseCompletedJobs>> call, Throwable t) {
+                postEventListResponse(false, EventsIds.ID_GETCUSTOMERCOMPLETEDJOB, t.getMessage(), null);
+            }
+        });
+    }
+
+    public void getCustomerCompletedJob() {
+        String token = AppSession.getInstance().getToken();
+        if (token.equals("")) {Toast.makeText(getContext(), "Please login", Toast.LENGTH_SHORT).show();return;}
+        Call<TopListDataResponse<ResponseCompletedJobs>> call = EasyCoverServiceFactory.getInstance().getCustomerCompletedJob("Bearer " + token);
         call.enqueue(new Callback<TopListDataResponse<ResponseCompletedJobs>>() {
             @Override
             public void onResponse(Call<TopListDataResponse<ResponseCompletedJobs>> call, Response<TopListDataResponse<ResponseCompletedJobs>> response) {
