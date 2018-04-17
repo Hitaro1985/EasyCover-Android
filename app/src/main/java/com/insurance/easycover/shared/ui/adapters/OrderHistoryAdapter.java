@@ -15,10 +15,12 @@ import com.insurance.easycover.AppSession;
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.events.EventsIds;
 import com.insurance.easycover.data.events.ListDataEvent;
+import com.insurance.easycover.data.events.SingleDataEvent;
 import com.insurance.easycover.data.models.response.HandOverData;
 import com.insurance.easycover.data.models.response.RenewData;
 import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
 import com.insurance.easycover.data.models.response.ResponseGetQuotation;
+import com.insurance.easycover.data.models.response.ResponseHandOverData;
 import com.insurance.easycover.data.models.response.ResponseOrderHistory;
 import com.insurance.easycover.data.models.response.assignJob.JobAssignJob;
 import com.insurance.easycover.data.network.NetworkController;
@@ -38,6 +40,9 @@ import naveed.khakhrani.miscellaneous.base.RecyclerBaseAdapter;
 import naveed.khakhrani.miscellaneous.listeners.RecyclerViewItemSelectedListener;
 import naveed.khakhrani.miscellaneous.util.AppButton;
 import naveed.khakhrani.miscellaneous.util.Dummy;
+
+import static com.insurance.easycover.AppClass.getContext;
+import static com.insurance.easycover.data.events.EventsIds.ID_HANDOVER;
 
 /**
  * Created by naveedali on 10/10/17.
@@ -72,7 +77,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final ResponseCompletedJobs quot;
         quot = quotationList.get(position);
 
@@ -89,10 +94,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.btnRenew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            RenewData renewdata = new RenewData();
-            renewdata.jobid = quot.getJobId();
-            renewdata.agentId = quot.getAgentId();
-            NetworkController.getInstance().reNewData(renewdata);
+                RenewData renewdata = new RenewData();
+                renewdata.jobid = quot.getJobId();
+                renewdata.agentId = quot.getAgentId();
+                NetworkController.getInstance().reNewData(renewdata);
             }
         });
 
@@ -103,7 +108,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.tvCountry.setText(quot.getCountry());
         String dtStart = quot.getExpiredDate();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        holder.btnRenew.setVisibility(View.VISIBLE);
+        holder.btnRenew.setVisibility(View.VISIBLE);//MUST DELETE
         try {
             Date date = format.parse(dtStart);
             Date now = Calendar.getInstance().getTime();
@@ -130,6 +135,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             long diffMins = (diff - (diffDays * 24 * 60 * 60 * 1000) - (diffHour * 60 * 60 * 1000)) / ( 60 * 1000 );
             if (diffMins > 1) SinceDate += String.valueOf(diffMins) + " minutes ";
             if (diffMins == 1) SinceDate += String.valueOf(diffMins) + " minute ";
+            if (SinceDate.equals("Since ")) {
+                SinceDate += "less then 1 minute";
+            }
             holder.tvDate.setText(SinceDate);
         } catch (ParseException e) {
             e.printStackTrace();

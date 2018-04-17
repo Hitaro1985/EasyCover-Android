@@ -167,21 +167,21 @@
                     android:textSize="@dimen/_15sdp" />
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <naveed.khakhrani.miscellaneous.util.AppButton
-        android:id="@+id/btnRenew"
-        style="@style/app_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:text="@string/renew"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:visibility="gone"
-        app:btn_color="?attr/colorPrimary" />
+        <naveed.khakhrani.miscellaneous.util.AppButton
+            android:id="@+id/btnRenew"
+            style="@style/app_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/renew"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            app:btn_color="?attr/colorPrimary" />
+    </LinearLayout>
 
 
 </RelativeLayout>

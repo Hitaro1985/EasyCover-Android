@@ -227,6 +227,7 @@ public class JobWallDetailFragment extends BaseFragment {
         tvLanguageDetail.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
         tvInterestedInsurance.setText(((ResponseCompletedJobs) job).getInsuranceType());
         tvIndicativeSum.setText(String.valueOf(((ResponseCompletedJobs) job).getIndicativeSum()));
+        //text3.setText("Upload quotation documents");
         if (((ResponseCompletedJobs) job).getImage() != null) {
             if (!((ResponseCompletedJobs) job).getImage().equals("null")) {
                 new DownLoadImageTask(imvUser).execute(((ResponseCompletedJobs) job).getImage());
@@ -248,6 +249,9 @@ public class JobWallDetailFragment extends BaseFragment {
             long diffMins = (diff - (diffDays * 24 * 60 * 60 * 1000) - (diffHour * 60 * 60 * 1000)) / ( 60 * 1000 );
             if (diffMins > 1) SinceDate += String.valueOf(diffMins) + " minutes ";
             if (diffMins == 1) SinceDate += String.valueOf(diffMins) + " minute ";
+            if (SinceDate.equals("Since ")) {
+                SinceDate += "less then 1 minute";
+            }
             tvDate.setText(SinceDate);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -290,6 +294,7 @@ public class JobWallDetailFragment extends BaseFragment {
                 ResponseAccept data = (ResponseAccept) event.data;
                 if (data.getJobstatus().equals("3")) {
                     text1.setVisibility(View.VISIBLE);
+                    text2.setText("Upload quotation documents");
                     ChooseFileLayout.setVisibility(View.VISIBLE);
                     text2.setVisibility(View.VISIBLE);
                     text3.setVisibility(View.GONE);

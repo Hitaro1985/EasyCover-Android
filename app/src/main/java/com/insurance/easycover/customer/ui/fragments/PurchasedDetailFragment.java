@@ -266,6 +266,9 @@ public class PurchasedDetailFragment extends BaseFragment {
             long diffMins = (diff - (diffDays * 24 * 60 * 60 * 1000) - (diffHour * 60 * 60 * 1000)) / ( 60 * 1000 );
             if (diffMins > 1) SinceDate += String.valueOf(diffMins) + " minutes ";
             if (diffMins == 1) SinceDate += String.valueOf(diffMins) + " minute ";
+            if (SinceDate.equals("Since ")) {
+                SinceDate += "less then 1 minute";
+            }
             tvDate.setText(SinceDate);
         } catch (ParseException e) {
             e.printStackTrace();

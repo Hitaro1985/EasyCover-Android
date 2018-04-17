@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.annotations.Since;
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.local.AppSharedPreferences;
 import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
@@ -172,6 +173,9 @@ public class JobWallAdapter extends RecyclerView.Adapter<JobWallAdapter.ViewHold
             long diffMins = (diff - (diffDays * 24 * 60 * 60 * 1000) - (diffHour * 60 * 60 * 1000)) / ( 60 * 1000 );
             if (diffMins > 1) SinceDate += String.valueOf(diffMins) + " minutes ";
             if (diffMins == 1) SinceDate += String.valueOf(diffMins) + " minute ";
+            if (SinceDate.equals("Since ")) {
+                SinceDate += "less then 1 minute";
+            }
             holder.tvDate.setText(SinceDate);
         } catch (ParseException e) {
             e.printStackTrace();

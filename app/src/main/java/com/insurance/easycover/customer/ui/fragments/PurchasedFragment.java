@@ -17,8 +17,10 @@ import com.insurance.easycover.R;
 import com.insurance.easycover.customer.ui.activities.JobCreateActivity;
 import com.insurance.easycover.data.events.EventsIds;
 import com.insurance.easycover.data.events.ListDataEvent;
+import com.insurance.easycover.data.events.SingleDataEvent;
 import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
 import com.insurance.easycover.data.models.response.ResponseGetInsuranceType;
+import com.insurance.easycover.data.models.response.ResponseHandOverData;
 import com.insurance.easycover.data.models.response.ResponseOrderHistory;
 import com.insurance.easycover.data.network.NetworkController;
 import com.insurance.easycover.shared.ui.adapters.OrderHistoryAdapter;
@@ -51,6 +53,7 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
     @BindView(R.id.recyclerView)
     protected RecyclerView mRecyclerView;
     private List<ResponseCompletedJobs> resultData;
+    public OrderHistoryAdapter adapter;
 
     public PurchasedFragment() {
         // Required empty public constructor
@@ -77,6 +80,11 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
         initAdapter();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 
     @Override
     protected void initAdapter() {
@@ -88,6 +96,19 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
         //mRecyclerView.setAdapter(mAdapter);
         showProgressDialog(getString(R.string.please_wait));
         NetworkController.getInstance().getCustomerCompletedJob();
+    }
+
+    @Subscribe
+    public void onEvent(SingleDataEvent<ResponseHandOverData> event) {
+        if (event.getStatus()) {
+            if (event.getEventId() == EventsIds.ID_HANDOVER) {
+                showToast(event.getMessage());
+                showProgressDialog(R.string.please_wait);
+                NetworkController.getInstance().getCustomerCompletedJob();
+            }
+        } else {
+            showToast(event.getMessage());
+        }
     }
 
     @Subscribe
@@ -107,8 +128,16 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
                 showToast(event.getMessage());
             }
         } else {
-            dismissProgress();
-            showToast(event.getMessage());
+            if (event.getEventId() == EventsIds.ID_GETCUSTOMERCOMPLETEDJOB) {
+                if (event.getMessage().equals("No job is completed by this agent")) {
+                    resultData.clear();
+                    adapter.notifyDataSetChanged();
+                    dismissProgress();
+                }
+            } else {
+                dismissProgress();
+                showToast(event.getMessage());
+            }
         }
     }
 
@@ -121,9 +150,10 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
                     resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
                 }
                 NetworkController.getInstance().getAllAssignedJobs();
-                OrderHistoryAdapter adapter = new OrderHistoryAdapter(getContext(),resultData);
+                adapter = new OrderHistoryAdapter(getContext(),resultData);
                 mRecyclerView.setAdapter(adapter);
                 adapter.setRecyclerViewItemSelectedListener(this);
+                adapter.notifyDataSetChanged();
                 dismissProgress();
             }
         }
