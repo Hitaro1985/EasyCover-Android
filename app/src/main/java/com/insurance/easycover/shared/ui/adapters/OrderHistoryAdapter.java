@@ -89,9 +89,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.btnRenew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RenewData renewdata = new RenewData();
-                renewdata.jobid = quot.getJobId();
-                NetworkController.getInstance().reNewData(renewdata);
+            RenewData renewdata = new RenewData();
+            renewdata.jobid = quot.getJobId();
+            renewdata.agentId = quot.getAgentId();
+            NetworkController.getInstance().reNewData(renewdata);
             }
         });
 
@@ -102,7 +103,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.tvCountry.setText(quot.getCountry());
         String dtStart = quot.getExpiredDate();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //holder.btnRenew.setVisibility(View.VISIBLE);
+        holder.btnRenew.setVisibility(View.VISIBLE);
         try {
             Date date = format.parse(dtStart);
             Date now = Calendar.getInstance().getTime();

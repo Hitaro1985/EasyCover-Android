@@ -7,4 +7,7 @@ public class RenewData {
     @SerializedName("jobid")
     @Expose
     public Integer jobid;
+    @SerializedName("agent_id")
+    @Expose
+    public Integer agentId;
 }

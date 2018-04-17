@@ -1,6 +1,7 @@
 package com.insurance.easycover.customer.ui.fragments;
         import android.app.Dialog;
         import android.app.ProgressDialog;
+        import android.content.ComponentName;
         import android.content.Intent;
         import android.net.Network;
         import android.net.Uri;
@@ -162,6 +163,9 @@ public class QuotationDetailFragment extends BaseFragment {
     @BindView(R.id.layoutQuotationButtons)
     protected LinearLayout layoutQuotationButtons;
 
+    @BindView(R.id.btnCall)
+    protected Button btnCall;
+
     public ArrayList<String> fileNameList;
     public static Object job;
 
@@ -282,6 +286,7 @@ public class QuotationDetailFragment extends BaseFragment {
         edtQuotationTotalSum.setText(((ResponseGetQuotation) job).getQuotationPrice());
         edtRemarksQuotation.setEnabled(false);
         edtQuotationTotalSum.setEnabled(false);
+        btnCall.setVisibility(View.VISIBLE);
         /*if (jobDetail..getImage() != null) {
             if (!((ResponseGetQuotation) job).getImage().equals("null")) {
                 new DownLoadImageTask(imvUser).execute(((ResponseGetQuotation) job).getImage());
@@ -314,6 +319,12 @@ public class QuotationDetailFragment extends BaseFragment {
     @OnClick(R.id.btnQuotBack)
     public void onClickBack() {
         changeFragment(QuotationTabFragment.newInstance(),R.id.fragmentContainer);
+    }
+
+    @OnClick(R.id.btnCall)
+    public void onClickCall() {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ((ResponseGetQuotation) job).getPhoneno()));
+        startActivity(intent);
     }
 
     @OnClick(R.id.btnQuotAccept)

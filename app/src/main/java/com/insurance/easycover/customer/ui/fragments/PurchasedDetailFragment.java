@@ -36,7 +36,7 @@ package com.insurance.easycover.customer.ui.fragments;
         import com.insurance.easycover.data.models.response.ResponseAccept;
         import com.insurance.easycover.data.models.response.ResponseAcceptedJobs;
         import com.insurance.easycover.data.models.response.ResponseAcceptedJobs;
-        import com.insurance.easycover.data.models.response.ResponseOrderHistory;
+        import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
         import com.insurance.easycover.data.models.response.ShowJob;
         import com.insurance.easycover.data.models.response.assignJob.JobAssignJob;
         import com.insurance.easycover.data.network.NetworkController;
@@ -169,7 +169,7 @@ public class PurchasedDetailFragment extends BaseFragment {
         // Inflate the layout for this fragment
         fileNameList = new ArrayList<String>();
         RequestJobDetail jobDetail = new RequestJobDetail();
-        jobDetail.jobId = ((ResponseOrderHistory) job).getJobId();
+        jobDetail.jobId = ((ResponseCompletedJobs) job).getJobId();
         NetworkController.getInstance().getJobDetail(jobDetail);
         return inflater.inflate(R.layout.fragment_job_wall_detail, container, false);
     }
@@ -233,24 +233,24 @@ public class PurchasedDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        tvInsuranceName.setText(((ResponseOrderHistory) job).getInsuranceType());
+        tvInsuranceName.setText(((ResponseCompletedJobs) job).getInsuranceType());
         tvLanguage.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
-        tvPostCode.setText(((ResponseOrderHistory) job).getPostcode());
-        tvCountry.setText(((ResponseOrderHistory) job).getCountry());
-        tvName.setText(((ResponseOrderHistory) job).getName());
-        tvNRIC.setText(String.valueOf(((ResponseOrderHistory) job).getNric()));
-        tvMobile.setText(((ResponseOrderHistory) job).getPhoneno());
+        tvPostCode.setText(((ResponseCompletedJobs) job).getPostcode());
+        tvCountry.setText(((ResponseCompletedJobs) job).getCountry());
+        tvName.setText(((ResponseCompletedJobs) job).getName());
+        tvNRIC.setText(String.valueOf(((ResponseCompletedJobs) job).getNric()));
+        tvMobile.setText(((ResponseCompletedJobs) job).getPhoneno());
         tvLanguageDetail.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
-        tvInterestedInsurance.setText(((ResponseOrderHistory) job).getInsuranceType());
-        tvIndicativeSum.setText(String.valueOf(((ResponseOrderHistory) job).getIndicativeSum()));
+        tvInterestedInsurance.setText(((ResponseCompletedJobs) job).getInsuranceType());
+        tvIndicativeSum.setText(String.valueOf(((ResponseCompletedJobs) job).getIndicativeSum()));
         layoutAccept.setVisibility(View.GONE);
         layoutBack.setVisibility(View.VISIBLE);
         /*if (jobDetail..getImage() != null) {
-            if (!((ResponseOrderHistory) job).getImage().equals("null")) {
-                new DownLoadImageTask(imvUser).execute(((ResponseOrderHistory) job).getImage());
+            if (!((ResponseCompletedJobs) job).getImage().equals("null")) {
+                new DownLoadImageTask(imvUser).execute(((ResponseCompletedJobs) job).getImage());
             }
         }*/
-        String dtStart = ((ResponseOrderHistory) job).getUpdatedAt();
+        String dtStart = ((ResponseCompletedJobs) job).getUpdatedAt();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date date = format.parse(dtStart);
