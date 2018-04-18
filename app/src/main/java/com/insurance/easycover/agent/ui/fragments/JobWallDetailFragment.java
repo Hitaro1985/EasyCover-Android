@@ -42,9 +42,11 @@ import com.insurance.easycover.data.models.UploadedDoc;
 import com.insurance.easycover.data.models.response.HandOverData;
 import com.insurance.easycover.data.models.response.RequestAccept;
 import com.insurance.easycover.data.models.response.RequestAddQuotation;
+import com.insurance.easycover.data.models.response.RequestGetQuotationById;
 import com.insurance.easycover.data.models.response.RequestJobDetail;
 import com.insurance.easycover.data.models.response.ResponseAccept;
 import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
+import com.insurance.easycover.data.models.response.ResponseGetQuotation;
 import com.insurance.easycover.data.models.response.ShowJob;
 import com.insurance.easycover.data.models.response.assignJob.JobAssignJob;
 import com.insurance.easycover.data.network.NetworkController;
@@ -288,6 +290,18 @@ public class JobWallDetailFragment extends BaseFragment {
     }
 
     @Subscribe
+    public void onGetQuotation(ListDataEvent<ResponseGetQuotation> event) {
+        if (event.getStatus()) {
+            if (event.getEventId() == EventsIds.ID_GETQUOTATION) {
+                edtQuotationTotalSum.setText(event.getListData().get(0).getQuotationPrice());
+                edtRemarksQuotation.setText(event.getListData().get(0).getQuotationDescription());
+            }
+        } else {
+            showToast(event.getMessage());
+        }
+    }
+
+    @Subscribe
     public void onAssignJob(SingleDataEvent<Object> event) {
         if (event.getStatus()) {
             if (event.getEventId() == EventsIds.ID_ACCEPTJOB) {
@@ -296,6 +310,9 @@ public class JobWallDetailFragment extends BaseFragment {
                     text1.setVisibility(View.VISIBLE);
                     text2.setText("Upload quotation documents");
                     ChooseFileLayout.setVisibility(View.VISIBLE);
+                    RequestGetQuotationById rQuotId = new RequestGetQuotationById();
+                    rQuotId.quotationId = data.getQuotationId();
+                    NetworkController.getInstance().getQuotationById(rQuotId);
                     text2.setVisibility(View.VISIBLE);
                     text3.setVisibility(View.GONE);
                     docs.setVisibility(View.GONE);

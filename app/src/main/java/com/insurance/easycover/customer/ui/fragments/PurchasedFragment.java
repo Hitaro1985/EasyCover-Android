@@ -130,7 +130,9 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
         } else {
             if (event.getEventId() == EventsIds.ID_GETCUSTOMERCOMPLETEDJOB) {
                 if (event.getMessage().equals("No job is completed by this agent")) {
-                    resultData.clear();
+                    if (resultData != null) {
+                        resultData.clear();
+                    }
                     adapter.notifyDataSetChanged();
                     dismissProgress();
                 }
@@ -156,6 +158,9 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
                 adapter.notifyDataSetChanged();
                 dismissProgress();
             }
+        } else {
+            showToast(event.getMessage());
+            dismissProgress();
         }
     }
 
