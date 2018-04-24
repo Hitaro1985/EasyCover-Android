@@ -84,6 +84,8 @@ public class VerifyUserFragment extends BaseFragment {
     public void onClickSendCode() {
         RequestSMS rsms = new RequestSMS();
         rsms.phoneno = register.phoneno;
+        rsms.email = register.email;
+        showProgressDialog(R.string.please_wait);
         NetworkController.getInstance().sendSMS(rsms);
     }
 
@@ -119,12 +121,14 @@ public class VerifyUserFragment extends BaseFragment {
     public void onEvent(SimpleEvent event) {
         if (event.getStatus()) {
             if (event.getEventId() == EventsIds.ID_SENDSMS) {
+                dismissProgress();
                 showToast(event.getMessage());
                 btnResendCode.setText(R.string.resend);
                 edtVerifyCode.setEnabled(true);
                 btnVerify.setEnabled(true);
             } else if (event.getEventId() == EventsIds.ID_VERIFY) {
                 showToast(event.getMessage());
+                showProgressDialog(R.string.please_wait);
                 NetworkController.getInstance().signUp(register);
             } else {
                 dismissProgress();
@@ -148,8 +152,13 @@ public class VerifyUserFragment extends BaseFragment {
                 launchActivity(AppSession.getInstance().isAgent() ? AgentHomeActivity.class : CustomerHomeActivity.class);
                 getActivity().finish();
             } else showToast(event.getMessage());
-        } else
-            showToast(event.getMessage());
+        } else {
+            if (event.getMessage().equals("Signup is failed")) {
+                showToast("Your email already registered.");
+            } else {
+                showToast(event.getMessage());
+            }
+        }
 
         dismissProgress();
     }

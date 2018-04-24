@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import okhttp3.Interceptor;
@@ -36,7 +37,7 @@ public class EasyCoverServiceFactory {
                     .setLenient()
                     .create();
 
-            OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+            OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS);
 
             okHttpClient.addInterceptor(new Interceptor() {
                 @Override

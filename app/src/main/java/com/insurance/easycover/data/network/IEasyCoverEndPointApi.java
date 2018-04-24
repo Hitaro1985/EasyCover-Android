@@ -76,7 +76,7 @@ public interface IEasyCoverEndPointApi {
     Call<TopResponse> sendSMS(@Body RequestSMS verify);
 
     @POST("user/checkVerfityCode")
-    Call<TopDataResponse<String>> verifyPhone(@Body Verify verify);
+    Call<TopResponse> verifyPhone(@Body Verify verify);
 
     @POST("user/forgetPassword")
     Call<TopListDataResponse<ResponseAccept>> forgetPassword(@Body ForgotPassword forgotPassword);

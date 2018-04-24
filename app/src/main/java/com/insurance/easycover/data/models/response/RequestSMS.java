@@ -8,4 +8,8 @@ public class RequestSMS {
     @SerializedName("phoneno")
     @Expose
     public String phoneno;
+
+    @SerializedName("email")
+    @Expose
+    public String email;
 }

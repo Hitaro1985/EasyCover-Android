@@ -1,6 +1,7 @@
 package com.insurance.easycover.data.network;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -98,6 +99,7 @@ public class NetworkController {
 
     public void signUp(Register signUp) {
         Call<ResponseSignUp> call = EasyCoverServiceFactory.getInstance().register(signUp);
+        Log.i("handover", "json = " + new Gson().toJson(signUp));
         //Call<TopListDataResponse<User>> call = EasyCoverServiceFactory.getInstance().register(signUp);
         call.enqueue(new Callback<ResponseSignUp>() {
             @Override
@@ -204,11 +206,11 @@ public class NetworkController {
     }
 
     public void verifyPhone(Verify verify) {
-        Call<TopDataResponse<String>> call = EasyCoverServiceFactory.getInstance().verifyPhone(verify);
-        call.enqueue(new Callback<TopDataResponse<String>>() {
+        Call<TopResponse> call = EasyCoverServiceFactory.getInstance().verifyPhone(verify);
+        call.enqueue(new Callback<TopResponse>() {
             @Override
-            public void onResponse(Call<TopDataResponse<String>> call, Response<TopDataResponse<String>> response) {
-                TopDataResponse<String> resp = response.body();
+            public void onResponse(Call<TopResponse> call, Response<TopResponse> response) {
+                TopResponse resp = response.body();
                 if (resp != null) {
                     if (resp.responseCode == 1) {
                         postEventSimpleResponse(true, EventsIds.ID_VERIFY, resp.message);
@@ -223,7 +225,7 @@ public class NetworkController {
             }
 
             @Override
-            public void onFailure(Call<TopDataResponse<String>> call, Throwable t) {
+            public void onFailure(Call<TopResponse> call, Throwable t) {
                 postEventSimpleResponse(false, EventsIds.ID_VERIFY, "" + t.getMessage());
             }
         });

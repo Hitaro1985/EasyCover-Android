@@ -23,8 +23,8 @@ public class NotificationFirebaseInstanceService  extends FirebaseInstanceIdServ
 
         String recent_token = FirebaseInstanceId.getInstance().getToken();
         AppSharedPreferences.getInstance(getApplicationContext()).setDeviceToken(recent_token);
-//        Map<String, String> map = new HashMap<>();
-//        map.put("devicetoken", "" + recent_token);
+        //Map<String, String> map = new HashMap<>();
+        //map.put("devicetoken", "" + recent_token);
         //NetworkController.getInstance().updateUser(map,null);
     }
 }
