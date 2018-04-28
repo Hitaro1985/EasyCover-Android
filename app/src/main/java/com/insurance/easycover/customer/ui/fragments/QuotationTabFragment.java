@@ -107,13 +107,13 @@ public class QuotationTabFragment extends ListBaseFragment<Dummy> {
                     //Log.i("aaaaaaaa", resultData.get(i).getInsuranceType());
                     Integer selectItem = Integer.parseInt(resultData.get(i).getInsuranceType());
                     resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
-                    if (resultData.get(i).getJobstatus() != null) {
-                        if (resultData.get(i).getJobstatus().equals("3")) {
+                    /*if (resultData.get(i).getJobstatus() != null) {
+                        //if (resultData.get(i).getJobstatus().equals("3")) {
                             tempList.add(resultData.get(i));
-                        }
-                    }
+                        //}
+                    }*/
                 }
-                resultData = tempList;
+                //resultData = tempList;
                 QuotationAdapter adapter = new QuotationAdapter(getContext(), resultData);
                 mRecyclerView.setAdapter(adapter);
                 adapter.setRecyclerViewItemSelectedListener(this);
