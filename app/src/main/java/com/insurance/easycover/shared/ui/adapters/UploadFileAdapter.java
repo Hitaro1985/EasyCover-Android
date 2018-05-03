@@ -1,5 +1,7 @@
 package com.insurance.easycover.shared.ui.adapters;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.models.UploadedDoc;
@@ -17,6 +20,7 @@ import at.grabner.circleprogress.CircleProgressView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import naveed.khakhrani.miscellaneous.base.RecyclerBaseAdapter;
+import naveed.khakhrani.miscellaneous.listeners.RecyclerViewItemSelectedListener;
 import naveed.khakhrani.miscellaneous.util.Dummy;
 
 /**
@@ -53,13 +57,22 @@ public class UploadFileAdapter extends RecyclerBaseAdapter<UploadedDoc, UploadFi
             holder.circleProgressView.setValue(uploadedDoc.uploadProgress);
         }
 
-        holder.layoutRoot.setOnClickListener(new View.OnClickListener() {
+        /*holder.layoutRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (recyclerViewItemSelectedListener != null)
                     recyclerViewItemSelectedListener.onItemSelected(mDataList.get(position), position);
             }
-        });
+        });*/
+
+        holder.imvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (recyclerViewItemSelectedListener != null)
+                    recyclerViewItemSelectedListener.onItemSelected(mDataList.get(position), position);
+            }
+            }
+        );
 
     }
 
@@ -74,6 +87,8 @@ public class UploadFileAdapter extends RecyclerBaseAdapter<UploadedDoc, UploadFi
         public RelativeLayout layoutRoot;
         @BindView(R.id.imvDoc)
         public ImageView imvDoc;
+        @BindView(R.id.imvClose)
+        public ImageView imvClose;
 
         @BindView(R.id.circleView)
         public CircleProgressView circleProgressView;

@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".agent.ui.fragments.RefferalFragment">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp"
+        android:background="@drawable/gift_box" />
+
     <LinearLayout
         android:id="@+id/agentView"
         android:layout_width="match_parent"
@@ -50,6 +55,7 @@
 
         <naveed.khakhrani.miscellaneous.util.AppButton
             style="@style/app_btn"
+            android:id="@+id/shareCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_10sdp"

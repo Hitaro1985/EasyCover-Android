@@ -78,6 +78,7 @@ import butterknife.Unbinder;
 import naveed.khakhrani.miscellaneous.base.BaseFragment;
 import naveed.khakhrani.miscellaneous.base.RecyclerBaseAdapter;
 import naveed.khakhrani.miscellaneous.dialogs.DialogFilePickerFragment;
+import naveed.khakhrani.miscellaneous.listeners.RecyclerViewItemSelectedListener;
 import naveed.khakhrani.miscellaneous.util.AppButton;
 import naveed.khakhrani.miscellaneous.util.FileDownloaderFromFileDescriptorAsync;
 import naveed.khakhrani.miscellaneous.util.ImageFilePath;
@@ -87,7 +88,7 @@ import naveed.khakhrani.miscellaneous.util.NetworkConnection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class JobWallDetailFragment extends BaseFragment {
+public class JobWallDetailFragment extends BaseFragment implements RecyclerViewItemSelectedListener {
 
     private Unbinder mUnbinder = null;
 
@@ -100,8 +101,8 @@ public class JobWallDetailFragment extends BaseFragment {
     @BindView(R.id.layoutSend)
     protected LinearLayout layoutSend;
 
-    @BindView(R.id.tvInsuranceName)
-    protected TextView tvInsuranceName;
+//    @BindView(R.id.tvInsuranceName)
+//    protected TextView tvInsuranceName;
 
     @BindView(R.id.tvLanguage)
     protected TextView tvLanguage;
@@ -219,7 +220,7 @@ public class JobWallDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        tvInsuranceName.setText(((ResponseCompletedJobs) job).getInsuranceType());
+        //tvInsuranceName.setText(((ResponseCompletedJobs) job).getInsuranceType());
         tvLanguage.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
         tvPostCode.setText(((ResponseCompletedJobs) job).getPostcode());
         tvCountry.setText(((ResponseCompletedJobs) job).getCountry());
@@ -265,6 +266,7 @@ public class JobWallDetailFragment extends BaseFragment {
         filesAdapter = new UploadFileAdapter(getContext(), uploadedDocs);
         rViewUploadedFiles.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rViewUploadedFiles.setAdapter(filesAdapter);
+        filesAdapter.setRecyclerViewItemSelectedListener(this);
     }
 
     //Event Handling
@@ -293,8 +295,10 @@ public class JobWallDetailFragment extends BaseFragment {
     public void onGetQuotation(ListDataEvent<ResponseGetQuotation> event) {
         if (event.getStatus()) {
             if (event.getEventId() == EventsIds.ID_GETQUOTATION) {
-                edtQuotationTotalSum.setText(event.getListData().get(0).getQuotationPrice());
-                edtRemarksQuotation.setText(event.getListData().get(0).getQuotationDescription());
+                if (event.getListData().size() > 0) {
+                    edtQuotationTotalSum.setText(event.getListData().get(0).getQuotationPrice());
+                    edtRemarksQuotation.setText(event.getListData().get(0).getQuotationDescription());
+                }
             }
         } else {
             showToast(event.getMessage());
@@ -387,22 +391,46 @@ public class JobWallDetailFragment extends BaseFragment {
     //Event Handling
     @OnClick(R.id.btnSend)
     public void onClickSend() {
-        showProgressDialog(getString(R.string.please_wait));
-        RequestAddQuotation raq = new RequestAddQuotation();
-        //raq.assignId = ((ResponseCompletedJobs) job)
-        raq.assignId = ((ResponseCompletedJobs) job).getAssignJobsId();
-        //((ResponseCompletedJobs) job).
-        raq.jobId = ((ResponseCompletedJobs) job).getJobId();
-        raq.quotationPrice = String.valueOf(edtQuotationTotalSum.getText());
-        raq.quotationDescription = String.valueOf(edtRemarksQuotation.getText());
-        List<String> uploadedDocsIds = new ArrayList<>();
-        for (int i = 0; i < uploadedDocs.size(); i ++ ) {
-            uploadedDocsIds.add(uploadedDocs.get(0).id);
+        if (validate()){
+            showProgressDialog(getString(R.string.please_wait));
+            RequestAddQuotation raq = new RequestAddQuotation();
+            //raq.assignId = ((ResponseCompletedJobs) job)
+            raq.assignId = ((ResponseCompletedJobs) job).getAssignJobsId();
+            //((ResponseCompletedJobs) job).
+            raq.jobId = ((ResponseCompletedJobs) job).getJobId();
+            raq.quotationPrice = String.valueOf(edtQuotationTotalSum.getText());
+            raq.quotationDescription = String.valueOf(edtRemarksQuotation.getText());
+            List<String> uploadedDocsIds = new ArrayList<>();
+            for (int i = 0; i < uploadedDocs.size(); i ++ ) {
+                uploadedDocsIds.add(uploadedDocs.get(0).id);
+            }
+            raq.documents = uploadedDocsIds;
+            Log.i("handover", "json = " + new Gson().toJson(raq));
+            NetworkController.getInstance().addQuotation(raq);
+            //onBackPressed();
         }
-        raq.documents = uploadedDocsIds;
-        Log.i("handover", "json = " + new Gson().toJson(raq));
-        NetworkController.getInstance().addQuotation(raq);
-        //onBackPressed();
+    }
+
+    public boolean validate() {
+        boolean isValidate = true;
+        String remarksQuot = edtRemarksQuotation.getText().toString();
+        String quotSum = edtQuotationTotalSum.getText().toString();
+        if (upload_file == false) {
+            isValidate = false;
+            btnChooseFile.setError("Please upload document");
+        }
+
+        if (remarksQuot.isEmpty()) {
+            isValidate = false;
+            edtRemarksQuotation.setError("Please input Quotation Remarks");
+        }
+
+        if (quotSum.isEmpty()) {
+            isValidate = false;
+            edtQuotationTotalSum.setError("Please input Quotation Total Sum");
+        }
+
+        return isValidate;
     }
 
     @Subscribe
@@ -439,6 +467,13 @@ public class JobWallDetailFragment extends BaseFragment {
                 scrollView.scrollTo(0, scrollView.getBottom());
             }
         });
+    }
+
+    @Override
+    public void onItemSelected(Object item, int position) {
+        uploadedDocs.remove(position);
+        filesAdapter.notifyDataSetChanged();
+        showToast("Removed" + Integer.toString(position + 1));
     }
 
     /**
@@ -613,7 +648,11 @@ public class JobWallDetailFragment extends BaseFragment {
             if (!(resultCode != getActivity().RESULT_OK)) {
                 try {
                     Uri selectedImageUri = ImageUtility.getFileUri(getContext(), data);
-                    uploadFileProcess(selectedImageUri, requestCode);
+                    String ext =  selectedImageUri.toString().substring(selectedImageUri.toString().lastIndexOf(".") + 1);
+                    if (ext.equals("doc") || ext.equals("pdf") || ext.equals("png") || ext.equals("jpg"))
+                        uploadFileProcess(selectedImageUri, requestCode);
+                    else
+                        showToast("Only attach .doc .pdf .png .jpg");
                 } catch (Exception ex) {
                     //ValidUtils.showToast(getLocalContext(), getLocalContext().getString(R.string.try_again_str));
                 }

@@ -87,8 +87,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         });
         ResponseAcceptedJobs job;
         job = jobList.get(position);
-        holder.tvName.setText(job.getInsuranceType());
-        //holder.tvLanguage.setText(AppSharedPreferences.getInstance(mCtx).getCurrentLanguage());
+        holder.tvName.setText(job.getUsername());
+        holder.tvLanguage.setText(job.getLanguage());
         holder.tvPostCode.setText(job.getPostcode());
         holder.tvCountry.setText(job.getCountry());
         holder.edtRating.setRating((float)1.5);
@@ -112,11 +112,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        /*if (job.getImage() != null) {
+        if (job.getImage() != null) {
             if (!job.getImage().equals("null")) {
-                new DownLoadImageTask(imvUser).execute(((ResponseCompletedJobs) job).getImage());
+                new DownLoadImageTask(holder.imvUser).execute(job.getImage());
             }
-        }*/
+        }
         holder.edtUserName.setText(job.getName());
     }
 

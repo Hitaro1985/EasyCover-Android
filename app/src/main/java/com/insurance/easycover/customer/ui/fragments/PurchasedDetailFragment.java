@@ -85,8 +85,8 @@ public class PurchasedDetailFragment extends BaseFragment {
     @BindView(R.id.layoutSend)
     protected LinearLayout layoutSend;
 
-    @BindView(R.id.tvInsuranceName)
-    protected TextView tvInsuranceName;
+//    @BindView(R.id.tvInsuranceName)
+//    protected TextView tvInsuranceName;
 
     @BindView(R.id.tvLanguage)
     protected TextView tvLanguage;
@@ -233,7 +233,7 @@ public class PurchasedDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        tvInsuranceName.setText(((ResponseCompletedJobs) job).getInsuranceType());
+        //tvInsuranceName.setText(((ResponseCompletedJobs) job).getInsuranceType());
         tvLanguage.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
         tvPostCode.setText(((ResponseCompletedJobs) job).getPostcode());
         tvCountry.setText(((ResponseCompletedJobs) job).getCountry());

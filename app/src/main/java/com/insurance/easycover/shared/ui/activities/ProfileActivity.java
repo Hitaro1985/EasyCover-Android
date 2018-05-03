@@ -1,22 +1,20 @@
 package com.insurance.easycover.shared.ui.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -26,11 +24,8 @@ import com.gun0912.tedpermission.TedPermission;
 import com.insurance.easycover.AppSession;
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.events.EventsIds;
-import com.insurance.easycover.data.events.ListDataEvent;
-import com.insurance.easycover.data.events.SimpleEvent;
 import com.insurance.easycover.data.events.SingleDataEvent;
 import com.insurance.easycover.data.local.AppSharedPreferences;
-import com.insurance.easycover.data.models.Login;
 import com.insurance.easycover.data.models.ProgressRequestBody;
 import com.insurance.easycover.data.models.UploadedDoc;
 import com.insurance.easycover.data.models.response.User;
@@ -38,7 +33,6 @@ import com.insurance.easycover.data.network.NetworkController;
 import com.insurance.easycover.shared.Utils.AppConstants;
 import com.insurance.easycover.shared.Utils.AppUtils;
 
-import org.androidannotations.annotations.App;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -52,7 +46,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import naveed.khakhrani.miscellaneous.SpinnerAdapter;
 import naveed.khakhrani.miscellaneous.base.BaseActivity;
-import naveed.khakhrani.miscellaneous.base.RecyclerBaseAdapter;
 import naveed.khakhrani.miscellaneous.dialogs.DatePickerDialogFragment;
 import naveed.khakhrani.miscellaneous.dialogs.DialogFilePickerFragment;
 import naveed.khakhrani.miscellaneous.util.Dummy;
@@ -126,6 +119,16 @@ public class ProfileActivity extends BaseActivity {
 
     @BindView(R.id.tvDateOfBirth)
     protected TextView tvDateOfBirth;
+
+    @BindView(R.id.spinnerLanguageType)
+    protected Spinner spinnerLanguageType;
+
+    @BindView(R.id.spinnerChineseType)
+    protected Spinner spinnerChineseType;
+
+    @BindView(R.id.chineseLanguage)
+    protected RelativeLayout chineseLanguage;
+
     private List<UploadedDoc> uploadedDocs = new ArrayList<>();
 
 
@@ -166,13 +169,15 @@ public class ProfileActivity extends BaseActivity {
         layoutAgent.setVisibility(AppSession.getInstance().isAgent() ? View.VISIBLE : View.GONE);
 
         if (AppSession.getInstance().getUserRole() == AppSession.ROLE_AGENT) {
-            tvSubTitle.setText("CPAJ003242");
-            tvTitle.setText("" + AppSession.getInstance().getUserData().getUsername());
+            tvSubTitle.setText("" + AppSession.getInstance().getUserData().getUsername());
+            tvTitle.setText("Dashboard");
         } else tvSubTitle.setText("" + AppSession.getInstance().getUserData().getUsername());
 
 
         initSpinner1();
         initSpinner2();
+        initLanguageSpinner();
+        initChineseSpinner();
         loadData();
     }
 
@@ -222,7 +227,66 @@ public class ProfileActivity extends BaseActivity {
         ArrayAdapter adapter = new SpinnerAdapter<Dummy>(ProfileActivity.this, R.layout.item_spinner, list2);
         spinner2.setAdapter(adapter);
         spinner2.setSelection(list2.size() - 1);
+    }
 
+    private void initLanguageSpinner() {
+        List<Dummy> languageList = new ArrayList<>();
+        Dummy dummy2 = new Dummy();
+        dummy2.name = "Malay";
+        languageList.add(dummy2);
+        Dummy dummy3 = new Dummy();
+        dummy3.name = "English";
+        languageList.add(dummy3);
+        Dummy dummy4 = new Dummy();
+        dummy4.name = "Chinese";
+        languageList.add(dummy4);
+        Dummy dummy = new Dummy();
+        dummy.name = "Select Language";
+        languageList.add(dummy);
+        ArrayAdapter adapter = new SpinnerAdapter<Dummy>(ProfileActivity.this, R.layout.item_spinner, languageList);
+        spinnerLanguageType.setAdapter(adapter);
+        spinnerLanguageType.setSelection(languageList.size() - 1);
+        spinnerLanguageType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+              @Override
+              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                  if (id == Long.valueOf(2)) {
+                      chineseLanguage.setVisibility(View.VISIBLE);
+                  } else {
+                      chineseLanguage.setVisibility(View.GONE);
+                  }
+              }
+
+              @Override
+              public void onNothingSelected(AdapterView<?> parent) {
+
+              }
+          }
+        );
+    }
+
+    private void initChineseSpinner() {
+        List<Dummy> chineseList = new ArrayList<>();
+        Dummy dummy2 = new Dummy();
+        dummy2.name = "Mandarin";
+        chineseList.add(dummy2);
+        Dummy dummy3 = new Dummy();
+        dummy3.name = "Cantonese";
+        chineseList.add(dummy3);
+        Dummy dummy4 = new Dummy();
+        dummy4.name = "Hokkien";
+        chineseList.add(dummy4);
+        Dummy dummy5 = new Dummy();
+        dummy5.name = "TeoChew";
+        chineseList.add(dummy5);
+        Dummy dummy6 = new Dummy();
+        dummy6.name = "Other";
+        chineseList.add(dummy6);
+        Dummy dummy = new Dummy();
+        dummy.name = "Select Language";
+        chineseList.add(dummy);
+        ArrayAdapter adapter = new SpinnerAdapter<Dummy>(ProfileActivity.this, R.layout.item_spinner, chineseList);
+        spinnerChineseType.setAdapter(adapter);
+        spinnerChineseType.setSelection(chineseList.size() - 1);
     }
 
     private void loadData() {
@@ -237,6 +301,31 @@ public class ProfileActivity extends BaseActivity {
         edtPostCode.setText((mUserData.getPostcode() != null && !mUserData.getPostcode().equals("null")) ? mUserData.getPostcode() : "");
         edtCountry.setText((mUserData.getCountry() != null && !mUserData.getCountry().equals("null")) ? mUserData.getCountry() : "");
         edtState.setText((mUserData.getState() != null && !mUserData.getState().equals("null")) ? mUserData.getState() : "");
+        if (mUserData.getLanguage() != null) {
+            if (mUserData.getLanguage().equals("Malay")) {
+                spinnerLanguageType.setSelection(0);
+            } else if (mUserData.getLanguage().equals("English")) {
+                spinnerLanguageType.setSelection(1);
+            } else if (mUserData.getLanguage().equals("Chinese")) {
+                spinnerLanguageType.setSelection(2);
+            } else {
+                spinnerLanguageType.setSelection(2);
+                spinnerChineseType.setVisibility(View.VISIBLE);
+                if (mUserData.getLanguage().equals("Mandarin")) {
+                    spinnerChineseType.setSelection(0);
+                } else if (mUserData.getLanguage().equals("Cantonese")){
+                    spinnerChineseType.setSelection(1);
+                } else if (mUserData.getLanguage().equals("Hokkien")) {
+                    spinnerChineseType.setSelection(2);
+                } else if (mUserData.getLanguage().equals("Hakka")) {
+                    spinnerChineseType.setSelection(3);
+                } else if (mUserData.getLanguage().equals("TeoChew")) {
+                    spinnerChineseType.setSelection(4);
+                } else {
+                    spinnerChineseType.setSelection(5);
+                }
+            }
+        }
         if (mUserData.getImage() != null) {
             if (mUserData.getImage().equals("null") == false && !mUserData.getImage().isEmpty()) {
                 imvProfile.setVisibility(View.VISIBLE);
@@ -290,6 +379,11 @@ public class ProfileActivity extends BaseActivity {
                 map.put("postcode", "" + edtPostCode.getText().toString());
                 map.put("state", "" + edtState.getText().toString());
                 map.put("country", "" + edtCountry.getText().toString());
+                if (chineseLanguage.getVisibility() == View.VISIBLE) {
+                    map.put("language", "" + spinnerChineseType.getSelectedItem().toString());
+                } else {
+                    map.put("language", "" + spinnerLanguageType.getSelectedItem().toString());
+                }
                 if (uploadedImagePath != null) {
                     map.put("photo", "" + uploadedImagePath);
                 }

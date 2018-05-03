@@ -68,8 +68,8 @@ public abstract class HomeActivity extends BaseActivity implements TabLayout.OnT
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         if (AppSession.getInstance().getUserRole() == AppSession.ROLE_AGENT) {
-            tvSubTitle.setText("CPAJ003242");
-            tvTitle.setText("" + AppSession.getInstance().getUserData().getUsername());
+            tvSubTitle.setText("" + AppSession.getInstance().getUserData().getUsername());
+            tvTitle.setText("Dashboard");
         } else {
             tvSubTitle.setText(AppSession.getInstance().getUserData().getUsername());
 

@@ -131,6 +131,9 @@ public class NotificationsFragment extends ListBaseFragment<Dummy> {
                         if (diffDays < 0) {
                             resultData.remove(i);
                         }
+                        else if(diffDays > 30) {
+                            resultData.remove(i);
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

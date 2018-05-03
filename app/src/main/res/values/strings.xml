@@ -13,7 +13,8 @@
     <string name="hint_email">Enter Email Address</string>
     <string name="text_verifytoken_for_reset_password">Please input your received verify code and new password</string>
     <string name="hint_verifycode">Enter Verify Code</string>
-    <string name="donot_have_account">Haven\'t got an account? Sing Up!</string>
+    <string name="donot_have_account">Haven\'t got an account? Sign Up!</string>
+    <string name="welcome">Welcome</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -21,7 +22,7 @@
     <string name="work_in_progress">Work in progress...</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_underline"><u>Sign Up</u></string>
-    <string name="user_name">UserName</string>
+    <string name="user_name">Full name as per NRIC</string>
     <string name="user_first_name">Firstname</string>
     <string name="user_sur_name">SurName</string>
     <string name="password">Password</string>
@@ -40,6 +41,8 @@
     <string name="history">History</string>
     <string name="purchased">Order History</string>
     <string name="prefer">Prefer</string>
+    <string name="LabelPhoneNo">PhoneNo</string>
+    <string name="LabelNRIC">NRIC</string>
     <string name="upload_pic">Upload Picture</string>
     <string name="choose_file">Choose File</string>
     <string name="old_password">Old Password</string>
@@ -93,7 +96,8 @@
     <string name="invalid_input">Please input correct.</string>
     <string name="logout">Logout</string>
     <string name="skip_verification">Skip Verification</string>
-    <string name="reset_password_message">A link to reset your password\nwas delievered to your mailbox.</string>
+    <string name="reset_password_message">Password has been rest, please proceed to login.</string>
+    <string name="send_email_success">Send mail success. Check your mailbox.</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="permission_header_txt">If you will not accept permission, then this can not be performed</string>

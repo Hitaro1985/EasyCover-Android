@@ -182,6 +182,45 @@
                         android:paddingRight="@dimen/_5sdp"
                         android:visibility="visible" />
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/bg_white_edit"
+                        android:minHeight="@dimen/_30sdp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_5sdp">
+
+                        <Spinner
+                            android:id="@+id/spinnerLanguageType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_1sdp"
+                            android:minHeight="@dimen/_28sdp"
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/chineseLanguage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/bg_white_edit"
+                        android:minHeight="@dimen/_30sdp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:visibility="gone"
+                        >
+
+                        <Spinner
+                            android:id="@+id/spinnerChineseType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_1sdp"
+                            android:minHeight="@dimen/_28sdp"
+                            />
+                    </RelativeLayout>
+
                     <EditText
                         android:id="@+id/edtNewPass"
                         style="@style/edit_txt_single_line"

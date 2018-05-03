@@ -45,7 +45,7 @@
                 android:paddingLeft="@dimen/_2sdp">
 
                 <TextView
-                    android:id="@+id/tvInsurance"
+                    android:id="@+id/tvName"
                     style="@style/field_header_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,12 +61,21 @@
 
 
                     <TextView
-                        android:id="@+id/tvName"
+                        android:id="@+id/tvLabelPrefer"
+                        style="@style/field_header_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prefer"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tvLanguage"
                         style="@style/field_header_txt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_5sdp"
-                        android:text="Fire Isurance"
+                        android:text="English"
                         android:textStyle="bold" />
 
 
@@ -79,6 +88,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ic_gps" />
+
+                    <TextView
+                        android:id="@+id/tvPostCode"
+                        style="@style/field_header_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:text="324454" />
 
                     <TextView
                         android:id="@+id/tvCountry"
@@ -86,7 +107,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_4sdp"
-                        android:text="AIA"
+                        android:text="Perak"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -105,15 +126,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:gravity="center_vertical"
+            android:gravity="right|center_vertical"
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <com.iarcuschin.simpleratingbar.SimpleRatingBar
                     android:layout_width="wrap_content"
@@ -140,7 +163,7 @@
                 android:id="@+id/layoutAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:gravity="right|center_vertical"
                 android:orientation="horizontal"
                 android:visibility="visible">
 

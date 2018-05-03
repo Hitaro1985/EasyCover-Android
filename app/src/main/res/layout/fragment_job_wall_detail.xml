@@ -52,7 +52,7 @@
                         android:paddingLeft="@dimen/_2sdp">
 
                         <TextView
-                            android:id="@+id/tvInsuranceName"
+                            android:id="@+id/tvName"
                             style="@style/field_header_txt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -79,11 +79,24 @@
                             <TextView
                                 android:id="@+id/tvLanguage"
                                 style="@style/field_header_txt"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/_5sdp"
                                 android:text="English"
                                 android:textStyle="bold" />
+
+                            <naveed.khakhrani.miscellaneous.util.AppButton
+                                android:id="@+id/btnCall"
+                                style="@style/app_btn"
+                                android:layout_marginTop="0dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="@string/call"
+                                android:visibility="gone"
+
+                                app:btn_color="?attr/colorPrimary" />
 
 
                         </LinearLayout>
@@ -145,18 +158,35 @@
                 android:paddingRight="@dimen/_30sdp">
 
                 <TextView
-                    android:id="@+id/tvName"
+                    android:id="@+id/tvNameDetail"
                     style="@style/field_header_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tan Ah Kaw" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvlabelNRIC"
+                    style="@style/field_header_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/LabelNRIC"
+
+                    />
 
                 <TextView
                     android:id="@+id/tvNRIC"
                     style="@style/field_header_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="21323-12-2312" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -164,11 +194,22 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tvlabelPhoneNo"
+                        style="@style/field_header_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/LabelPhoneNo"
+
+                        />
+
+                    <TextView
                         android:id="@+id/tvMobile"
                         style="@style/field_header_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginLeft="5dp"
                         android:text="+6021323434" />
 
                     <View
@@ -176,17 +217,6 @@
                         android:layout_height="10dp"
                         android:layout_weight="0.2" />
 
-                    <naveed.khakhrani.miscellaneous.util.AppButton
-                        android:id="@+id/btnCall"
-                        style="@style/app_btn"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/call"
-                        android:visibility="gone"
-                        app:btn_color="?attr/colorPrimary"
-
-                        />
                 </LinearLayout>
 
 
@@ -449,7 +479,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="left|top"
-                            android:hint="@string/quotation_total_sum" />
+                            android:hint="@string/quotation_total_sum"
+                            android:inputType="number" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

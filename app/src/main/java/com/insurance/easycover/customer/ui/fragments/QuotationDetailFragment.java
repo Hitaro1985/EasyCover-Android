@@ -99,8 +99,8 @@ public class QuotationDetailFragment extends BaseFragment {
     @BindView(R.id.layoutSend)
     protected LinearLayout layoutSend;
 
-    @BindView(R.id.tvInsuranceName)
-    protected TextView tvInsuranceName;
+//    @BindView(R.id.tvInsuranceName)
+//    protected TextView tvInsuranceName;
 
     @BindView(R.id.tvLanguage)
     protected TextView tvLanguage;
@@ -266,14 +266,19 @@ public class QuotationDetailFragment extends BaseFragment {
 //            btnQuotAccept.setText(R.string.accept_done);
 //            btnQuotAccept.setEnabled(false);
 //        }
-        tvInsuranceName.setText(((ResponseGetQuotation) job).getInsuranceType());
-        tvLanguage.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
+        //tvInsuranceName.setText(((ResponseGetQuotation) job).getInsuranceType());
+        tvLanguage.setText(((ResponseGetQuotation) job).getLanguage());
         tvPostCode.setText(((ResponseGetQuotation) job).getPostcode());
         tvCountry.setText(((ResponseGetQuotation) job).getCountry());
         tvName.setText(((ResponseGetQuotation) job).getName());
         tvNRIC.setText(String.valueOf(((ResponseGetQuotation) job).getNric()));
+        if (((ResponseGetQuotation) job).getImage() != null) {
+            if (!((ResponseGetQuotation) job).getImage().equals("null")) {
+                new DownLoadImageTask(imvUser).execute(((ResponseGetQuotation) job).getImage());
+            }
+        }
         tvMobile.setText(((ResponseGetQuotation) job).getPhoneno());
-        tvLanguageDetail.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
+        tvLanguageDetail.setText(((ResponseGetQuotation) job).getLanguage());
         tvInterestedInsurance.setText(((ResponseGetQuotation) job).getInsuranceType());
         tvIndicativeSum.setText(String.valueOf(((ResponseGetQuotation) job).getIndicativeSum()));
         layoutAccept.setVisibility(View.GONE);

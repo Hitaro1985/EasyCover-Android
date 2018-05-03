@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.models.response.ResponseAcceptedJobs;
 import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
+import com.insurance.easycover.shared.Utils.DownLoadImageTask;
 
 import java.util.List;
 
@@ -69,9 +71,14 @@ public class HistoryCompletedAdapter extends RecyclerView.Adapter<HistoryComplet
         });
         ResponseCompletedJobs job;
         job = jobList.get(position);
-        holder.edtusername.setText(job.getName());
-        holder.tvName.setText(job.getInsuranceType());
-        //holder.tvLanguage.setText(AppSharedPreferences.getInstance(mCtx).getCurrentLanguage());
+        holder.edtusername.setText(job.getUsername());
+        holder.tvName.setText(job.getUsername());
+        holder.tvLanguage.setText(job.getLanguage());
+        if (job.getImage() != null) {
+            if (!job.getImage().equals("null")) {
+                new DownLoadImageTask(holder.imvUser).execute(job.getImage());
+            }
+        }
         holder.tvPostCode.setText(job.getPostcode());
         holder.tvCountry.setText(job.getCountry());
     }
@@ -89,6 +96,7 @@ public class HistoryCompletedAdapter extends RecyclerView.Adapter<HistoryComplet
         TextView tvPostCode;
         TextView tvCountry;
         TextView edtusername;
+        ImageView imvUser;
 
         @BindView(R.id.layoutRoot)
         public RelativeLayout layoutRoot;
@@ -101,6 +109,7 @@ public class HistoryCompletedAdapter extends RecyclerView.Adapter<HistoryComplet
             tvPostCode = itemView.findViewById(R.id.tvPostCode);
             tvCountry = itemView.findViewById(R.id.tvCountry);
             edtusername = itemView.findViewById(R.id.edtusername);
+            imvUser = itemView.findViewById(R.id.imvUser);
         }
     }
 }

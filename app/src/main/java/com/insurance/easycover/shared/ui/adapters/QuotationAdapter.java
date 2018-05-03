@@ -5,12 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.models.response.ResponseGetQuotation;
+import com.insurance.easycover.shared.Utils.DownLoadImageTask;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -70,11 +73,17 @@ public class QuotationAdapter extends RecyclerView.Adapter<QuotationAdapter.View
                     Toast.makeText(mCtx, "Work In progress", Toast.LENGTH_SHORT).show();
             }
         });
-        holder.tvInsurance.setText(quot.getInsuranceType());
-        holder.tvName.setText(quot.getName());
-        //holder.tvLanguage.setText(AppSharedPreferences.getInstance(mCtx).getCurrentLanguage());
+        //holder.tvInsurance.setText(quot.getInsuranceType());
+        holder.tvName.setText(quot.getUsername());
+        holder.rating.setVisibility(View.GONE);
+        holder.tvLanguage.setText(quot.getLanguage());
         holder.tvQuotPrice.setText(quot.getQuotationPrice());
         holder.tvCountry.setText(quot.getCountry());
+        if (quot.getImage() != null) {
+            if (!quot.getImage().equals("null")) {
+                new DownLoadImageTask(holder.imvUser).execute(quot.getImage());
+            }
+        }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dtStart = quot.getUpdatedAt();
         try {
@@ -104,11 +113,14 @@ public class QuotationAdapter extends RecyclerView.Adapter<QuotationAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvInsurance;
+        //TextView tvInsurance;
         TextView tvName;
         TextView tvQuotPrice;
         TextView tvCountry;
         TextView tvDate;
+        TextView tvLanguage;
+        ImageView imvUser;
+        LinearLayout rating;
 
         @BindView(R.id.layoutRoot)
         public RelativeLayout layoutRoot;
@@ -116,11 +128,14 @@ public class QuotationAdapter extends RecyclerView.Adapter<QuotationAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            tvInsurance = itemView.findViewById(R.id.tvInsurance);
+            //tvInsurance = itemView.findViewById(R.id.tvInsurance);
             tvName = itemView.findViewById(R.id.tvName);
             tvQuotPrice = itemView.findViewById(R.id.tvQuotPrice);
             tvCountry = itemView.findViewById(R.id.tvCountry);
             tvDate = itemView.findViewById(R.id.tvDate);
+            imvUser = itemView.findViewById(R.id.imvUser);
+            rating = itemView.findViewById(R.id.rating);
+            tvLanguage = itemView.findViewById(R.id.tvLanguage);
         }
     }
 }

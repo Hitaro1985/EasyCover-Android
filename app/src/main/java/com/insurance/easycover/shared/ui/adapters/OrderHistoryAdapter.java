@@ -101,7 +101,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             }
         });
 
-        holder.tvInsurance.setText(quot.getInsuranceType());
+        //holder.tvInsurance.setText(quot.getInsuranceType());
         holder.tvName.setText(quot.getName());
         //holder.tvLanguage.setText(AppSharedPreferences.getInstance(mCtx).getCurrentLanguage());
         holder.tvQuotPrice.setText(quot.getQuotationPrice());
@@ -151,7 +151,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvInsurance;
+        //TextView tvInsurance;
         TextView tvName;
         TextView tvQuotPrice;
         TextView tvCountry;
@@ -164,7 +164,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            tvInsurance = itemView.findViewById(R.id.tvInsurance);
+            //tvInsurance = itemView.findViewById(R.id.tvInsurance);
             tvName = itemView.findViewById(R.id.tvName);
             tvQuotPrice = itemView.findViewById(R.id.tvQuotPrice);
             tvCountry = itemView.findViewById(R.id.tvCountry);

@@ -30,6 +30,7 @@ import com.insurance.easycover.data.models.response.ResponseCompletedJobs;
 import com.insurance.easycover.data.models.response.ResponseGetQuotation;
 import com.insurance.easycover.data.models.response.ShowJob;
 import com.insurance.easycover.data.network.NetworkController;
+import com.insurance.easycover.shared.Utils.DownLoadImageTask;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -80,8 +81,8 @@ public class CompleteDetailFragment extends BaseFragment {
     @BindView(R.id.layoutSend)
     protected LinearLayout layoutSend;
 
-    @BindView(R.id.tvInsuranceName)
-    protected TextView tvInsuranceName;
+//    @BindView(R.id.tvInsuranceName)
+//    protected TextView tvInsuranceName;
 
     @BindView(R.id.tvLanguage)
     protected TextView tvLanguage;
@@ -140,6 +141,9 @@ public class CompleteDetailFragment extends BaseFragment {
 
     @BindView(R.id.layoutQuotationButtons)
     protected LinearLayout layoutQuotationButtons;
+
+    @BindView(R.id.tvNameDetail)
+    protected TextView tvNameDetail;
 
     public ArrayList<String> fileNameList;
     public static Object job;
@@ -243,14 +247,15 @@ public class CompleteDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        tvInsuranceName.setText(((ResponseCompletedJobs) job).getInsuranceType());
-        tvLanguage.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
+        //tvInsuranceName.setText(((ResponseCompletedJobs) job).getInsuranceType());
+        tvLanguage.setText(((ResponseCompletedJobs) job).getLanguage());
         tvPostCode.setText(((ResponseCompletedJobs) job).getPostcode());
         tvCountry.setText(((ResponseCompletedJobs) job).getCountry());
-        tvName.setText(((ResponseCompletedJobs) job).getName());
+        tvName.setText(((ResponseCompletedJobs) job).getUsername());
+        tvNameDetail.setText(((ResponseCompletedJobs) job).getUsername());
         tvNRIC.setText(String.valueOf(((ResponseCompletedJobs) job).getNric()));
         tvMobile.setText(((ResponseCompletedJobs) job).getPhoneno());
-        tvLanguageDetail.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
+        tvLanguageDetail.setText(((ResponseCompletedJobs) job).getLanguage());
         tvInterestedInsurance.setText(((ResponseCompletedJobs) job).getInsuranceType());
         tvIndicativeSum.setText(String.valueOf(((ResponseCompletedJobs) job).getIndicativeSum()));
         layoutAccept.setVisibility(View.GONE);
@@ -265,11 +270,11 @@ public class CompleteDetailFragment extends BaseFragment {
 //        edtQuotationTotalSum.setText(((ResponseCompletedJobs) job).getQuotationPrice());
         edtRemarksQuotation.setEnabled(false);
         edtQuotationTotalSum.setEnabled(false);
-        /*if (jobDetail..getImage() != null) {
-            if (!((ResponseGetQuotation) job).getImage().equals("null")) {
-                new DownLoadImageTask(imvUser).execute(((ResponseGetQuotation) job).getImage());
+        if (((ResponseCompletedJobs) job).getImage() != null) {
+            if (!((ResponseCompletedJobs) job).getImage().equals("null")) {
+                new DownLoadImageTask(imvUser).execute(((ResponseCompletedJobs) job).getImage());
             }
-        }*/
+        }
         String dtStart = ((ResponseCompletedJobs) job).getUpdatedAt();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {

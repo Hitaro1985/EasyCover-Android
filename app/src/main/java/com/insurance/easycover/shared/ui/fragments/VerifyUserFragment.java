@@ -1,6 +1,7 @@
 package com.insurance.easycover.shared.ui.fragments;
 
 
+import android.media.Image;
 import android.net.Network;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 
 import com.google.gson.Gson;
@@ -50,6 +52,8 @@ public class VerifyUserFragment extends BaseFragment {
     @BindView(R.id.btnVerify)
     protected Button btnVerify;
 
+    protected ImageView LeftIv;
+
     public static Register register;
 
     public VerifyUserFragment() {
@@ -78,6 +82,7 @@ public class VerifyUserFragment extends BaseFragment {
         mUnbinder = ButterKnife.bind(this, view);
         edtVerifyCode.setEnabled(false);
         btnVerify.setEnabled(false);
+        //LeftIv = (ImageView) view.findViewById(R.id.leftIv);
     }
 
     @OnClick(R.id.btnResendCode)
@@ -87,6 +92,7 @@ public class VerifyUserFragment extends BaseFragment {
         rsms.email = register.email;
         showProgressDialog(R.string.please_wait);
         NetworkController.getInstance().sendSMS(rsms);
+        //LeftIv.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.btnVerify)
@@ -149,6 +155,7 @@ public class VerifyUserFragment extends BaseFragment {
                 //AppSharedPreferences.getInstance(getContext()).saveUser(edtUserName.getText().toString());
                 //AppSession.getInstance().setSurName(edtUserSurName.getText().toString());
                 //changeFragment(new VerifyUserFragment(), R.id.fragmentContainer);
+                showToast(R.string.welcome);
                 launchActivity(AppSession.getInstance().isAgent() ? AgentHomeActivity.class : CustomerHomeActivity.class);
                 getActivity().finish();
             } else showToast(event.getMessage());

@@ -51,15 +51,18 @@ public class ForgotPasswordFragment extends BaseFragment {
 
     private ValidationHelper mValidationHelper;
 
+    static String Email;
+
     public ForgotPasswordFragment() {
         // Required empty public constructor
     }
 
 
-    public static ForgotPasswordFragment newInstance() {
+    public static ForgotPasswordFragment newInstance(String email) {
 
         //Bundle args = new Bundle();
         ForgotPasswordFragment fragment = new ForgotPasswordFragment();
+        Email = email;
         //fragment.setArguments(args);
         return fragment;
     }
@@ -76,6 +79,7 @@ public class ForgotPasswordFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         mUnBinder = ButterKnife.bind(this, view);
         mValidationHelper = new ValidationHelper(getContext());
+        edtEmailAddress.setText(Email);
     }
 
 
@@ -108,7 +112,7 @@ public class ForgotPasswordFragment extends BaseFragment {
         if (simpleEvent.status) {
             //SingleButtonAlert.newInstance(getString(R.string.reset_password_message)).show(getFragmentManager(), null);
             dismissProgress();
-            showToast(getString(R.string.reset_password_message));
+            showToast(getString(R.string.send_email_success));
             super.onBackPressed();
         } else showToast(simpleEvent.message);
         dismissProgress();

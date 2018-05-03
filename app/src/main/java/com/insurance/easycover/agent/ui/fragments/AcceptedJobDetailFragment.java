@@ -97,8 +97,8 @@ public class AcceptedJobDetailFragment extends BaseFragment {
     @BindView(R.id.layoutSend)
     protected LinearLayout layoutSend;
 
-    @BindView(R.id.tvInsuranceName)
-    protected TextView tvInsuranceName;
+//    @BindView(R.id.tvInsuranceName)
+//    protected TextView tvInsuranceName;
 
     @BindView(R.id.tvLanguage)
     protected TextView tvLanguage;
@@ -160,6 +160,9 @@ public class AcceptedJobDetailFragment extends BaseFragment {
 
     @BindView(R.id.layoutQuotationButtons)
     protected LinearLayout layoutQuotationButtons;
+
+    @BindView(R.id.tvNameDetail)
+    protected TextView tvNameDetail;
 
     public ArrayList<String> fileNameList;
     public static Object job;
@@ -282,11 +285,12 @@ public class AcceptedJobDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        tvInsuranceName.setText(((ResponseAcceptedJobs) job).getInsuranceType());
-        tvLanguage.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
+        //tvInsuranceName.setText(((ResponseAcceptedJobs) job).getInsuranceType());
+        tvLanguage.setText(((ResponseAcceptedJobs) job).getLanguage());
         tvPostCode.setText(((ResponseAcceptedJobs) job).getPostcode());
         tvCountry.setText(((ResponseAcceptedJobs) job).getCountry());
-        tvName.setText(((ResponseAcceptedJobs) job).getName());
+        tvName.setText(((ResponseAcceptedJobs) job).getUsername());
+        tvNameDetail.setText(((ResponseAcceptedJobs) job).getUsername());
         tvNRIC.setText(String.valueOf(((ResponseAcceptedJobs) job).getNric()));
         tvMobile.setText(((ResponseAcceptedJobs) job).getPhoneno());
         tvLanguageDetail.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
@@ -298,6 +302,7 @@ public class AcceptedJobDetailFragment extends BaseFragment {
         btnSend.setVisibility(View.GONE);
         btnClear.setVisibility(View.GONE);
         layoutCompleteButtons.setVisibility(View.VISIBLE);
+        tvLanguageDetail.setText(((ResponseAcceptedJobs) job).getLanguage());
         RequestGetQuotationById rQuotId = new RequestGetQuotationById();
         rQuotId.quotationId = ((ResponseAcceptedJobs) job).getQuotationId();
         NetworkController.getInstance().getQuotationById(rQuotId);
@@ -305,11 +310,11 @@ public class AcceptedJobDetailFragment extends BaseFragment {
 //        edtQuotationTotalSum.setText(((ResponseGetQuotation) job).getQuotationPrice());
         edtRemarksQuotation.setEnabled(false);
         edtQuotationTotalSum.setEnabled(false);
-        /*if (jobDetail..getImage() != null) {
-            if (!((ResponseGetQuotation) job).getImage().equals("null")) {
-                new DownLoadImageTask(imvUser).execute(((ResponseGetQuotation) job).getImage());
+        if (((ResponseAcceptedJobs) job).getImage() != null) {
+            if (!((ResponseAcceptedJobs) job).getImage().equals("null")) {
+                new DownLoadImageTask(imvUser).execute(((ResponseAcceptedJobs) job).getImage());
             }
-        }*/
+        }
         String dtStart = ((ResponseAcceptedJobs) job).getUpdatedAt();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {

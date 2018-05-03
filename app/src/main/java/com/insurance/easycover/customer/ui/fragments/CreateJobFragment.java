@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -57,6 +58,7 @@ import naveed.khakhrani.miscellaneous.base.BaseFragment;
 import naveed.khakhrani.miscellaneous.base.RecyclerBaseAdapter;
 import naveed.khakhrani.miscellaneous.dialogs.DialogFilePickerFragment;
 import naveed.khakhrani.miscellaneous.dialogs.JobDatePickerDialogFragment;
+import naveed.khakhrani.miscellaneous.listeners.RecyclerViewItemSelectedListener;
 import naveed.khakhrani.miscellaneous.util.AppButton;
 import naveed.khakhrani.miscellaneous.util.FileDownloaderFromFileDescriptorAsync;
 import naveed.khakhrani.miscellaneous.util.ImageFilePath;
@@ -67,7 +69,7 @@ import naveed.khakhrani.miscellaneous.util.ValidationHelper;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateJobFragment extends BaseFragment {
+public class CreateJobFragment extends BaseFragment implements RecyclerViewItemSelectedListener {
 
 
     protected Unbinder mUnbinder;
@@ -108,7 +110,7 @@ public class CreateJobFragment extends BaseFragment {
     private List<CompanyType> companyTypes;
     private int insuranceTypePosition = -1;
     private List<UploadedDoc> uploadedDocs = new ArrayList<>();
-    private RecyclerBaseAdapter filesAdapter;
+    private UploadFileAdapter filesAdapter;
 
     private Boolean upload_file = false;
 
@@ -236,6 +238,7 @@ public class CreateJobFragment extends BaseFragment {
         filesAdapter = new UploadFileAdapter(getContext(), uploadedDocs);
         rViewUploadedFiles.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         rViewUploadedFiles.setAdapter(filesAdapter);
+        filesAdapter.setRecyclerViewItemSelectedListener(this);
     }
 
 
@@ -293,7 +296,11 @@ public class CreateJobFragment extends BaseFragment {
             if (!(resultCode != getActivity().RESULT_OK)) {
                 try {
                     Uri selectedImageUri = ImageUtility.getFileUri(getContext(), data);
-                    uploadFileProcess(selectedImageUri, requestCode);
+                    String ext =  selectedImageUri.toString().substring(selectedImageUri.toString().lastIndexOf(".") + 1);
+                    if (ext.equals("doc") || ext.equals("pdf") || ext.equals("png") || ext.equals("jpg"))
+                        uploadFileProcess(selectedImageUri, requestCode);
+                    else
+                        showToast("Only attach .doc .pdf .png .jpg");
                 } catch (Exception ex) {
                     //ValidUtils.showToast(getLocalContext(), getLocalContext().getString(R.string.try_again_str));
                 }
@@ -404,8 +411,12 @@ public class CreateJobFragment extends BaseFragment {
         }
 
         if (nricNumbere.isEmpty()) {
+            edtNricNumber.setError("Input NRIC.");
+        }
+
+        if (nricNumbere.length() > 12) {
             isValidate = false;
-            edtNricNumber.setError("Invalid NRIC");
+            edtNricNumber.setError("Invalid NRIC. less than 12 digits.");
         }
         if (spinnerInsuranceType.getSelectedItemPosition() == spinnerInsuranceType.getAdapter().getCount()) {
             isValidate = false;
@@ -419,7 +430,7 @@ public class CreateJobFragment extends BaseFragment {
             isValidate = false;
             edtIndicativeSum.setError("Please Input IndicativeSum");
         }
-        if (upload_file == false) {
+        if (uploadedDocs.size() == 0) {
             isValidate = false;
             btnChooseFile.setError("Please upload document");
         }
@@ -440,7 +451,7 @@ public class CreateJobFragment extends BaseFragment {
                 createJob.postcode = edtPostCode.getText().toString();
                 List<String> uploadedDocsIds = new ArrayList<>();
                 for (int i = 0; i < uploadedDocs.size(); i ++ ) {
-                    uploadedDocsIds.add(uploadedDocs.get(0).id);
+                    uploadedDocsIds.add(uploadedDocs.get(i).id);
                 }
                 createJob.documents = uploadedDocsIds;
                 createJob.name = edtFullName.getText().toString();
@@ -509,6 +520,11 @@ public class CreateJobFragment extends BaseFragment {
         super.onDestroyView();
     }
 
+//    @Override
+//    public void onItemSelected(Object item, int position) {
+//        showToast("Here");
+//    }
+
     @OnClick(R.id.expired_date)
     public void onClickEpDate(){
 
@@ -536,5 +552,12 @@ public class CreateJobFragment extends BaseFragment {
         });
         datePickerDialogFragment.show(getActivity().getSupportFragmentManager(), JobDatePickerDialogFragment.TAG);
 
+    }
+
+    @Override
+    public void onItemSelected(Object item, int position) {
+        uploadedDocs.remove(position);
+        filesAdapter.notifyDataSetChanged();
+        showToast("Removed" + Integer.toString(position + 1));
     }
 }

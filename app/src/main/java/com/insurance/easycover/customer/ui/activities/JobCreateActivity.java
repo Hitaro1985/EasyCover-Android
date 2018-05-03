@@ -46,8 +46,8 @@ public class JobCreateActivity extends BaseActivity {
         changeFragment(CreateJobFragment.newInstance(), R.id.fragmentContainer);
 
         if (AppSession.getInstance().getUserRole() == AppSession.ROLE_AGENT) {
-            tvSubTitle.setText("CPAJ003242");
-            tvTitle.setText("" + AppSession.getInstance().getUserData().getUsername());
+            tvSubTitle.setText("" + AppSession.getInstance().getUserData().getUsername());
+            tvTitle.setText("Dashboard");
         } else {
             tvSubTitle.setText(AppSession.getInstance().getUserData().getUsername());
         }

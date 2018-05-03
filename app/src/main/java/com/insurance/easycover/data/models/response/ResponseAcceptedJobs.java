@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class ResponseAcceptedJobs {
-
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -23,7 +22,7 @@ public class ResponseAcceptedJobs {
     private Integer jobId;
     @SerializedName("jobstatus")
     @Expose
-    private Object jobstatus;
+    private String jobstatus;
     @SerializedName("quotation_id")
     @Expose
     private Integer quotationId;
@@ -63,15 +62,63 @@ public class ResponseAcceptedJobs {
     @SerializedName("state")
     @Expose
     private String state;
-    @SerializedName("quotation_price")
-    @Expose
-    private String quotationPrice;
     @SerializedName("expired_date")
     @Expose
     private String expiredDate;
     @SerializedName("country")
     @Expose
     private String country;
+    @SerializedName("company_id")
+    @Expose
+    private String companyId;
+    @SerializedName("username")
+    @Expose
+    private String username;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("nrc")
+    @Expose
+    private String nrc;
+    @SerializedName("dob")
+    @Expose
+    private String dob;
+    @SerializedName("image")
+    @Expose
+    private String image;
+    @SerializedName("password")
+    @Expose
+    private String password;
+    @SerializedName("verifyToken")
+    @Expose
+    private String verifyToken;
+    @SerializedName("status")
+    @Expose
+    private Integer status;
+    @SerializedName("devicename")
+    @Expose
+    private String devicename;
+    @SerializedName("devicetoken")
+    @Expose
+    private String devicetoken;
+    @SerializedName("usertype")
+    @Expose
+    private String usertype;
+    @SerializedName("refferalcode")
+    @Expose
+    private Object refferalcode;
+    @SerializedName("longitude")
+    @Expose
+    private Integer longitude;
+    @SerializedName("latitude")
+    @Expose
+    private Integer latitude;
+    @SerializedName("isAvailable")
+    @Expose
+    private Integer isAvailable;
+    @SerializedName("language")
+    @Expose
+    private String language;
 
     public Integer getId() {
         return id;
@@ -105,11 +152,11 @@ public class ResponseAcceptedJobs {
         this.jobId = jobId;
     }
 
-    public Object getJobstatus() {
+    public String getJobstatus() {
         return jobstatus;
     }
 
-    public void setJobstatus(Object jobstatus) {
+    public void setJobstatus(String jobstatus) {
         this.jobstatus = jobstatus;
     }
 
@@ -217,14 +264,6 @@ public class ResponseAcceptedJobs {
         this.state = state;
     }
 
-    public String getQuotationPrice() {
-        return quotationPrice;
-    }
-
-    public void setQuotationPrice(String quotationPrice) {
-        this.quotationPrice = quotationPrice;
-    }
-
     public String getExpiredDate() {
         return expiredDate;
     }
@@ -239,5 +278,141 @@ public class ResponseAcceptedJobs {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNrc() {
+        return nrc;
+    }
+
+    public void setNrc(String nrc) {
+        this.nrc = nrc;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getVerifyToken() {
+        return verifyToken;
+    }
+
+    public void setVerifyToken(String verifyToken) {
+        this.verifyToken = verifyToken;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getDevicename() {
+        return devicename;
+    }
+
+    public void setDevicename(String devicename) {
+        this.devicename = devicename;
+    }
+
+    public String getDevicetoken() {
+        return devicetoken;
+    }
+
+    public void setDevicetoken(String devicetoken) {
+        this.devicetoken = devicetoken;
+    }
+
+    public String getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
+    }
+
+    public Object getRefferalcode() {
+        return refferalcode;
+    }
+
+    public void setRefferalcode(Object refferalcode) {
+        this.refferalcode = refferalcode;
+    }
+
+    public Integer getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Integer longitude) {
+        this.longitude = longitude;
+    }
+
+    public Integer getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Integer latitude) {
+        this.latitude = latitude;
+    }
+
+    public Integer getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(Integer isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

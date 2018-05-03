@@ -93,7 +93,7 @@ public class SendEmailFragment extends BaseFragment {
         if (simpleEvent.status) {
             showToast(getString(R.string.reset_password_message));
             dismissProgress();
-            changeFragment(ForgotPasswordFragment.newInstance(),R.id.fragmentContainer);
+            changeFragment(ForgotPasswordFragment.newInstance(edtEmailAddress.getText().toString()),R.id.fragmentContainer);
             //SingleButtonAlert.newInstance(getString(R.string.reset_password_message)).show(getFragmentManager(), null);
         } else showToast(simpleEvent.message);
         dismissProgress();
@@ -102,7 +102,7 @@ public class SendEmailFragment extends BaseFragment {
     @Subscribe
     public void onEvent(AlertEvent event) {
         //getActivity().onBackPressed();
-        changeFragment(ForgotPasswordFragment.newInstance(),R.id.fragmentContainer);
+        changeFragment(ForgotPasswordFragment.newInstance(edtEmailAddress.getText().toString()),R.id.fragmentContainer);
     }
 
     @Override

@@ -86,8 +86,8 @@ public class NotiDetailFragment extends BaseFragment {
     @BindView(R.id.layoutSend)
     protected LinearLayout layoutSend;
 
-    @BindView(R.id.tvInsuranceName)
-    protected TextView tvInsuranceName;
+//    @BindView(R.id.tvInsuranceName)
+//    protected TextView tvInsuranceName;
 
     @BindView(R.id.tvLanguage)
     protected TextView tvLanguage;
@@ -236,7 +236,7 @@ public class NotiDetailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        tvInsuranceName.setText(((ResponseAcceptedJobs) job).getInsuranceType());
+        //tvInsuranceName.setText(((ResponseAcceptedJobs) job).getInsuranceType());
         tvLanguage.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
         tvPostCode.setText(((ResponseAcceptedJobs) job).getPostcode());
         tvCountry.setText(((ResponseAcceptedJobs) job).getCountry());

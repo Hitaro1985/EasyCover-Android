@@ -92,10 +92,9 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.leftIv)
     protected void onClickLeftMenuBtn() {
         if (mCurrentFragment instanceof VerifyUserFragment) {
-            finish();
+            changeFragment(SignUpFragment.newInstance(), R.id.fragmentContainer);
         } else if (mCurrentFragment instanceof LoginFragment) {
             onBackPressed();
-
         } else if (mCurrentFragment instanceof SignUpFragment) {
             changeFragment(LoginFragment.newInstance(), R.id.fragmentContainer);
 

@@ -41,7 +41,7 @@ public class AgentHomeActivity extends HomeActivity {
             mTabLayout.addTab(tab);
         }
         mTabLayout.addOnTabSelectedListener(this);
-        changeFragment(RefferalFragment.newInstance(), R.id.fragmentContainer);
+        changeFragment(RefferalFragment.newInstance(this), R.id.fragmentContainer);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class AgentHomeActivity extends HomeActivity {
     protected void switchFragment(int position) {
         switch (position) {
             case 0:
-                changeFragment(RefferalFragment.newInstance(), R.id.fragmentContainer);
+                changeFragment(RefferalFragment.newInstance(this), R.id.fragmentContainer);
                 break;
             case 1:
                 changeFragment(NotificationsFragment.newInstance(), R.id.fragmentContainer);

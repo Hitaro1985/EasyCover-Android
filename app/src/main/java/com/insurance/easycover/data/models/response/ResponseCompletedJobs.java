@@ -3,6 +3,8 @@ package com.insurance.easycover.data.models.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.math.BigInteger;
+
 /**
  * Created by PDC100 on 3/15/2018.
  */
@@ -100,7 +102,7 @@ public class ResponseCompletedJobs {
     private String name;
     @SerializedName("nric")
     @Expose
-    private Integer nric;
+    private BigInteger nric;
     @SerializedName("insurance_type")
     @Expose
     private String insuranceType;
@@ -116,6 +118,9 @@ public class ResponseCompletedJobs {
     @SerializedName("expired_date")
     @Expose
     private String expiredDate;
+    @SerializedName("language")
+    @Expose
+    private String language;
 
     public Integer getAssignJobsId() {
         return assignJobsId;
@@ -357,11 +362,11 @@ public class ResponseCompletedJobs {
         this.name = name;
     }
 
-    public Integer getNric() {
+    public BigInteger getNric() {
         return nric;
     }
 
-    public void setNric(Integer nric) {
+    public void setNric(BigInteger nric) {
         this.nric = nric;
     }
 
@@ -403,5 +408,13 @@ public class ResponseCompletedJobs {
 
     public void setExpiredDate(String expiredDate) {
         this.expiredDate = expiredDate;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

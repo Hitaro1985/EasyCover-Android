@@ -1,6 +1,9 @@
 package com.insurance.easycover.agent.ui.fragments;
 
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import naveed.khakhrani.miscellaneous.base.BaseFragment;
 
@@ -37,13 +41,16 @@ public class RefferalFragment extends BaseFragment {
     @BindView(R.id.tvReferralCode)
     protected TextView tvReferralCode;
 
+    static Context mContext;
+
     public RefferalFragment() {
         // Required empty public constructor
     }
 
-    public static RefferalFragment newInstance() {
+    public static RefferalFragment newInstance(Context mcontext) {
 
         Bundle args = new Bundle();
+        mContext = mcontext;
 
         RefferalFragment fragment = new RefferalFragment();
         fragment.setArguments(args);
@@ -88,5 +95,13 @@ public class RefferalFragment extends BaseFragment {
         if (mUnbinder != null)
             mUnbinder.unbind();
         super.onDestroy();
+    }
+
+    @OnClick(R.id.shareCode)
+    public void onClickDone() {
+        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", tvReferralCode.getText());
+        clipboard.setPrimaryClip(clip);
+        showToast("Referral code copied");
     }
 }

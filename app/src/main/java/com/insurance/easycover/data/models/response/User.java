@@ -70,6 +70,9 @@ public class User {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+    @SerializedName("language")
+    @Expose
+    private String language;
 
     public Integer getId() {
         return id;
@@ -246,4 +249,8 @@ public class User {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public String getLanguage() { return language; }
+
+    public void setLanguage(String language) { this.language = language; }
 }
