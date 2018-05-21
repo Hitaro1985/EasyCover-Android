@@ -69,6 +69,9 @@ public interface IEasyCoverEndPointApi {
     @POST("customer/create")
     Call<ResponseSignUp> register(@Body Register signUp);
 
+    @POST("user/emailExist")
+    Call<TopResponse> emailExist(@Body Register user);
+
     @POST("user/login")
     Call<ResponseLogin> login(@Body Login login);
 

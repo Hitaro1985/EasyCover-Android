@@ -3,6 +3,8 @@ package com.insurance.easycover.data.models.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.math.BigInteger;
+
 /**
  * Created by PDC100 on 3/15/2018.
  */
@@ -40,7 +42,7 @@ public class ResponseAcceptedJobs {
     private String name;
     @SerializedName("nric")
     @Expose
-    private Integer nric;
+    private BigInteger nric;
     @SerializedName("phoneno")
     @Expose
     private String phoneno;
@@ -200,11 +202,11 @@ public class ResponseAcceptedJobs {
         this.name = name;
     }
 
-    public Integer getNric() {
+    public BigInteger getNric() {
         return nric;
     }
 
-    public void setNric(Integer nric) {
+    public void setNric(BigInteger nric) {
         this.nric = nric;
     }
 

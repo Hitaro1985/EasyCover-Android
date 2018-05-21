@@ -270,7 +270,7 @@
                         android:layout_marginTop="@dimen/_5sdp"
 
                         android:hint="@string/hint_nrice_number"
-                        android:inputType="textEmailAddress"
+                        android:inputType="number"
                         android:paddingLeft="@dimen/_5sdp"
                         android:paddingRight="@dimen/_5sdp" />
 
@@ -299,7 +299,7 @@
                         android:visibility="gone" />
 
                     <EditText
-                        android:id="@+id/edtContact"
+                        android:id="@+id/edtConfirmPass"
                         style="@style/edit_txt_single_line"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

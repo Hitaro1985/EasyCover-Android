@@ -152,6 +152,7 @@ public class VerifyUserFragment extends BaseFragment {
             if (event.listData != null && !event.listData.isEmpty()) {
                 AppSharedPreferences.getInstance(getContext()).saveUserData(new Gson().toJson(event.listData.get(0)));
                 AppSession.getInstance().setUserData(event.listData.get(0));
+                AppSession.getInstance().setRegisterTemp(null);
                 //AppSharedPreferences.getInstance(getContext()).saveUser(edtUserName.getText().toString());
                 //AppSession.getInstance().setSurName(edtUserSurName.getText().toString());
                 //changeFragment(new VerifyUserFragment(), R.id.fragmentContainer);

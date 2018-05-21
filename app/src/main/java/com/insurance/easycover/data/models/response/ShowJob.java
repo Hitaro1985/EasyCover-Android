@@ -1,5 +1,6 @@
 package com.insurance.easycover.data.models.response;
 
+import java.math.BigInteger;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -21,7 +22,7 @@ public class ShowJob {
     private String name;
     @SerializedName("nric")
     @Expose
-    private Integer nric;
+    private BigInteger nric;
     @SerializedName("phoneno")
     @Expose
     private String phoneno;
@@ -139,11 +140,11 @@ public class ShowJob {
         this.name = name;
     }
 
-    public Integer getNric() {
+    public BigInteger getNric() {
         return nric;
     }
 
-    public void setNric(Integer nric) {
+    public void setNric(BigInteger nric) {
         this.nric = nric;
     }
 

@@ -648,11 +648,26 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
             if (!(resultCode != getActivity().RESULT_OK)) {
                 try {
                     Uri selectedImageUri = ImageUtility.getFileUri(getContext(), data);
+                    String mimeType = getContext().getContentResolver().getType(selectedImageUri);
+                    //Toast.makeText(getContext(),"" + mimeType, Toast.LENGTH_LONG).show();
                     String ext =  selectedImageUri.toString().substring(selectedImageUri.toString().lastIndexOf(".") + 1);
-                    if (ext.equals("doc") || ext.equals("pdf") || ext.equals("png") || ext.equals("jpg"))
+                    if (ext.equals("doc")
+                            || ext.equals("pdf")
+                            || ext.equals("png")
+                            || ext.equals("jpg")
+                            || ext.equals("jpeg")
+                            || ext.equals("docx")
+                            || mimeType.equals("image/jpeg")
+                            || mimeType.equals("application/pdf")
+                            || mimeType.equals("application/msword")
+                            || mimeType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                            || mimeType.equals("application/vnd.ms-excel")
+                            || mimeType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                            || mimeType.equals("application/vnd.ms-powerpoint")
+                            || mimeType.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation"))
                         uploadFileProcess(selectedImageUri, requestCode);
                     else
-                        showToast("Only attach .doc .pdf .png .jpg");
+                        showToast("Only attach .doc .pdf .png .jpg .doc .docx .xls .xlsx .ppt .pptx");
                 } catch (Exception ex) {
                     //ValidUtils.showToast(getLocalContext(), getLocalContext().getString(R.string.try_again_str));
                 }

@@ -3,6 +3,8 @@ package com.insurance.easycover.data.models.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.math.BigInteger;
+
 /**
  * Created by PDC100 on 3/16/2018.
  */
@@ -19,7 +21,7 @@ public class ResponseGetQuotation {
     private String name;
     @SerializedName("nric")
     @Expose
-    private Integer nric;
+    private BigInteger nric;
     @SerializedName("phoneno")
     @Expose
     private String phoneno;
@@ -41,6 +43,9 @@ public class ResponseGetQuotation {
     @SerializedName("state")
     @Expose
     private String state;
+    @SerializedName("quotation_price")
+    @Expose
+    private String quotationPrice;
     @SerializedName("expired_date")
     @Expose
     private String expiredDate;
@@ -62,9 +67,6 @@ public class ResponseGetQuotation {
     @SerializedName("job_id")
     @Expose
     private Integer jobId;
-    @SerializedName("quotation_price")
-    @Expose
-    private String quotationPrice;
     @SerializedName("quotation_description")
     @Expose
     private String quotationDescription;
@@ -113,12 +115,12 @@ public class ResponseGetQuotation {
     @SerializedName("isAvailable")
     @Expose
     private Integer isAvailable;
-    @SerializedName("quotation_id")
-    @Expose
-    private Integer quotationId;
     @SerializedName("language")
     @Expose
     private String language;
+    @SerializedName("quotation_id")
+    @Expose
+    private Integer quotationId;
 
     public Integer getId() {
         return id;
@@ -144,11 +146,11 @@ public class ResponseGetQuotation {
         this.name = name;
     }
 
-    public Integer getNric() {
+    public BigInteger getNric() {
         return nric;
     }
 
-    public void setNric(Integer nric) {
+    public void setNric(BigInteger nric) {
         this.nric = nric;
     }
 
@@ -208,6 +210,14 @@ public class ResponseGetQuotation {
         this.state = state;
     }
 
+    public String getQuotationPrice() {
+        return quotationPrice;
+    }
+
+    public void setQuotationPrice(String quotationPrice) {
+        this.quotationPrice = quotationPrice;
+    }
+
     public String getExpiredDate() {
         return expiredDate;
     }
@@ -262,14 +272,6 @@ public class ResponseGetQuotation {
 
     public void setJobId(Integer jobId) {
         this.jobId = jobId;
-    }
-
-    public String getQuotationPrice() {
-        return quotationPrice;
-    }
-
-    public void setQuotationPrice(String quotationPrice) {
-        this.quotationPrice = quotationPrice;
     }
 
     public String getQuotationDescription() {
@@ -400,19 +402,19 @@ public class ResponseGetQuotation {
         this.isAvailable = isAvailable;
     }
 
-    public Integer getQuotationId() {
-        return quotationId;
-    }
-
-    public void setQuotationId(Integer quotationId) {
-        this.quotationId = quotationId;
-    }
-
     public String getLanguage() {
         return language;
     }
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public Integer getQuotationId() {
+        return quotationId;
+    }
+
+    public void setQuotationId(Integer quotationId) {
+        this.quotationId = quotationId;
     }
 }

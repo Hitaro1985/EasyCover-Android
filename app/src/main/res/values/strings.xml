@@ -55,7 +55,7 @@
     <string name="date_of_birth">Date Of Birth</string>
     <string name="try_now">Try Now</string>
     <string name="refferal">Refferal</string>
-    <string name="refferal_code">Refferal Code</string>
+    <string name="refferal_code">Referral Code</string>
     <string name="share_refferal_code">Share you refferal code</string>
     <string name="text_email_for_reset_password">We just need your registered E-mail to send your password recover instrucions. Input your email and click send button.</string>
     <string name="hint_full_name_as_nric">Full name as per NRIC</string>
@@ -96,8 +96,8 @@
     <string name="invalid_input">Please input correct.</string>
     <string name="logout">Logout</string>
     <string name="skip_verification">Skip Verification</string>
-    <string name="reset_password_message">Password has been rest, please proceed to login.</string>
-    <string name="send_email_success">Send mail success. Check your mailbox.</string>
+    <string name="reset_password_message">Check your mailbox for verification code.</string>
+    <string name="send_email_success">Password has been reset, please proceed to login.</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="permission_header_txt">If you will not accept permission, then this can not be performed</string>

@@ -22,11 +22,11 @@
             style="@style/edit_txt_single_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edtUserName"
             android:layout_marginTop="@dimen/_5sdp"
             android:hint="@string/hint_full_name_as_nric"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp"
+            android:nextFocusDown="@+id/edtNricNumber"
             android:visibility="visible" />
 
         <EditText
@@ -34,11 +34,11 @@
             style="@style/edit_txt_single_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edtFullName"
             android:layout_marginTop="@dimen/_5sdp"
 
             android:hint="@string/hint_nrice_number"
             android:inputType="textEmailAddress"
+            android:nextFocusDown="@+id/edtContact"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp" />
 
@@ -47,9 +47,9 @@
             style="@style/edit_txt_single_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edtNricNumber"
             android:layout_marginTop="@dimen/_5sdp"
             android:hint="@string/contact_num"
+            android:nextFocusDown="@+id/edtIndicativeSum"
             android:inputType="phone"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp"
@@ -80,14 +80,13 @@
             style="@style/edit_txt_single_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edtNricNumber"
             android:layout_marginTop="@dimen/_5sdp"
             android:hint="@string/indicative_sum"
-            android:inputType="phone"
+            android:inputType="number"
+            android:nextFocusDown="@+id/expired_date"
             android:paddingLeft="@dimen/_5sdp"
-            android:paddingRight="@dimen/_5sdp"
 
-            />
+            android:paddingRight="@dimen/_5sdp" />
 
         <EditText
             android:id="@+id/expired_date"
@@ -95,13 +94,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:editable="false"
             android:ems="10"
             android:hint="@string/expired_date"
-            android:inputType="time"
+            android:inputType="date"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
             style="@style/field_header_txt"
@@ -155,7 +153,6 @@
             style="@style/edit_txt_single_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imvLogo"
             android:layout_marginTop="@dimen/_5sdp"
             android:hint="@string/address"
             android:paddingLeft="@dimen/_5sdp"
@@ -167,7 +164,6 @@
             style="@style/edit_txt_single_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imvLogo"
             android:layout_marginTop="@dimen/_5sdp"
             android:hint="@string/post_code"
             android:paddingLeft="@dimen/_5sdp"
@@ -196,7 +192,6 @@
             style="@style/edit_txt_single_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imvLogo"
             android:layout_marginTop="@dimen/_5sdp"
             android:hint="@string/state"
             android:paddingLeft="@dimen/_5sdp"
@@ -208,7 +203,6 @@
             style="@style/edit_txt_single_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imvLogo"
             android:layout_marginTop="@dimen/_5sdp"
             android:hint="@string/country"
             android:paddingLeft="@dimen/_5sdp"

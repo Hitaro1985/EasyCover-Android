@@ -144,6 +144,35 @@ public class NetworkController {
         });
     }
 
+    public void emailExist(Register user) {
+        Call<TopResponse> call = EasyCoverServiceFactory.getInstance().emailExist(user);
+        Log.i("handover", "json = " + new Gson().toJson(user));
+        //Call<TopListDataResponse<User>> call = EasyCoverServiceFactory.getInstance().register(signUp);
+        call.enqueue(new Callback<TopResponse>() {
+            @Override
+            public void onResponse(Call<TopResponse> call, Response<TopResponse> response) {
+                TopResponse resp = response.body();
+                if (resp != null) {
+                    if (resp.responseCode == 1) {
+                        postEventSimpleResponse(true, EventsIds.ID_EMAILEXIST, resp.message);
+                    } else
+                        postEventSimpleResponse(false, EventsIds.ID_EMAILEXIST, resp.message);
+                } else {
+                    try {
+                        postEventSimpleResponse(false, EventsIds.ID_EMAILEXIST, getErrorMessage("" + response.errorBody().string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TopResponse> call, Throwable t) {
+                postEventSimpleResponse(false, EventsIds.ID_EMAILEXIST, "" + t.getMessage());
+            }
+        });
+    }
+
 
     public void login(Login login) {
         Call<ResponseLogin> call = EasyCoverServiceFactory.getInstance().login(login);
@@ -236,11 +265,11 @@ public class NetworkController {
         call.enqueue(new Callback<TopListDataResponse<ResponseAccept>>() {
             @Override
             public void onResponse(Call<TopListDataResponse<ResponseAccept>> call, Response<TopListDataResponse<ResponseAccept>> response) {
-                TopResponse resp = response.body();
+                TopListDataResponse<ResponseAccept> resp = response.body();
                 if (resp != null) {
                     postEventSimpleResponse(resp.responseCode == 1, EventsIds.ID_FORGOT_PASS, "" + resp.message);
                 } else {
-                    postEventSimpleResponse(false, EventsIds.ID_FORGOT_PASS, "Can not send Mail");
+                    postEventSimpleResponse(false, EventsIds.ID_FORGOT_PASS, "Server Error");
                 }
             }
 

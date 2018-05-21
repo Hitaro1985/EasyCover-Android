@@ -3,6 +3,7 @@ package com.insurance.easycover.shared.ui.fragments;
 
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,12 +18,15 @@ import com.insurance.easycover.AppSession;
 import com.insurance.easycover.R;
 import com.insurance.easycover.agent.ui.activities.AgentHomeActivity;
 import com.insurance.easycover.customer.ui.activities.CustomerHomeActivity;
+import com.insurance.easycover.data.events.EventsIds;
 import com.insurance.easycover.data.events.ListDataEvent;
+import com.insurance.easycover.data.events.SimpleEvent;
 import com.insurance.easycover.data.local.AppSharedPreferences;
 import com.insurance.easycover.data.models.Register;
 import com.insurance.easycover.data.models.response.User;
 import com.insurance.easycover.data.network.NetworkController;
 
+import org.androidannotations.annotations.App;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
@@ -60,13 +64,23 @@ public class SignUpFragment extends BaseFragment {
     @BindView(R.id.edtContact)
     protected EditText edtContact;
 
+    private String name;
+    private String email;
+    private String pass;
+    private String contact;
+    private String cpass;
+
     @BindView(R.id.btnRegister)
     protected AppButton btnRegister;
     private ValidationHelper mValidationHelper;
     private SimpleLocation location;
+    private Register register;
+
+    private Bundle state;
 
     public SignUpFragment() {
         // Required empty public constructor
+        register = new Register();
     }
 
     public static SignUpFragment newInstance() {
@@ -83,6 +97,7 @@ public class SignUpFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         location = new SimpleLocation(getContext());
+        state = savedInstanceState;
         // if we can't access the location yet
         if (!location.hasLocationEnabled()) {
             // ask the user to enable location access
@@ -100,6 +115,12 @@ public class SignUpFragment extends BaseFragment {
             //edtReferralCode.setVisibility(View.VISIBLE);
             edtReferralCode.setVisibility(View.GONE);
         } else edtReferralCode.setVisibility(View.GONE);
+
+        edtUserName.setText(name);
+        edtEmail.setText(email);
+        edtPass.setText(pass);
+        edtConfirmPass.setText(cpass);
+        edtContact.setText(contact);
 
         mValidationHelper = new ValidationHelper(getContext());
     }
@@ -133,11 +154,22 @@ public class SignUpFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (AppSession.getInstance().getRegisterTemp() != null) {
+            this.name = AppSession.getInstance().getRegisterTemp().getUsername();
+            this.email = AppSession.getInstance().getRegisterTemp().getEmail();
+            this.pass = AppSession.getInstance().getRegisterTemp().getPassword();
+            this.contact = AppSession.getInstance().getRegisterTemp().getPhoneno();
+            this.cpass = AppSession.getInstance().getRegisterTemp().getPassword();
+            AppSession.getInstance().setRegisterTemp(null);
+        }
+    }
 
     private void requestRegister() {
         try {
             if (NetworkConnection.isConnection(getActivity())) {
-                Register register = new Register();
                 register.email = edtEmail.getText().toString();
                 register.password = edtPass.getText().toString();
                 register.phoneno = edtContact.getText().toString();
@@ -153,11 +185,30 @@ public class SignUpFragment extends BaseFragment {
                 String json = new Gson().toJson(register);
                 showProgressDialog(getString(R.string.please_wait));
                 Log.i("signup", "json = " + new Gson().toJson(register));
-                changeFragment(VerifyUserFragment.newInstance(register),R.id.fragmentContainer);
+                NetworkController.getInstance().emailExist(register);
                 //NetworkController.getInstance().signUp(register);
             } else showToast(R.string.no_internet);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+
+    @Subscribe
+    public void onEvent(SimpleEvent event) {
+        if (event.getStatus()) {
+            if (event.getEventId() == EventsIds.ID_EMAILEXIST) {
+                dismissProgress();
+                AppSession.getInstance().setRegisterTemp(register);
+                changeFragment(VerifyUserFragment.newInstance(register),R.id.fragmentContainer);
+            } else {
+                showToast(event.getMessage());
+                dismissProgress();
+            }
+        } else {
+            showToast(event.getMessage());
+            dismissProgress();
         }
     }
 

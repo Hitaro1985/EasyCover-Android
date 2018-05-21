@@ -2,6 +2,7 @@ package com.insurance.easycover;
 
 import com.google.gson.Gson;
 import com.insurance.easycover.data.local.AppSharedPreferences;
+import com.insurance.easycover.data.models.Register;
 import com.insurance.easycover.data.models.response.User;
 import com.insurance.easycover.shared.enums.UserRoles;
 
@@ -27,6 +28,8 @@ public class AppSession {
 
     private long longitude;
     private long latitude;
+
+    private Register RegisterTemp;
 
     private  boolean newNoti;
 
@@ -134,5 +137,13 @@ public class AppSession {
     public void setUserData(User mUserData) {
         this.mUserData = mUserData;
         setUserRole(mUserData.getUsertype().equals(CUSTOMER) ? ROLE_CUSTOMER : ROLE_AGENT);
+    }
+
+    public Register getRegisterTemp() {
+        return RegisterTemp;
+    }
+
+    public void setRegisterTemp(Register registerTemp) {
+        RegisterTemp = registerTemp;
     }
 }

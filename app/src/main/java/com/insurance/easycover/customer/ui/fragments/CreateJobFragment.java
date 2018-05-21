@@ -9,7 +9,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.gun0912.tedpermission.PermissionListener;
@@ -31,6 +35,7 @@ import com.insurance.easycover.data.events.SingleDataEvent;
 import com.insurance.easycover.data.local.AppSharedPreferences;
 import com.insurance.easycover.data.models.CompanyType;
 import com.insurance.easycover.data.models.CreateJob;
+import com.insurance.easycover.data.models.ForgotPassword;
 import com.insurance.easycover.data.models.InsuranceType;
 import com.insurance.easycover.data.models.ProgressRequestBody;
 import com.insurance.easycover.data.models.UploadedDoc;
@@ -148,14 +153,104 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
         validationHelper = new ValidationHelper(getContext());
         insuranceTypes = InsuranceType.getInsuranceTypes();
         companyTypes = CompanyType.getCompanyType();
-        if (AppSession.getInstance().getUserData().getUsername() != null)
-        edtFullName.setText(AppSession.getInstance().getUserData().getUsername());
-        if (AppSession.getInstance().getUserData().getNrc() != null)
-        edtNricNumber.setText(AppSession.getInstance().getUserData().getNrc());
-        if (AppSession.getInstance().getUserData().getPhoneno() != null)
-        edtContact.setText(AppSession.getInstance().getUserData().getPhoneno());
+        if (AppSession.getInstance().getUserData().getUsername() != null) {
+            edtFullName.setText(AppSession.getInstance().getUserData().getUsername());
+        }
+        if (AppSession.getInstance().getUserData().getNrc() != null) {
+            if (!AppSession.getInstance().getUserData().getNrc().equals("null")) {
+                edtNricNumber.setText(AppSession.getInstance().getUserData().getNrc());
+            }
+        }
+        if (AppSession.getInstance().getUserData().getPhoneno() != null) {
+            edtContact.setText(AppSession.getInstance().getUserData().getPhoneno());
+        }
         initInsuranceTypeAdapter();
         initFilesAdapter();
+        expired_date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    FocusDate();
+                } else {
+                }
+            }
+        });
+        expired_date.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER))
+                {
+                    // Perform action on Enter key press
+                    //expired_date.clearFocus();
+                    edtAddress.requestFocus();
+                    //return true;
+                }
+                return false;
+                //return false;
+            }
+        });
+        edtAddress.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER))
+                {
+                    // Perform action on Enter key press
+                    //edtIndicativeSum.clearFocus();
+                    edtPostCode.requestFocus();
+                    return true;
+                }
+                return false;
+                //return false;
+            }
+        });
+        edtPostCode.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER))
+                {
+                    // Perform action on Enter key press
+                    //edtIndicativeSum.clearFocus();
+                    edtState.requestFocus();
+                    return true;
+                }
+                return false;
+                //return false;
+            }
+        });
+        edtState.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER))
+                {
+                    // Perform action on Enter key press
+                    //edtIndicativeSum.clearFocus();
+                    edtCountry.requestFocus();
+                    return true;
+                }
+                return false;
+                //return false;
+            }
+        });
+        edtCountry.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER))
+                {
+                    // Perform action on Enter key press
+                    //edtIndicativeSum.clearFocus();
+                    //edtCountry.requestFocus();
+                    return true;
+                }
+                return false;
+                //return false;
+            }
+        });
+        edtFullName.requestFocus();
     }
 
 
@@ -296,11 +391,26 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
             if (!(resultCode != getActivity().RESULT_OK)) {
                 try {
                     Uri selectedImageUri = ImageUtility.getFileUri(getContext(), data);
+                    String mimeType = getContext().getContentResolver().getType(selectedImageUri);
+                    //Toast.makeText(getContext(),"" + mimeType, Toast.LENGTH_LONG).show();
                     String ext =  selectedImageUri.toString().substring(selectedImageUri.toString().lastIndexOf(".") + 1);
-                    if (ext.equals("doc") || ext.equals("pdf") || ext.equals("png") || ext.equals("jpg"))
+                    if (ext.equals("doc")
+                            || ext.equals("pdf")
+                            || ext.equals("png")
+                            || ext.equals("jpg")
+                            || ext.equals("jpeg")
+                            || ext.equals("docx")
+                            || mimeType.equals("image/jpeg")
+                            || mimeType.equals("application/pdf")
+                            || mimeType.equals("application/msword")
+                            || mimeType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                            || mimeType.equals("application/vnd.ms-excel")
+                            || mimeType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                            || mimeType.equals("application/vnd.ms-powerpoint")
+                            || mimeType.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation"))
                         uploadFileProcess(selectedImageUri, requestCode);
                     else
-                        showToast("Only attach .doc .pdf .png .jpg");
+                        showToast("Only attach .doc .pdf .png .jpg .doc .docx .xls .xlsx .ppt .pptx");
                 } catch (Exception ex) {
                     //ValidUtils.showToast(getLocalContext(), getLocalContext().getString(R.string.try_again_str));
                 }
@@ -412,11 +522,11 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
 
         if (nricNumbere.isEmpty()) {
             edtNricNumber.setError("Input NRIC.");
-        }
-
-        if (nricNumbere.length() > 12) {
-            isValidate = false;
-            edtNricNumber.setError("Invalid NRIC. less than 12 digits.");
+        } else {
+            if (nricNumbere.length() < 12) {
+                isValidate = false;
+                edtNricNumber.setError("Invalid NRIC. more than 12 digits.");
+            }
         }
         if (spinnerInsuranceType.getSelectedItemPosition() == spinnerInsuranceType.getAdapter().getCount()) {
             isValidate = false;
@@ -429,6 +539,11 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
         if (indicativeSum.isEmpty()) {
             isValidate = false;
             edtIndicativeSum.setError("Please Input IndicativeSum");
+        } else {
+            if (Integer.parseInt(indicativeSum) < 0) {
+                isValidate = false;
+                edtIndicativeSum.setError("Indicative sum must be bigger than 0");
+            }
         }
         if (uploadedDocs.size() == 0) {
             isValidate = false;
@@ -528,6 +643,11 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
     @OnClick(R.id.expired_date)
     public void onClickEpDate(){
 
+        FocusDate();
+
+    }
+
+    public void FocusDate() {
         JobDatePickerDialogFragment datePickerDialogFragment = JobDatePickerDialogFragment.getNewInstance(AppConstants.ID_DIALOG_DOB);
 
         datePickerDialogFragment.setOnDateSelected(new JobDatePickerDialogFragment.OnDateSelected() {
@@ -551,8 +671,48 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
             }
         });
         datePickerDialogFragment.show(getActivity().getSupportFragmentManager(), JobDatePickerDialogFragment.TAG);
-
     }
+
+    private TextWatcher mDateEntryWatcher = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String working = s.toString();
+            boolean isValid = true;
+            if (working.length()==2 && before ==0) {
+                if (Integer.parseInt(working) < 1 || Integer.parseInt(working)>12) {
+                    isValid = false;
+                } else {
+                    working+="/";
+                    expired_date.setText(working);
+                    expired_date.setSelection(working.length());
+                }
+            }
+            else if (working.length()==7 && before ==0) {
+                String enteredYear = working.substring(3);
+                int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                if (Integer.parseInt(enteredYear) < currentYear) {
+                    isValid = false;
+                }
+            } else if (working.length()!=7) {
+                isValid = false;
+            }
+
+            if (!isValid) {
+                expired_date.setError("Enter a valid date: MM/YYYY");
+            } else {
+                expired_date.setError(null);
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {}
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+    };
 
     @Override
     public void onItemSelected(Object item, int position) {

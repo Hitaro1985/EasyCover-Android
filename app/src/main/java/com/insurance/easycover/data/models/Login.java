@@ -14,6 +14,8 @@ public class Login {
     public String email;
     @SerializedName("password")
     public String password;
+    @SerializedName("usertype")
+    public String usertype;
 //    @SerializedName("usertype")
 //    public String userType;
 }

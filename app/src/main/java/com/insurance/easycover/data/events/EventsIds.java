@@ -37,4 +37,5 @@ public interface EventsIds {
     int ID_RESET_PASS = 26;
     int ID_COMPLETE = 27;
     int ID_GETCUSTOMERCOMPLETEDJOB = 28;
+    int ID_EMAILEXIST = 29;
 }

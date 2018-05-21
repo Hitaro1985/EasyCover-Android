@@ -20,6 +20,7 @@ import com.insurance.easycover.data.models.Login;
 import com.insurance.easycover.data.models.response.User;
 import com.insurance.easycover.data.network.NetworkController;
 
+import org.androidannotations.annotations.App;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
@@ -89,6 +90,7 @@ public class LoginFragment extends BaseFragment {
             Login login = new Login();
             login.email = editEmailAddress.getText().toString();
             login.password = edtPassword.getText().toString();
+            login.usertype = AppSession.getInstance().getUserRoleStr();
             AppSession.getInstance().setPassword(login.password);
             login.deviceToken = "12345";
             //login.deviceToken = FirebaseInstanceId.getInstance().getToken();

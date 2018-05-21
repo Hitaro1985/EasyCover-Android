@@ -72,7 +72,6 @@ public abstract class HomeActivity extends BaseActivity implements TabLayout.OnT
             tvTitle.setText("Dashboard");
         } else {
             tvSubTitle.setText(AppSession.getInstance().getUserData().getUsername());
-
         }
 
         imvLeft.setVisibility(View.GONE);
@@ -93,6 +92,7 @@ public abstract class HomeActivity extends BaseActivity implements TabLayout.OnT
     protected void onResume() {
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverLoadTodays, new IntentFilter("update-message"));
         super.onResume();
+        tvSubTitle.setText(AppSession.getInstance().getUserData().getUsername());
         if (AppSession.getInstance().getUserData().getImage() != null && !AppSession.getInstance().getUserData().getImage().isEmpty()) {
             RequestOptions cropOptions = new RequestOptions().fitCenter();
             //Glide.with(this).load(AppSession.getInstance().getUserData().image).apply(cropOptions).into(imvUser);

@@ -88,8 +88,6 @@ public class ProfileActivity extends BaseActivity {
     //protected EditText edtFullName;
     @BindView(R.id.edtNewPass)
     protected EditText edtNewPass;
-    @BindView(R.id.edtContact)
-    protected EditText edtContactNumber;
     @BindView(R.id.edtPhoneno)
     protected EditText edtPhoneno;
 
@@ -238,30 +236,45 @@ public class ProfileActivity extends BaseActivity {
         dummy3.name = "English";
         languageList.add(dummy3);
         Dummy dummy4 = new Dummy();
-        dummy4.name = "Chinese";
+        dummy4.name = "Chinese (Mandarin)";
         languageList.add(dummy4);
+        Dummy dummy5 = new Dummy();
+        dummy5.name = "Chinese (Cantonese)";
+        languageList.add(dummy5);
+        Dummy dummy6 = new Dummy();
+        dummy6.name = "Chinese (Hokkien)";
+        languageList.add(dummy6);
+        Dummy dummy7 = new Dummy();
+        dummy7.name = "Chinese (Hakka)";
+        languageList.add(dummy7);
+        Dummy dummy8 = new Dummy();
+        dummy8.name = "Chinese (TeoChew)";
+        languageList.add(dummy8);
+        Dummy dummy9 = new Dummy();
+        dummy9.name = "Chinese (Other)";
+        languageList.add(dummy9);
         Dummy dummy = new Dummy();
         dummy.name = "Select Language";
         languageList.add(dummy);
         ArrayAdapter adapter = new SpinnerAdapter<Dummy>(ProfileActivity.this, R.layout.item_spinner, languageList);
         spinnerLanguageType.setAdapter(adapter);
         spinnerLanguageType.setSelection(languageList.size() - 1);
-        spinnerLanguageType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-              @Override
-              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                  if (id == Long.valueOf(2)) {
-                      chineseLanguage.setVisibility(View.VISIBLE);
-                  } else {
-                      chineseLanguage.setVisibility(View.GONE);
-                  }
-              }
-
-              @Override
-              public void onNothingSelected(AdapterView<?> parent) {
-
-              }
-          }
-        );
+//        spinnerLanguageType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//              @Override
+//              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                  if (id == Long.valueOf(2)) {
+//                      chineseLanguage.setVisibility(View.VISIBLE);
+//                  } else {
+//                      chineseLanguage.setVisibility(View.GONE);
+//                  }
+//              }
+//
+//              @Override
+//              public void onNothingSelected(AdapterView<?> parent) {
+//
+//              }
+//          }
+//        );
     }
 
     private void initChineseSpinner() {
@@ -372,7 +385,7 @@ public class ProfileActivity extends BaseActivity {
                 map.put("username", "" + edtUserName.getText().toString());
                 //map.put("password", "" + edtNewPass.getText().toString());
                 map.put("email", "" + edtEmailAddress.getText().toString());
-                map.put("phoneno", "" + edtContactNumber.getText().toString());
+                map.put("phoneno", "" + edtPhoneno.getText().toString());
                 map.put("nrc", "" + edtNricNumber.getText().toString());
                 map.put("dob", "" + tvDateOfBirth.getText().toString());
                 map.put("address", "" + edtAddress.getText().toString());
@@ -534,8 +547,34 @@ public class ProfileActivity extends BaseActivity {
 
     private boolean validate() {
         boolean isValidData = true;
-        String newPassword = edtNewPass.getText().toString();
-        String fullName = edtUserName.getText().toString();
+        String phoneno = edtPhoneno.getText().toString();
+        if (!phoneno.isEmpty()) {
+            if (phoneno.length() < 3) {
+                isValidData = false;
+                edtPhoneno.setError("Invalid phone number");
+            } else {
+                String region = phoneno.substring(0, 3);
+                if (!region.equals("+60")) {
+                    isValidData = false;
+                    edtPhoneno.setError("Input Malaysia Phone number.");
+                }
+            }
+        }
+        if (spinnerLanguageType.getSelectedItem().toString().equals("Malay")) {
+            if (!edtNricNumber.getText().toString().isEmpty()) {
+                if (edtNricNumber.getText().toString().length() != 12) {
+                    isValidData = false;
+                    edtNricNumber.setError("Invalid Nric.");
+                }
+            }
+        } else {
+            if (!edtNricNumber.getText().toString().isEmpty()) {
+                if (edtNricNumber.getText().toString().length() != 12) {
+                    isValidData = false;
+                    edtNricNumber.setError("Invalid Nric.");
+                }
+            }
+        }
 //        String oldPassword = edtOldPass.getText().toString();
 //        if (!AppSession.getInstance().getPassword().equals(oldPassword)) {
 //            edtOldPass.setError(getString(R.string.password_mismatch));

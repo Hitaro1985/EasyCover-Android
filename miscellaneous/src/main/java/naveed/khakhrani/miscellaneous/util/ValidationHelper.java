@@ -33,11 +33,31 @@ public class ValidationHelper {
 
     public boolean isPasswordValid(EditText editTextPass) {
         String password = editTextPass.getText().toString();
+        char ch;
         if (password.isEmpty()) {
             editTextPass.setError("Enter Password");
             return false;
-        } else if (password.length() < 6) {
+        }
+        boolean capitalFlag = false;
+        //boolean lowerCaseFlag = false;
+        boolean numberFlag = false;
+        for(int i=0;i < password.length();i++) {
+            ch = password.charAt(i);
+            if( Character.isDigit(ch)) {
+                numberFlag = true;
+            }
+            else if (Character.isUpperCase(ch)) {
+                capitalFlag = true;
+            }
+        }
+        if (password.length() < 6) {
             editTextPass.setError(mContext.getString(R.string.min_length_check));
+            return false;
+        } else if (numberFlag == false) {
+            editTextPass.setError("Password include at least one digital character.");
+            return false;
+        } else if (capitalFlag == false) {
+            editTextPass.setError("Password include at least one capital character.");
             return false;
         } else
             return true;
