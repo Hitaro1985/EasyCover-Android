@@ -106,10 +106,6 @@ public class ProfileActivity extends BaseActivity {
     protected EditText edtAddress;
     @BindView(R.id.edtPostCode)
     protected EditText edtPostCode;
-    @BindView(R.id.edtState)
-    protected EditText edtState;
-    @BindView(R.id.edtCountry)
-    protected EditText edtCountry;
 
     @BindView(R.id.imvProfile)
     protected ImageView imvProfile;
@@ -126,6 +122,12 @@ public class ProfileActivity extends BaseActivity {
 
     @BindView(R.id.chineseLanguage)
     protected RelativeLayout chineseLanguage;
+
+    @BindView(R.id.spinnerstate)
+    protected Spinner spinnerstate;
+
+    @BindView(R.id.spinnercountry)
+    protected Spinner spinnercountry;
 
     private List<UploadedDoc> uploadedDocs = new ArrayList<>();
 
@@ -176,6 +178,8 @@ public class ProfileActivity extends BaseActivity {
         initSpinner2();
         initLanguageSpinner();
         initChineseSpinner();
+        initstateSpinner();
+        initcountrySpinner();
         loadData();
     }
 
@@ -225,6 +229,74 @@ public class ProfileActivity extends BaseActivity {
         ArrayAdapter adapter = new SpinnerAdapter<Dummy>(ProfileActivity.this, R.layout.item_spinner, list2);
         spinner2.setAdapter(adapter);
         spinner2.setSelection(list2.size() - 1);
+    }
+
+    private void initcountrySpinner() {
+        List<Dummy> countryList = new ArrayList<>();
+        Dummy dummy = new Dummy();
+        dummy.name = "Malaysia";
+        countryList.add(dummy);
+        ArrayAdapter adapter = new SpinnerAdapter<Dummy>(ProfileActivity.this, R.layout.item_spinner, countryList);
+        spinnercountry.setAdapter(adapter);
+        spinnercountry.setSelection(countryList.size() - 1);
+    }
+
+    private void initstateSpinner() {
+        List<Dummy> stateList = new ArrayList<>();
+        Dummy dummy1 = new Dummy();
+        dummy1.name = "Kuala Lumpur";
+        stateList.add(dummy1);
+        Dummy dummy2 = new Dummy();
+        dummy2.name = "Labuan";
+        stateList.add(dummy2);
+        Dummy dummy3 = new Dummy();
+        dummy3.name = "Putrajaya";
+        stateList.add(dummy3);
+        Dummy dummy4 = new Dummy();
+        dummy4.name = "Johor";
+        stateList.add(dummy4);
+        Dummy dummy5 = new Dummy();
+        dummy5.name = "Kedah";
+        stateList.add(dummy5);
+        Dummy dummy6 = new Dummy();
+        dummy6.name = "Kelantan";
+        stateList.add(dummy6);
+        Dummy dummy7 = new Dummy();
+        dummy7.name = "Malacca";
+        stateList.add(dummy7);
+        Dummy dummy8 = new Dummy();
+        dummy8.name = "Negeri Sembilan";
+        stateList.add(dummy8);
+        Dummy dummy9 = new Dummy();
+        dummy9.name = "Pahang";
+        stateList.add(dummy9);
+        Dummy dummy10 = new Dummy();
+        dummy10.name = "Perak";
+        stateList.add(dummy10);
+        Dummy dummy11 = new Dummy();
+        dummy11.name = "Perlis";
+        stateList.add(dummy11);
+        Dummy dummy12 = new Dummy();
+        dummy12.name = "Penang";
+        stateList.add(dummy12);
+        Dummy dummy13 = new Dummy();
+        dummy13.name = "Sabah";
+        stateList.add(dummy13);
+        Dummy dummy14 = new Dummy();
+        dummy14.name = "Sarawak";
+        stateList.add(dummy14);
+        Dummy dummy15 = new Dummy();
+        dummy15.name = "Selangor";
+        stateList.add(dummy15);
+        Dummy dummy16 = new Dummy();
+        dummy16.name = "Terengganu";
+        stateList.add(dummy16);
+        Dummy dummy = new Dummy();
+        dummy.name = "Select state";
+        stateList.add(dummy);
+        ArrayAdapter adapter = new SpinnerAdapter<Dummy>(ProfileActivity.this, R.layout.item_spinner, stateList);
+        spinnerstate.setAdapter(adapter);
+        spinnerstate.setSelection(stateList.size() - 1);
     }
 
     private void initLanguageSpinner() {
@@ -312,8 +384,50 @@ public class ProfileActivity extends BaseActivity {
         edtPhoneno.setText((mUserData.getPhoneno() != null && !mUserData.getPhoneno().equals("null")) ? mUserData.getPhoneno() : "");
         edtAddress.setText((mUserData.getAddress() != null && !mUserData.getAddress().equals("null")) ? mUserData.getAddress() : "");
         edtPostCode.setText((mUserData.getPostcode() != null && !mUserData.getPostcode().equals("null")) ? mUserData.getPostcode() : "");
-        edtCountry.setText((mUserData.getCountry() != null && !mUserData.getCountry().equals("null")) ? mUserData.getCountry() : "");
-        edtState.setText((mUserData.getState() != null && !mUserData.getState().equals("null")) ? mUserData.getState() : "");
+//        edtCountry.setText((mUserData.getCountry() != null && !mUserData.getCountry().equals("null")) ? mUserData.getCountry() : "");
+//        edtState.setText((mUserData.getState() != null && !mUserData.getState().equals("null")) ? mUserData.getState() : "");
+        if (mUserData.getCountry() != null) {
+            String country = mUserData.getCountry();
+            if (country.equals("Malaysia")) {
+                spinnercountry.setSelection(0);
+            }
+        }
+        if (mUserData.getState() != null) {
+            String state = mUserData.getState();
+            if (state.equals("Kuala Lumpur")) {
+                spinnerstate.setSelection(0);
+            } else if (state.equals("Labuan")) {
+                spinnerstate.setSelection(1);
+            } else if (state.equals("Putrajaya")) {
+                spinnerstate.setSelection(2);
+            } else if (state.equals("Johor")) {
+                spinnerstate.setSelection(3);
+            } else if (state.equals("Kedah")) {
+                spinnerstate.setSelection(4);
+            } else if (state.equals("Kelantan")) {
+                spinnerstate.setSelection(5);
+            } else if (state.equals("Malacca")) {
+                spinnerstate.setSelection(6);
+            } else if (state.equals("Negeri Sembilan")) {
+                spinnerstate.setSelection(7);
+            } else if (state.equals("Pahang")) {
+                spinnerstate.setSelection(8);
+            } else if (state.equals("Perak")) {
+                spinnerstate.setSelection(9);
+            } else if (state.equals("Perlis")) {
+                spinnerstate.setSelection(10);
+            } else if (state.equals("Penang")) {
+                spinnerstate.setSelection(11);
+            } else if (state.equals("Sabah")) {
+                spinnerstate.setSelection(12);
+            } else if (state.equals("Sarawak")) {
+                spinnerstate.setSelection(13);
+            } else if (state.equals("Selangor")) {
+                spinnerstate.setSelection(14);
+            } else if (state.equals("Terengganu")) {
+                spinnerstate.setSelection(15);
+            }
+        }
         if (mUserData.getLanguage() != null) {
             if (mUserData.getLanguage().equals("Malay")) {
                 spinnerLanguageType.setSelection(0);
@@ -390,8 +504,10 @@ public class ProfileActivity extends BaseActivity {
                 map.put("dob", "" + tvDateOfBirth.getText().toString());
                 map.put("address", "" + edtAddress.getText().toString());
                 map.put("postcode", "" + edtPostCode.getText().toString());
-                map.put("state", "" + edtState.getText().toString());
-                map.put("country", "" + edtCountry.getText().toString());
+                if (spinnerstate.getSelectedItemPosition() != 16) {
+                    map.put("state", "" + spinnerstate.getSelectedItem().toString());
+                }
+                map.put("country", "" + spinnercountry.getSelectedItem().toString());
                 if (chineseLanguage.getVisibility() == View.VISIBLE) {
                     map.put("language", "" + spinnerChineseType.getSelectedItem().toString());
                 } else {
@@ -548,6 +664,7 @@ public class ProfileActivity extends BaseActivity {
     private boolean validate() {
         boolean isValidData = true;
         String phoneno = edtPhoneno.getText().toString();
+
         if (!phoneno.isEmpty()) {
             if (phoneno.length() < 3) {
                 isValidData = false;

@@ -187,27 +187,41 @@
                 />
         </RelativeLayout>
 
-        <EditText
-            android:id="@+id/edtState"
-            style="@style/edit_txt_single_line"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:hint="@string/state"
+            android:background="@drawable/bg_white_edit"
+            android:minHeight="@dimen/_30sdp"
             android:paddingLeft="@dimen/_5sdp"
-            android:paddingRight="@dimen/_5sdp"
-            android:visibility="visible" />
+            android:paddingRight="@dimen/_5sdp">
 
-        <EditText
-            android:id="@+id/edtCountry"
-            style="@style/edit_txt_single_line"
+            <Spinner
+                android:id="@+id/spinnerstate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_1sdp"
+                android:minHeight="@dimen/_28sdp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:hint="@string/country"
+            android:background="@drawable/bg_white_edit"
+            android:minHeight="@dimen/_30sdp"
             android:paddingLeft="@dimen/_5sdp"
-            android:paddingRight="@dimen/_5sdp"
-            android:visibility="visible" />
+            android:paddingRight="@dimen/_5sdp">
+
+            <Spinner
+                android:id="@+id/spinnercountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_1sdp"
+                android:minHeight="@dimen/_28sdp"
+                />
+        </RelativeLayout>
 
 
         <naveed.khakhrani.miscellaneous.util.AppButton

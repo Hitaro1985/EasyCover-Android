@@ -65,6 +65,7 @@ import naveed.khakhrani.miscellaneous.dialogs.DialogFilePickerFragment;
 import naveed.khakhrani.miscellaneous.dialogs.JobDatePickerDialogFragment;
 import naveed.khakhrani.miscellaneous.listeners.RecyclerViewItemSelectedListener;
 import naveed.khakhrani.miscellaneous.util.AppButton;
+import naveed.khakhrani.miscellaneous.util.Dummy;
 import naveed.khakhrani.miscellaneous.util.FileDownloaderFromFileDescriptorAsync;
 import naveed.khakhrani.miscellaneous.util.ImageFilePath;
 import naveed.khakhrani.miscellaneous.util.ImageUtility;
@@ -90,10 +91,10 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
     protected EditText edtIndicativeSum;
     @BindView(R.id.edtPostCode)
     protected EditText edtPostCode;
-    @BindView(R.id.edtState)
-    protected EditText edtState;
-    @BindView(R.id.edtCountry)
-    protected EditText edtCountry;
+    @BindView(R.id.spinnerstate)
+    protected Spinner spinnerstate;
+    @BindView(R.id.spinnercountry)
+    protected Spinner spinnercountry;
     @BindView(R.id.spinnerInsuranceType)
     protected Spinner spinnerInsuranceType;
     @BindView(R.id.spinnerCompany)
@@ -161,8 +162,52 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
                 edtNricNumber.setText(AppSession.getInstance().getUserData().getNrc());
             }
         }
+        initcountrySpinner();
+        initstateSpinner();
         if (AppSession.getInstance().getUserData().getPhoneno() != null) {
             edtContact.setText(AppSession.getInstance().getUserData().getPhoneno());
+        }
+        if (AppSession.getInstance().getUserData().getState() != null) {
+            String state = AppSession.getInstance().getUserData().getState().toString();
+            if (state.equals("Kuala Lumpur")) {
+                spinnerstate.setSelection(0);
+            } else if (state.equals("Labuan")) {
+                spinnerstate.setSelection(1);
+            } else if (state.equals("Putrajaya")) {
+                spinnerstate.setSelection(2);
+            } else if (state.equals("Johor")) {
+                spinnerstate.setSelection(3);
+            } else if (state.equals("Kedah")) {
+                spinnerstate.setSelection(4);
+            } else if (state.equals("Kelantan")) {
+                spinnerstate.setSelection(5);
+            } else if (state.equals("Malacca")) {
+                spinnerstate.setSelection(6);
+            } else if (state.equals("Negeri Sembilan")) {
+                spinnerstate.setSelection(7);
+            } else if (state.equals("Pahang")) {
+                spinnerstate.setSelection(8);
+            } else if (state.equals("Perak")) {
+                spinnerstate.setSelection(9);
+            } else if (state.equals("Perlis")) {
+                spinnerstate.setSelection(10);
+            } else if (state.equals("Penang")) {
+                spinnerstate.setSelection(11);
+            } else if (state.equals("Sabah")) {
+                spinnerstate.setSelection(12);
+            } else if (state.equals("Sarawak")) {
+                spinnerstate.setSelection(13);
+            } else if (state.equals("Selangor")) {
+                spinnerstate.setSelection(14);
+            } else if (state.equals("Terengganu")) {
+                spinnerstate.setSelection(15);
+            }
+        }
+        if (AppSession.getInstance().getUserData().getCountry() != null) {
+            String country = AppSession.getInstance().getUserData().getCountry().toString();
+            if (country.equals("Malaysia")) {
+                spinnercountry.setSelection(0);
+            }
         }
         initInsuranceTypeAdapter();
         initFilesAdapter();
@@ -213,37 +258,7 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
                 {
                     // Perform action on Enter key press
                     //edtIndicativeSum.clearFocus();
-                    edtState.requestFocus();
-                    return true;
-                }
-                return false;
-                //return false;
-            }
-        });
-        edtState.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER))
-                {
-                    // Perform action on Enter key press
-                    //edtIndicativeSum.clearFocus();
-                    edtCountry.requestFocus();
-                    return true;
-                }
-                return false;
-                //return false;
-            }
-        });
-        edtCountry.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER))
-                {
-                    // Perform action on Enter key press
-                    //edtIndicativeSum.clearFocus();
-                    //edtCountry.requestFocus();
+                    //edtState.requestFocus();
                     return true;
                 }
                 return false;
@@ -277,6 +292,74 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
         //ArrayAdapter adapter = new SpinnerAdapter<InsuranceType>(getContext(), R.layout.item_spinner, insuranceTypes);
         //spinnerInsuranceType.setAdapter(adapter);
         //spinnerInsuranceType.setSelection(insuranceTypes.size() - 1);
+    }
+
+    private void initcountrySpinner() {
+        List<Dummy> countryList = new ArrayList<>();
+        Dummy dummy = new Dummy();
+        dummy.name = "Malaysia";
+        countryList.add(dummy);
+        ArrayAdapter adapter = new SpinnerAdapter<Dummy>(getContext(), R.layout.item_spinner, countryList);
+        spinnercountry.setAdapter(adapter);
+        spinnercountry.setSelection(countryList.size() - 1);
+    }
+
+    private void initstateSpinner() {
+        List<Dummy> stateList = new ArrayList<>();
+        Dummy dummy1 = new Dummy();
+        dummy1.name = "Kuala Lumpur";
+        stateList.add(dummy1);
+        Dummy dummy2 = new Dummy();
+        dummy2.name = "Labuan";
+        stateList.add(dummy2);
+        Dummy dummy3 = new Dummy();
+        dummy3.name = "Putrajaya";
+        stateList.add(dummy3);
+        Dummy dummy4 = new Dummy();
+        dummy4.name = "Johor";
+        stateList.add(dummy4);
+        Dummy dummy5 = new Dummy();
+        dummy5.name = "Kedah";
+        stateList.add(dummy5);
+        Dummy dummy6 = new Dummy();
+        dummy6.name = "Kelantan";
+        stateList.add(dummy6);
+        Dummy dummy7 = new Dummy();
+        dummy7.name = "Malacca";
+        stateList.add(dummy7);
+        Dummy dummy8 = new Dummy();
+        dummy8.name = "Negeri Sembilan";
+        stateList.add(dummy8);
+        Dummy dummy9 = new Dummy();
+        dummy9.name = "Pahang";
+        stateList.add(dummy9);
+        Dummy dummy10 = new Dummy();
+        dummy10.name = "Perak";
+        stateList.add(dummy10);
+        Dummy dummy11 = new Dummy();
+        dummy11.name = "Perlis";
+        stateList.add(dummy11);
+        Dummy dummy12 = new Dummy();
+        dummy12.name = "Penang";
+        stateList.add(dummy12);
+        Dummy dummy13 = new Dummy();
+        dummy13.name = "Sabah";
+        stateList.add(dummy13);
+        Dummy dummy14 = new Dummy();
+        dummy14.name = "Sarawak";
+        stateList.add(dummy14);
+        Dummy dummy15 = new Dummy();
+        dummy15.name = "Selangor";
+        stateList.add(dummy15);
+        Dummy dummy16 = new Dummy();
+        dummy16.name = "Terengganu";
+        stateList.add(dummy16);
+        Dummy dummy = new Dummy();
+        dummy.name = "Select state";
+        stateList.add(dummy);
+        ArrayAdapter adapter = new SpinnerAdapter<Dummy>(getContext(), R.layout.item_spinner, stateList);
+        spinnerstate.setAdapter(adapter);
+        spinnerstate.setSelection(stateList.size() - 1);
     }
 
     @Subscribe
@@ -488,12 +571,12 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
         String name = edtFullName.getText().toString();
         String nricNumbere = edtNricNumber.getText().toString();
         String address = edtAddress.getText().toString();
-        String state = edtState.getText().toString();
-        String country = edtCountry.getText().toString();
+        String state = spinnerstate.getSelectedItem().toString();
+        String country = spinnercountry.getSelectedItem().toString();
         String indicativeSum = edtIndicativeSum.getText().toString();
         if (country.isEmpty()) {
             isValidate = false;
-            edtCountry.setError("Please Input Country");
+            ((TextView)spinnercountry.getSelectedView()).setError("Please select Country");
         }
         /*if (!validationHelper.isDate(expired_date)) {
             isValidate = false;
@@ -501,7 +584,7 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
         }*/
         if (state.isEmpty()) {
             isValidate = false;
-            edtState.setError("Please Input state");
+            ((TextView)spinnerstate.getSelectedView()).setError("Please select state");
         }
         if (address.isEmpty()) {
             isValidate = false;
@@ -561,8 +644,8 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
                 createJob.address = edtAddress.getText().toString();
                 createJob.insurencetype = insuranceTypes.get(0).toString();
                 //createJob.userid = "" + AppSession.getInstance().getUserData().getId();
-                createJob.country = edtCountry.getText().toString();
-                createJob.state = edtState.getText().toString();
+                createJob.country = spinnercountry.getSelectedItem().toString();
+                createJob.state = spinnerstate.getSelectedItem().toString();
                 createJob.postcode = edtPostCode.getText().toString();
                 List<String> uploadedDocsIds = new ArrayList<>();
                 for (int i = 0; i < uploadedDocs.size(); i ++ ) {
