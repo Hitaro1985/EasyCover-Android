@@ -1,14 +1,18 @@
 package com.insurance.easycover.shared.ui.activities;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +24,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.insurance.easycover.AppSession;
 import com.insurance.easycover.R;
 import com.insurance.easycover.customer.ui.activities.JobPostSuccessActivity;
@@ -75,6 +81,17 @@ public abstract class HomeActivity extends BaseActivity implements TabLayout.OnT
         }
 
         imvLeft.setVisibility(View.GONE);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("EasyCover");
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if (token != null) {
+            Log.d("FCM token:", token);
+        } else {
+            Log.d("FCM token", "NULL");
+        }
+
+        getLocation();
+        //showSettingAlert();
     }
 
     private BroadcastReceiver broadcastReceiverLoadTodays = new BroadcastReceiver() {

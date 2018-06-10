@@ -69,8 +69,8 @@ public class RefferalFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        showProgressDialog(getString(R.string.please_wait));
-        NetworkController.getInstance().getReferralCode();
+        //showProgressDialog(getString(R.string.please_wait));
+        //NetworkController.getInstance().getReferralCode();
     }
 
     @Subscribe

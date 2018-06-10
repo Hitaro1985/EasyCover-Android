@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.insurance.easycover.R;
 import com.insurance.easycover.agent.ui.activities.AgentHomeActivity;
@@ -46,6 +47,8 @@ public class JobWallFragment extends ListBaseFragment<Dummy> {
 
     @BindView(R.id.recyclerView)
     protected RecyclerView mRecyclerView;
+    @BindView(R.id.noContent)
+    protected TextView noContent;
     List<ShowJob> jobList;
     JobWallAdapter adapter;
 
@@ -72,6 +75,7 @@ public class JobWallFragment extends ListBaseFragment<Dummy> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
+        noContent.setText(R.string.noneJobWall);
         initAdapter();
     }
 
@@ -99,6 +103,7 @@ public class JobWallFragment extends ListBaseFragment<Dummy> {
 //                }
                 //HistoryAdapter adapter = new HistoryAdapter(getContext(),event.getListData());
                 //mRecyclerView.setAdapter(adapter);
+                noContent.setVisibility(View.GONE);
                 NetworkController.getInstance().getInsuranceType();
                 resultData = event.getListData();
                 //dismissProgress();
@@ -119,7 +124,12 @@ public class JobWallFragment extends ListBaseFragment<Dummy> {
                 for (int i = 0; i < resultData.size(); i ++) {
                     //Log.i("aaaaaaaa", resultData.get(i).getInsuranceType());
                     Integer selectItem = Integer.parseInt(resultData.get(i).getInsuranceType());
-                    resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    //Log.i("aaaaaaa", resultData.get(i).getInsuranceType());
+                    if (selectItem < event.getListData().size() + 1) {
+                        resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    } else {
+                        resultData.get(i).setInsuranceType("none insurance");
+                    }
                 }
                 JobWallAdapter adapter = new JobWallAdapter(getContext(),resultData);
                 mRecyclerView.setAdapter(adapter);
@@ -145,7 +155,7 @@ public class JobWallFragment extends ListBaseFragment<Dummy> {
 //    }
 
     @Override
-    public void onItemSelected(Object item, int position) {
+    public void onItemSelected(Object item, int position, int status) {
         if (getActivity() instanceof CustomerHomeActivity)
             ((CustomerHomeActivity) getActivity()).
                     changeFragment(JobWallDetailFragment.newInstance(item), R.id.fragmentContainer);

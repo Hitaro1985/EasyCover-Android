@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.insurance.easycover.AppSession;
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.events.AlertEvent;
 import com.insurance.easycover.data.events.SimpleEvent;
@@ -17,6 +18,7 @@ import com.insurance.easycover.data.models.response.RequestResetPassword;
 import com.insurance.easycover.data.network.NetworkController;
 import com.insurance.easycover.shared.ui.dialogs.SingleButtonAlert;
 
+import org.androidannotations.annotations.App;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
@@ -102,6 +104,11 @@ public class ForgotPasswordFragment extends BaseFragment {
                 forgotPassword.email = edtEmailAddress.getText().toString();
                 forgotPassword.password = edtPass.getText().toString();
                 forgotPassword.verifyCode = edtVerifyCode.getText().toString();
+                if (AppSession.getInstance().getUserRole() == AppSession.ROLE_AGENT) {
+                    forgotPassword.userrole = "agent";
+                } else if (AppSession.getInstance().getUserRole() == AppSession.ROLE_CUSTOMER) {
+                    forgotPassword.userrole = "customer";
+                }
                 NetworkController.getInstance().resetPassword(forgotPassword);
             } else showToast(R.string.no_internet);
         }

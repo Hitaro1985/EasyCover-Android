@@ -28,6 +28,7 @@ public class AppSharedPreferences {
     private static SharedPreferences sSharedPreferences;
     private static int PRIVATE_MODE = 0;
     private static SharedPreferences.Editor editor;
+    private static int messageCount = 0;
 
 
     public static synchronized AppSharedPreferences getInstance(Context context) {
@@ -141,5 +142,13 @@ public class AppSharedPreferences {
 
     public boolean getRememberMe() {
         return sSharedPreferences.getBoolean(REMEMBER_ME, false);
+    }
+
+    public static int getMessageCount() {
+        return messageCount;
+    }
+
+    public static void setMessageCount(int messageCount) {
+        AppSharedPreferences.messageCount = messageCount;
     }
 }

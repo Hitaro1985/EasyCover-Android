@@ -17,7 +17,7 @@
         android:layout_above="@+id/bannerView"
         android:layout_marginBottom="@dimen/_40sdp"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <TextView

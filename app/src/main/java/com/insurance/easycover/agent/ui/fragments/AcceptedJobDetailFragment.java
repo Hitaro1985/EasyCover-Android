@@ -63,6 +63,7 @@ package com.insurance.easycover.agent.ui.fragments;
         import java.util.ArrayList;
         import java.util.Calendar;
         import java.util.Date;
+        import java.util.TimeZone;
 
         import butterknife.BindView;
         import butterknife.ButterKnife;
@@ -191,6 +192,7 @@ public class AcceptedJobDetailFragment extends BaseFragment {
         fileNameList = new ArrayList<String>();
         RequestJobDetail jobDetail = new RequestJobDetail();
         jobDetail.jobId = ((ResponseAcceptedJobs) job).getJobId();
+        jobDetail.customerId = ((ResponseAcceptedJobs) job).getCustomerId();
         NetworkController.getInstance().getJobDetail(jobDetail);
         return inflater.inflate(R.layout.fragment_job_wall_detail, container, false);
     }
@@ -286,14 +288,24 @@ public class AcceptedJobDetailFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
         //tvInsuranceName.setText(((ResponseAcceptedJobs) job).getInsuranceType());
-        tvLanguage.setText(((ResponseAcceptedJobs) job).getLanguage());
+        if (((ResponseAcceptedJobs) job).getLanguage() != null) {
+            if (((ResponseAcceptedJobs) job).getLanguage().toString().equals("Select Language")) {
+                tvLanguage.setText("None");
+                tvLanguageDetail.setText("None");
+            } else {
+                tvLanguage.setText(((ResponseAcceptedJobs) job).getLanguage().toString());
+                tvLanguageDetail.setText(((ResponseAcceptedJobs) job).getLanguage().toString());
+            }
+        } else {
+            tvLanguage.setText("None");
+            tvLanguageDetail.setText("None");
+        }
         tvPostCode.setText(((ResponseAcceptedJobs) job).getPostcode());
         tvCountry.setText(((ResponseAcceptedJobs) job).getCountry());
         tvName.setText(((ResponseAcceptedJobs) job).getUsername());
         tvNameDetail.setText(((ResponseAcceptedJobs) job).getUsername());
         tvNRIC.setText(String.valueOf(((ResponseAcceptedJobs) job).getNric()));
         tvMobile.setText(((ResponseAcceptedJobs) job).getPhoneno());
-        tvLanguageDetail.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
         tvInterestedInsurance.setText(((ResponseAcceptedJobs) job).getInsuranceType());
         tvIndicativeSum.setText(String.valueOf(((ResponseAcceptedJobs) job).getIndicativeSum()));
         layoutAccept.setVisibility(View.GONE);
@@ -302,7 +314,7 @@ public class AcceptedJobDetailFragment extends BaseFragment {
         btnSend.setVisibility(View.GONE);
         btnClear.setVisibility(View.GONE);
         layoutCompleteButtons.setVisibility(View.VISIBLE);
-        tvLanguageDetail.setText(((ResponseAcceptedJobs) job).getLanguage());
+        tvLanguageDetail.setText((String)((ResponseAcceptedJobs) job).getLanguage());
         RequestGetQuotationById rQuotId = new RequestGetQuotationById();
         rQuotId.quotationId = ((ResponseAcceptedJobs) job).getQuotationId();
         NetworkController.getInstance().getQuotationById(rQuotId);
@@ -318,8 +330,9 @@ public class AcceptedJobDetailFragment extends BaseFragment {
         String dtStart = ((ResponseAcceptedJobs) job).getUpdatedAt();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = format.parse(dtStart);
             Date now = Calendar.getInstance().getTime();
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = format.parse(dtStart.trim());
             long diff = now.getTime() - date.getTime();
             String SinceDate = String.valueOf("Since ");
             long diffDays = diff / (24 * 60 * 60 * 1000);

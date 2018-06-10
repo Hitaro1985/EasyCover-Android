@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,7 +74,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onClick(View view) {
                 if (recyclerViewItemSelectedListener != null) {
-                    recyclerViewItemSelectedListener.onItemSelected(jobList.get(position), position);
+                    recyclerViewItemSelectedListener.onItemSelected(jobList.get(position), position, 0);
                 } else
                     Toast.makeText(mCtx, "Work In progress", Toast.LENGTH_SHORT).show();
             }
@@ -86,8 +87,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         String dtStart = job.getExpiredDate();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = format.parse(dtStart);
             Date now = Calendar.getInstance().getTime();
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = format.parse(dtStart.trim());
             long diff = date.getTime() - now.getTime();
             long diffDays = diff / (24 * 60 * 60 * 1000);
             String remainDay = String.valueOf(diffDays);

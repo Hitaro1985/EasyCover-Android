@@ -42,7 +42,7 @@ public class ResponseAcceptedJobs {
     private String name;
     @SerializedName("nric")
     @Expose
-    private BigInteger nric;
+    private String nric;
     @SerializedName("phoneno")
     @Expose
     private String phoneno;
@@ -51,7 +51,7 @@ public class ResponseAcceptedJobs {
     private String insuranceType;
     @SerializedName("indicative_sum")
     @Expose
-    private Integer indicativeSum;
+    private Object indicativeSum;
     @SerializedName("job_status")
     @Expose
     private Integer jobStatus;
@@ -64,6 +64,9 @@ public class ResponseAcceptedJobs {
     @SerializedName("state")
     @Expose
     private String state;
+    @SerializedName("quotation_price")
+    @Expose
+    private String quotationPrice;
     @SerializedName("expired_date")
     @Expose
     private String expiredDate;
@@ -120,7 +123,7 @@ public class ResponseAcceptedJobs {
     private Integer isAvailable;
     @SerializedName("language")
     @Expose
-    private String language;
+    private Object language;
 
     public Integer getId() {
         return id;
@@ -202,11 +205,11 @@ public class ResponseAcceptedJobs {
         this.name = name;
     }
 
-    public BigInteger getNric() {
+    public String getNric() {
         return nric;
     }
 
-    public void setNric(BigInteger nric) {
+    public void setNric(String nric) {
         this.nric = nric;
     }
 
@@ -226,11 +229,11 @@ public class ResponseAcceptedJobs {
         this.insuranceType = insuranceType;
     }
 
-    public Integer getIndicativeSum() {
+    public Object getIndicativeSum() {
         return indicativeSum;
     }
 
-    public void setIndicativeSum(Integer indicativeSum) {
+    public void setIndicativeSum(Object indicativeSum) {
         this.indicativeSum = indicativeSum;
     }
 
@@ -264,6 +267,14 @@ public class ResponseAcceptedJobs {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getQuotationPrice() {
+        return quotationPrice;
+    }
+
+    public void setQuotationPrice(String quotationPrice) {
+        this.quotationPrice = quotationPrice;
     }
 
     public String getExpiredDate() {
@@ -410,11 +421,12 @@ public class ResponseAcceptedJobs {
         this.isAvailable = isAvailable;
     }
 
-    public String getLanguage() {
+    public Object getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(Object language) {
         this.language = language;
     }
+
 }

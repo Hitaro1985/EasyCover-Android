@@ -54,10 +54,10 @@ public class ValidationHelper {
             editTextPass.setError(mContext.getString(R.string.min_length_check));
             return false;
         } else if (numberFlag == false) {
-            editTextPass.setError("Password include at least one digital character.");
+            editTextPass.setError("Password must be at least 6 characters consisting of numeric, uppercase and lowercase.");
             return false;
         } else if (capitalFlag == false) {
-            editTextPass.setError("Password include at least one capital character.");
+            editTextPass.setError("Password must be at least 6 characters consisting of numeric, uppercase and lowercase.");
             return false;
         } else
             return true;
@@ -83,11 +83,22 @@ public class ValidationHelper {
 
     public boolean isContactValid(EditText pContactEdt) {
         String contact = pContactEdt.getText().toString();
-        if (contact.isEmpty() && contact.length() < 10) {
+        if (contact.isEmpty()) {
             pContactEdt.setError("Invalid Contact No.");
             return false;
-        } else
+        } else {
+            if (contact.length() < 3) {
+                pContactEdt.setError("Invalid phone number");
+                return false;
+            } else {
+                String region = contact.substring(0, 3);
+                if (!region.equals("+60") || contact.length()!= 12) {
+                    pContactEdt.setError("Malaysia Phonumber length should be 12");
+                    return false;
+                }
+            }
             return true;
+        }
     }
 
     public boolean isDate(EditText pDate) {

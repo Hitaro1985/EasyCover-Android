@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.insurance.easycover.AppSession;
 import com.insurance.easycover.R;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +54,9 @@ public class NotificationsFragment extends ListBaseFragment<Dummy> {
     private Unbinder mUnbinder = null;
     @BindView(R.id.recyclerView)
     protected RecyclerView mRecyclerView;
+
+    @BindView(R.id.noContent)
+    protected TextView noContent;
 
     List<ShowJob> jobList;
     private List<ResponseAcceptedJobs> resultData;
@@ -104,6 +109,7 @@ public class NotificationsFragment extends ListBaseFragment<Dummy> {
                     jobDetail.jobId = event.getListData().get(i).getJobId();
                     NetworkController.getInstance().getJobDetail(jobDetail);
                 }*/
+                noContent.setVisibility(View.GONE);
                 NetworkController.getInstance().getInsuranceType();
                 resultData = event.getListData();
             } else {
@@ -122,10 +128,11 @@ public class NotificationsFragment extends ListBaseFragment<Dummy> {
             if (event.getEventId() == EventsIds.ID_GETINSURANCETYPE) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date now = Calendar.getInstance().getTime();
+                format.setTimeZone(TimeZone.getTimeZone("UTC"));
                 for (int i = 0; i < resultData.size(); i ++) {
                     String dtStart = resultData.get(i).getExpiredDate();
                     try {
-                        Date date = format.parse(dtStart);
+                        Date date = format.parse(dtStart.trim());
                         long diff = date.getTime() - now.getTime();
                         long diffDays = diff / (24 * 60 * 60 * 1000);
                         if (diffDays < 0) {
@@ -140,7 +147,11 @@ public class NotificationsFragment extends ListBaseFragment<Dummy> {
                 }
                 for (int i = 0; i < resultData.size(); i ++) {
                     Integer selectItem = Integer.parseInt(resultData.get(i).getInsuranceType());
-                    resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    if (selectItem < event.getListData().size() + 1) {
+                        resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    } else {
+                        resultData.get(i).setInsuranceType("none insurance");
+                    }
                 }
                 NetworkController.getInstance().getAllAssignedJobs();
                 NotificationAdapter adapter = new NotificationAdapter(getContext(), resultData);
@@ -189,7 +200,7 @@ public class NotificationsFragment extends ListBaseFragment<Dummy> {
     }*/
 
     @Override
-    public void onItemSelected(Object item, int position) {
+    public void onItemSelected(Object item, int position, int status) {
         changeFragment(NotiDetailFragment.newInstance(item), R.id.fragmentContainer);
     }
 

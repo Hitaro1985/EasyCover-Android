@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,7 +81,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 if (recyclerViewItemSelectedListener != null) {
-                    recyclerViewItemSelectedListener.onItemSelected(jobList.get(position), position);
+                    recyclerViewItemSelectedListener.onItemSelected(jobList.get(position), position, 0);
                 } else
                     Toast.makeText(mCtx, "Work In progress", Toast.LENGTH_SHORT).show();
             }
@@ -88,15 +89,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         ResponseAcceptedJobs job;
         job = jobList.get(position);
         holder.tvName.setText(job.getUsername());
-        holder.tvLanguage.setText(job.getLanguage());
+        holder.tvLanguage.setText((String)job.getLanguage());
         holder.tvPostCode.setText(job.getPostcode());
         holder.tvCountry.setText(job.getCountry());
         holder.edtRating.setRating((float)1.5);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dtStart = job.getUpdatedAt();
         try {
-            Date date = format.parse(dtStart);
             Date now = Calendar.getInstance().getTime();
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = format.parse(dtStart.trim());
             long diff = now.getTime() - date.getTime();
             String SinceDate = String.valueOf("Since ");
             long diffDays = diff / (24 * 60 * 60 * 1000);

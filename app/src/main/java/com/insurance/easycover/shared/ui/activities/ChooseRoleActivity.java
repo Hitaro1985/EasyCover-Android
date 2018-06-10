@@ -17,5 +17,6 @@ public class ChooseRoleActivity extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_choose_customer);
         changeFragment(ChooseRoleFragment.newInstance(),R.id.fragmentContainer);
+        getLocation();
     }
 }

@@ -42,19 +42,19 @@
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp" />
 
-        <EditText
+        <com.bachors.prefixinput.EditText
             android:id="@+id/edtContact"
             style="@style/edit_txt_single_line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:hint="@string/contact_num"
-            android:nextFocusDown="@+id/edtIndicativeSum"
-            android:inputType="phone"
+            android:text="+601"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp"
-
-            />
+            android:layout_marginTop="@dimen/_5sdp"
+            android:hint="@string/contact_num"
+            android:maxLength="12"
+            android:layout_below="@+id/edtConfirmPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -75,6 +75,25 @@
         </RelativeLayout>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/bg_white_edit"
+            android:minHeight="@dimen/_30sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp">
+
+            <Spinner
+                android:id="@+id/spinnerCompany"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_1sdp"
+                android:minHeight="@dimen/_28sdp"
+                />
+        </RelativeLayout>
+
+
         <EditText
             android:id="@+id/edtIndicativeSum"
             style="@style/edit_txt_single_line"
@@ -86,7 +105,8 @@
             android:nextFocusDown="@+id/expired_date"
             android:paddingLeft="@dimen/_5sdp"
 
-            android:paddingRight="@dimen/_5sdp" />
+            android:paddingRight="@dimen/_5sdp"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/expired_date"
@@ -99,7 +119,7 @@
             android:inputType="date"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <TextView
             style="@style/field_header_txt"
@@ -169,23 +189,6 @@
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp"
             android:visibility="visible" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@drawable/bg_white_edit"
-            android:minHeight="@dimen/_30sdp"
-            android:paddingLeft="@dimen/_5sdp"
-            android:paddingRight="@dimen/_5sdp">
-
-            <Spinner
-                android:id="@+id/spinnerCompany"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_1sdp"
-                android:minHeight="@dimen/_28sdp"
-                />
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -212,7 +215,8 @@
             android:background="@drawable/bg_white_edit"
             android:minHeight="@dimen/_30sdp"
             android:paddingLeft="@dimen/_5sdp"
-            android:paddingRight="@dimen/_5sdp">
+            android:paddingRight="@dimen/_5sdp"
+            android:visibility="visible">
 
             <Spinner
                 android:id="@+id/spinnercountry"

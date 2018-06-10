@@ -11,4 +11,10 @@ public class RequestJobDetail {
     @SerializedName("jobId")
     @Expose
     public Integer jobId;
+    @SerializedName("customer_id")
+    @Expose
+    public Integer customerId;
+    @SerializedName("agent_id")
+    @Expose
+    public Integer agentId;
 }

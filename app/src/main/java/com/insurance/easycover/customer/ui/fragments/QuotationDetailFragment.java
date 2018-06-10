@@ -63,6 +63,7 @@ package com.insurance.easycover.customer.ui.fragments;
         import java.util.ArrayList;
         import java.util.Calendar;
         import java.util.Date;
+        import java.util.TimeZone;
 
         import butterknife.BindView;
         import butterknife.ButterKnife;
@@ -267,10 +268,22 @@ public class QuotationDetailFragment extends BaseFragment {
 //            btnQuotAccept.setEnabled(false);
 //        }
         //tvInsuranceName.setText(((ResponseGetQuotation) job).getInsuranceType());
-        tvLanguage.setText(((ResponseGetQuotation) job).getLanguage());
+        //tvLanguage.setText(((ResponseGetQuotation) job).getLanguage());
         tvPostCode.setText(((ResponseGetQuotation) job).getPostcode());
+        if (((ResponseGetQuotation) job).getLanguage() != null) {
+            if (((ResponseGetQuotation) job).getLanguage().toString().equals("Select Language")) {
+                tvLanguage.setText("None");
+                tvLanguageDetail.setText("None");
+            } else {
+                tvLanguage.setText(((ResponseGetQuotation) job).getLanguage().toString());
+                tvLanguageDetail.setText(((ResponseGetQuotation) job).getLanguage().toString());
+            }
+        } else {
+            tvLanguage.setText("None");
+            tvLanguageDetail.setText("None");
+        }
         tvCountry.setText(((ResponseGetQuotation) job).getCountry());
-        tvName.setText(((ResponseGetQuotation) job).getName());
+        tvName.setText(((ResponseGetQuotation) job).getUsername());
         tvNRIC.setText(String.valueOf(((ResponseGetQuotation) job).getNric()));
         if (((ResponseGetQuotation) job).getImage() != null) {
             if (!((ResponseGetQuotation) job).getImage().equals("null")) {
@@ -278,7 +291,7 @@ public class QuotationDetailFragment extends BaseFragment {
             }
         }
         tvMobile.setText(((ResponseGetQuotation) job).getPhoneno());
-        tvLanguageDetail.setText(((ResponseGetQuotation) job).getLanguage());
+        //tvLanguageDetail.setText(((ResponseGetQuotation) job).getLanguage());
         tvInterestedInsurance.setText(((ResponseGetQuotation) job).getInsuranceType());
         tvIndicativeSum.setText(String.valueOf(((ResponseGetQuotation) job).getIndicativeSum()));
         layoutAccept.setVisibility(View.GONE);
@@ -300,8 +313,9 @@ public class QuotationDetailFragment extends BaseFragment {
         String dtStart = ((ResponseGetQuotation) job).getUpdatedAt();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = format.parse(dtStart);
             Date now = Calendar.getInstance().getTime();
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = format.parse(dtStart.trim());
             long diff = now.getTime() - date.getTime();
             String SinceDate = String.valueOf("Since ");
             long diffDays = diff / (24 * 60 * 60 * 1000);

@@ -1,16 +1,25 @@
 package com.insurance.easycover.shared.ui.fragments;
 
 
+import android.Manifest;
+import android.app.Service;
+import android.content.pm.PackageManager;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
@@ -29,6 +38,8 @@ import com.insurance.easycover.data.network.NetworkController;
 import org.androidannotations.annotations.App;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,6 +50,8 @@ import naveed.khakhrani.miscellaneous.base.BaseFragment;
 import naveed.khakhrani.miscellaneous.util.AppButton;
 import naveed.khakhrani.miscellaneous.util.NetworkConnection;
 import naveed.khakhrani.miscellaneous.util.ValidationHelper;
+
+import static org.greenrobot.eventbus.EventBus.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,10 +86,15 @@ public class SignUpFragment extends BaseFragment {
     @BindView(R.id.btnRegister)
     protected AppButton btnRegister;
     private ValidationHelper mValidationHelper;
-    private SimpleLocation location;
     private Register register;
 
     private Bundle state;
+
+    @BindView(R.id.checkBox1)
+    protected CheckBox checkBox;
+
+    @BindView(R.id.textView2)
+    protected TextView textView;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -91,18 +109,11 @@ public class SignUpFragment extends BaseFragment {
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        location = new SimpleLocation(getContext());
         state = savedInstanceState;
-        // if we can't access the location yet
-        if (!location.hasLocationEnabled()) {
-            // ask the user to enable location access
-            SimpleLocation.openSettings(getContext());
-        }
         return inflater.inflate(R.layout.fragment_sign_up, container, false);
     }
 
@@ -122,11 +133,21 @@ public class SignUpFragment extends BaseFragment {
         edtConfirmPass.setText(cpass);
         edtContact.setText(contact);
 
+        checkBox.setText("");
+        textView.setText(Html.fromHtml("I accept " +
+                "<a href='id.web.freelancer.example.TCActivity://Kode'>TERMS AND CONDITIONS</a>"));
+        textView.setClickable(true);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+
         mValidationHelper = new ValidationHelper(getContext());
     }
 
     private boolean isValidate() {
         boolean isSuccess = true;
+        if (!checkBox.isChecked()) {
+            isSuccess = false;
+            showToast("please accept terms and conditions");
+        }
         if (!mValidationHelper.isEmailValid(edtEmail)) isSuccess = false;
         if (!mValidationHelper.isPasswordValid(edtPass)) isSuccess = false;
         if (!mValidationHelper.isContactValid(edtContact)) isSuccess = false;
@@ -176,10 +197,14 @@ public class SignUpFragment extends BaseFragment {
                 //register.username = edtUserFirstName.getText().toString() + edtUserSurName.getText().toString();
                 register.username = edtUserName.getText().toString();
                 register.userType = AppSession.getInstance().getUserRoleStr();
-                register.deviceToken = FirebaseInstanceId.getInstance().getToken();
+                if (FirebaseInstanceId.getInstance().getToken() == null) {
+                    register.deviceToken = "null";
+                } else {
+                    register.deviceToken = FirebaseInstanceId.getInstance().getToken();
+                }
                 register.verifyToken = "12345";
-                register.latitude = (long)location.getLatitude();
-                register.longitude = (long)location.getLongitude();
+                register.latitude = (long)AppSession.getInstance().getLongitude();
+                register.longitude = (long)AppSession.getInstance().getLatitude();
                 //register.latitude = AppSession.getInstance().getLatitude();
                 //register.longitude = AppSession.getInstance().getLongitude();
                 String json = new Gson().toJson(register);

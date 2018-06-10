@@ -5,5 +5,5 @@ package naveed.khakhrani.miscellaneous.listeners;
  */
 
 public interface RecyclerViewItemSelectedListener<T> {
-    void onItemSelected(T item,int position);
+    void onItemSelected(T item,int position, int status);
 }

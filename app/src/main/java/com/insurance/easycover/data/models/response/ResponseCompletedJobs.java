@@ -79,6 +79,9 @@ public class ResponseCompletedJobs {
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
+    @SerializedName("assUpdatedAt")
+    @Expose
+    private String assUpdatedAt;
     @SerializedName("agent_id")
     @Expose
     private Integer agentId;
@@ -416,5 +419,13 @@ public class ResponseCompletedJobs {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getAssUpdatedAt() {
+        return assUpdatedAt;
+    }
+
+    public void setAssUpdatedAt(String assUpdatedAt) {
+        this.assUpdatedAt = assUpdatedAt;
     }
 }

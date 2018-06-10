@@ -116,7 +116,7 @@ public class VerifyUserFragment extends BaseFragment {
         }
 
         if (edtVerifyCode.getText().length() != 6) {
-            edtVerifyCode.setError(getString(R.string.invalid_input));
+            edtVerifyCode.setError("Please input a valid verification code");
             isvalidate = false;
         }
 

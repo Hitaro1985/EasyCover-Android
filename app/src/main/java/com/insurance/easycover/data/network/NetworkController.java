@@ -262,6 +262,7 @@ public class NetworkController {
 
     public void forgetPassword(ForgotPassword forgotPassword) {
         Call<TopListDataResponse<ResponseAccept>> call = EasyCoverServiceFactory.getInstance().forgetPassword(forgotPassword);
+        Log.i("ForgotPassword", "json = " + new Gson().toJson(forgotPassword));
         call.enqueue(new Callback<TopListDataResponse<ResponseAccept>>() {
             @Override
             public void onResponse(Call<TopListDataResponse<ResponseAccept>> call, Response<TopListDataResponse<ResponseAccept>> response) {
@@ -285,11 +286,11 @@ public class NetworkController {
         call.enqueue(new Callback<TopDataResponse<User>>() {
             @Override
             public void onResponse(Call<TopDataResponse<User>> call, Response<TopDataResponse<User>> response) {
-                TopResponse resp = response.body();
+                TopDataResponse<User> resp = response.body();
                 if (resp != null) {
                     postEventSimpleResponse(resp.responseCode == 1, EventsIds.ID_RESET_PASS, "" + resp.message);
                 } else {
-                    postEventSimpleResponse(false, EventsIds.ID_RESET_PASS, "Can not send Mail");
+                    postEventSimpleResponse(false, EventsIds.ID_RESET_PASS, "Server Error");
                 }
             }
 

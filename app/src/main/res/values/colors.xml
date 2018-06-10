@@ -17,4 +17,5 @@
     <color name="bgColor">#FFEEEEEE</color>
     <color name="spinnerBgColorAgent">#fed0bd</color>
     <color name="light_grey">#E0E0E0</color>
+    <color name="red">#FF0000</color>
 </resources>

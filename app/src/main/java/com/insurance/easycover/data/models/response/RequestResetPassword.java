@@ -13,4 +13,7 @@ public class RequestResetPassword {
     @SerializedName("verifyCode")
     public String verifyCode;
 
+    @SerializedName("userrole")
+    public String userrole;
+
 }

@@ -13,7 +13,7 @@ public class ResponseGetInsuranceType {
 
     @SerializedName("insurance_name")
     @Expose
-    private String insuranceName;
+    private Object insuranceName;
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -22,7 +22,7 @@ public class ResponseGetInsuranceType {
     private List<Company> companys = null;
 
     public String getInsuranceName() {
-        return insuranceName;
+        return (String)insuranceName;
     }
 
     public void setInsuranceName(String insuranceName) {

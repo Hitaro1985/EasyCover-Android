@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.events.EventsIds;
@@ -40,6 +41,8 @@ public class CompletedFragment extends ListBaseFragment<Dummy> {
     private Unbinder mUnbinder = null;
     @BindView(R.id.recyclerView)
     protected RecyclerView mRecyclerView;
+    @BindView(R.id.noContent)
+    protected TextView noContent;
     private List<ResponseCompletedJobs> resultData;
 
     public CompletedFragment() {
@@ -64,6 +67,7 @@ public class CompletedFragment extends ListBaseFragment<Dummy> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
+        noContent.setText(R.string.noneCompleteJob);
         initAdapter();
     }
 
@@ -81,7 +85,7 @@ public class CompletedFragment extends ListBaseFragment<Dummy> {
     }
 
     @Override
-    public void onItemSelected(Object item, int position) {
+    public void onItemSelected(Object item, int position, int status) {
         changeFragment(CompleteDetailFragment.newInstance(item), R.id.fragmentContainer);
     }
 
@@ -94,6 +98,7 @@ public class CompletedFragment extends ListBaseFragment<Dummy> {
                     jobDetail.jobId = event.getListData().get(i).getJobId();
                     NetworkController.getInstance().getJobDetail(jobDetail);
                 }*/
+                noContent.setVisibility(View.GONE);
                 NetworkController.getInstance().getInsuranceType();
                 resultData = event.getListData();
             } else {
@@ -112,7 +117,11 @@ public class CompletedFragment extends ListBaseFragment<Dummy> {
             if (event.getEventId() == EventsIds.ID_GETINSURANCETYPE) {
                 for (int i = 0; i < resultData.size(); i ++) {
                     Integer selectItem = Integer.parseInt(resultData.get(i).getInsuranceType());
-                    resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    if (selectItem < event.getListData().size() + 1) {
+                        resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    } else {
+                        resultData.get(i).setInsuranceType("none insurance");
+                    }
                 }
                 HistoryCompletedAdapter adapter = new HistoryCompletedAdapter(getContext(),resultData);
                 mRecyclerView.setAdapter(adapter);

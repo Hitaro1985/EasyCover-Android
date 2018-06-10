@@ -70,6 +70,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,6 +85,7 @@ import naveed.khakhrani.miscellaneous.util.FileDownloaderFromFileDescriptorAsync
 import naveed.khakhrani.miscellaneous.util.ImageFilePath;
 import naveed.khakhrani.miscellaneous.util.ImageUtility;
 import naveed.khakhrani.miscellaneous.util.NetworkConnection;
+import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -212,6 +214,7 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
         fileNameList = new ArrayList<String>();
         RequestJobDetail jobDetail = new RequestJobDetail();
         jobDetail.jobId = ((ResponseCompletedJobs) job).getJobId();
+        jobDetail.customerId = ((ResponseCompletedJobs) job).getCustomerId();
         NetworkController.getInstance().getJobDetail(jobDetail);
         return inflater.inflate(R.layout.fragment_job_wall_detail, container, false);
     }
@@ -221,15 +224,41 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
         //tvInsuranceName.setText(((ResponseCompletedJobs) job).getInsuranceType());
-        tvLanguage.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
+        if (((ResponseCompletedJobs) job).getLanguage() != null) {
+            if (((ResponseCompletedJobs) job).getLanguage().toString().equals("Select Language")) {
+                tvLanguage.setText("None");
+                tvLanguageDetail.setText("None");
+            } else {
+                tvLanguage.setText(((ResponseCompletedJobs) job).getLanguage().toString());
+                tvLanguageDetail.setText(((ResponseCompletedJobs) job).getLanguage().toString());
+            }
+        } else {
+            tvLanguage.setText("None");
+            tvLanguageDetail.setText("None");
+        }
         tvPostCode.setText(((ResponseCompletedJobs) job).getPostcode());
         tvCountry.setText(((ResponseCompletedJobs) job).getCountry());
         tvName.setText(((ResponseCompletedJobs) job).getName());
         tvNRIC.setText(String.valueOf(((ResponseCompletedJobs) job).getNric()));
         tvMobile.setText(((ResponseCompletedJobs) job).getPhoneno());
-        tvLanguageDetail.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
         tvInterestedInsurance.setText(((ResponseCompletedJobs) job).getInsuranceType());
-        tvIndicativeSum.setText(String.valueOf(((ResponseCompletedJobs) job).getIndicativeSum()));
+        tvIndicativeSum.setText("RM " + String.valueOf(((ResponseCompletedJobs) job).getIndicativeSum()));
+        if (((ResponseCompletedJobs) job).getJobstatus() != null) {
+            if (((ResponseCompletedJobs) job).getJobstatus().equals("3")) {
+                text1.setVisibility(View.VISIBLE);
+                text2.setText("Upload quotation documents");
+                ChooseFileLayout.setVisibility(View.VISIBLE);
+                RequestGetQuotationById rQuotId = new RequestGetQuotationById();
+                rQuotId.quotationId = ((ResponseCompletedJobs) job).getQuotationId();
+                NetworkController.getInstance().getQuotationById(rQuotId);
+                text2.setVisibility(View.VISIBLE);
+                text3.setVisibility(View.GONE);
+                docs.setVisibility(View.GONE);
+                layoutAccept.setVisibility(View.GONE);
+                layoutSend.setVisibility(View.VISIBLE);
+                scrollTobottom();
+            }
+        }
         //text3.setText("Upload quotation documents");
         if (((ResponseCompletedJobs) job).getImage() != null) {
             if (!((ResponseCompletedJobs) job).getImage().equals("null")) {
@@ -239,8 +268,9 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
         String dtStart = ((ResponseCompletedJobs) job).getUpdatedAt();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = format.parse(dtStart);
             Date now = Calendar.getInstance().getTime();
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = format.parse(dtStart.trim());
             long diff = now.getTime() - date.getTime();
             String SinceDate = String.valueOf("Since ");
             long diffDays = diff / (24 * 60 * 60 * 1000);
@@ -272,12 +302,21 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
     //Event Handling
     @OnClick(R.id.btnAccept)
     public void onClickAccept() {
-        RequestAccept rat = new RequestAccept();
-        rat.costomerId = ((ResponseCompletedJobs) job).getCustomerId();
-        rat.jobid = ((ResponseCompletedJobs) job).getJobId();
-        rat.status = 3;
-        showProgressDialog(getString(R.string.please_wait));
-        NetworkController.getInstance().acceptJob(rat);
+        //RequestAccept rat = new RequestAccept();
+        //rat.costomerId = ((ResponseCompletedJobs) job).getCustomerId();
+        //rat.jobid = ((ResponseCompletedJobs) job).getJobId();
+        //rat.status = 3;
+        //showProgressDialog(getString(R.string.please_wait));
+        //NetworkController.getInstance().acceptJob(rat);
+        text1.setVisibility(View.VISIBLE);
+        text2.setText("Upload quotation documents");
+        ChooseFileLayout.setVisibility(View.VISIBLE);
+        text2.setVisibility(View.VISIBLE);
+        text3.setVisibility(View.GONE);
+        docs.setVisibility(View.GONE);
+        layoutAccept.setVisibility(View.GONE);
+        layoutSend.setVisibility(View.VISIBLE);
+        scrollTobottom();
     }
 
     //Event Handling
@@ -301,7 +340,7 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
                 }
             }
         } else {
-            showToast(event.getMessage());
+            //showToast(event.getMessage());
         }
     }
 
@@ -311,20 +350,20 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
             if (event.getEventId() == EventsIds.ID_ACCEPTJOB) {
                 ResponseAccept data = (ResponseAccept) event.data;
                 if (data.getJobstatus().equals("3")) {
-                    text1.setVisibility(View.VISIBLE);
-                    text2.setText("Upload quotation documents");
-                    ChooseFileLayout.setVisibility(View.VISIBLE);
-                    RequestGetQuotationById rQuotId = new RequestGetQuotationById();
-                    rQuotId.quotationId = data.getQuotationId();
-                    NetworkController.getInstance().getQuotationById(rQuotId);
-                    text2.setVisibility(View.VISIBLE);
-                    text3.setVisibility(View.GONE);
-                    docs.setVisibility(View.GONE);
-                    layoutAccept.setVisibility(View.GONE);
-                    layoutSend.setVisibility(View.VISIBLE);
-                    scrollTobottom();
-                    dismissProgress();
-                    showToast(event.getMessage());
+//                    text1.setVisibility(View.VISIBLE);
+//                    text2.setText("Upload quotation documents");
+//                    ChooseFileLayout.setVisibility(View.VISIBLE);
+//                    RequestGetQuotationById rQuotId = new RequestGetQuotationById();
+//                    rQuotId.quotationId = data.getQuotationId();
+//                    NetworkController.getInstance().getQuotationById(rQuotId);
+//                    text2.setVisibility(View.VISIBLE);
+//                    text3.setVisibility(View.GONE);
+//                    docs.setVisibility(View.GONE);
+//                    layoutAccept.setVisibility(View.GONE);
+//                    layoutSend.setVisibility(View.VISIBLE);
+//                    scrollTobottom();
+//                    dismissProgress();
+//                    showToast(event.getMessage());
                 } else if (data.equals("0")) {
                     dismissProgress();
                     showToast(event.getMessage());
@@ -393,6 +432,11 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
     public void onClickSend() {
         if (validate()){
             showProgressDialog(getString(R.string.please_wait));
+            RequestAccept rat = new RequestAccept();
+            rat.costomerId = ((ResponseCompletedJobs) job).getCustomerId();
+            rat.jobid = ((ResponseCompletedJobs) job).getJobId();
+            rat.status = 3;
+            NetworkController.getInstance().acceptJob(rat);
             RequestAddQuotation raq = new RequestAddQuotation();
             //raq.assignId = ((ResponseCompletedJobs) job)
             raq.assignId = ((ResponseCompletedJobs) job).getAssignJobsId();
@@ -402,7 +446,7 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
             raq.quotationDescription = String.valueOf(edtRemarksQuotation.getText());
             List<String> uploadedDocsIds = new ArrayList<>();
             for (int i = 0; i < uploadedDocs.size(); i ++ ) {
-                uploadedDocsIds.add(uploadedDocs.get(0).id);
+                uploadedDocsIds.add(uploadedDocs.get(i).id);
             }
             raq.documents = uploadedDocsIds;
             Log.i("handover", "json = " + new Gson().toJson(raq));
@@ -415,10 +459,10 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
         boolean isValidate = true;
         String remarksQuot = edtRemarksQuotation.getText().toString();
         String quotSum = edtQuotationTotalSum.getText().toString();
-        if (upload_file == false) {
+        /*if (upload_file == false) {
             isValidate = false;
             btnChooseFile.setError("Please upload document");
-        }
+        }*/
 
         if (remarksQuot.isEmpty()) {
             isValidate = false;
@@ -428,6 +472,19 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
         if (quotSum.isEmpty()) {
             isValidate = false;
             edtQuotationTotalSum.setError("Please input Quotation Total Sum");
+        } else {
+            Integer sum = Integer.parseInt(quotSum);
+            if (sum <= 0) {
+                isValidate = false;
+                edtQuotationTotalSum.setError("Quotation Total Sum has to at least more than 0");
+            }
+        }
+
+        for (int i = 0; i < uploadedDocs.size(); i ++) {
+            if (uploadedDocs.get(i).uploadProgress != 100) {
+                isValidate = false;
+
+            }
         }
 
         return isValidate;
@@ -470,10 +527,14 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
     }
 
     @Override
-    public void onItemSelected(Object item, int position) {
-        uploadedDocs.remove(position);
-        filesAdapter.notifyDataSetChanged();
-        showToast("Removed" + Integer.toString(position + 1));
+    public void onItemSelected(Object item, int position, int status) {
+        if(status == 1) {
+            uploadedDocs.remove(position);
+            filesAdapter.notifyDataSetChanged();
+            showToast("Removed" + Integer.toString(position + 1));
+        } else {
+            new DownloadFileFromURL().execute(((UploadedDoc)item).id);
+        }
     }
 
     /**
@@ -593,6 +654,10 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
 
     @OnClick(R.id.btnChooseFile)
     public void onClickAttachFileBtn() {
+        if (uploadedDocs.size() > 2) {
+            showToast("Limit is 3 attach files");
+            return;
+        }
         if (!AppUtils.arePermissionGranted(getContext(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
             areGrantedPermissions = false;
         } else areGrantedPermissions = true;
@@ -658,6 +723,7 @@ public class JobWallDetailFragment extends BaseFragment implements RecyclerViewI
                             || ext.equals("jpeg")
                             || ext.equals("docx")
                             || mimeType.equals("image/jpeg")
+                            || mimeType.equals("image/png")
                             || mimeType.equals("application/pdf")
                             || mimeType.equals("application/msword")
                             || mimeType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")

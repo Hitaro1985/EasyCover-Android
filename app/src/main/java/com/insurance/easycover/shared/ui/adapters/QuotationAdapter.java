@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +69,7 @@ public class QuotationAdapter extends RecyclerView.Adapter<QuotationAdapter.View
             @Override
             public void onClick(View view) {
                 if (recyclerViewItemSelectedListener != null) {
-                    recyclerViewItemSelectedListener.onItemSelected(quotationList.get(position), position);
+                    recyclerViewItemSelectedListener.onItemSelected(quotationList.get(position), position, 0);
                 } else
                     Toast.makeText(mCtx, "Work In progress", Toast.LENGTH_SHORT).show();
             }
@@ -87,8 +88,9 @@ public class QuotationAdapter extends RecyclerView.Adapter<QuotationAdapter.View
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dtStart = quot.getUpdatedAt();
         try {
-            Date date = format.parse(dtStart);
-            Date now = Calendar.getInstance().getTime();
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date now = new Date();
+            Date date = format.parse(dtStart.trim());
             long diff = now.getTime() - date.getTime();
             String SinceDate = String.valueOf("Response time:  ");
             long diffDays = diff / (24 * 60 * 60 * 1000);
@@ -100,6 +102,9 @@ public class QuotationAdapter extends RecyclerView.Adapter<QuotationAdapter.View
             long diffMins = (diff - (diffDays * 24 * 60 * 60 * 1000) - (diffHour * 60 * 60 * 1000)) / ( 60 * 1000 );
             if (diffMins > 1) SinceDate += String.valueOf(diffMins) + " minutes ";
             if (diffMins == 1) SinceDate += String.valueOf(diffMins) + " minute ";
+            if (SinceDate.equals("Response time:  ")) {
+                SinceDate += "less then 1 minute";
+            }
             holder.tvDate.setText(SinceDate);
         } catch (ParseException e) {
             e.printStackTrace();

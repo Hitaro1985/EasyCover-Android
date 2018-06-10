@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.insurance.easycover.AppSession;
 import com.insurance.easycover.R;
@@ -52,6 +53,8 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
     private Unbinder mUnbinder = null;
     @BindView(R.id.recyclerView)
     protected RecyclerView mRecyclerView;
+    @BindView(R.id.noContent)
+    protected TextView noContent;
     private List<ResponseCompletedJobs> resultData;
     public OrderHistoryAdapter adapter;
 
@@ -77,6 +80,7 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
+        noContent.setText(R.string.noneOrder);
         initAdapter();
     }
 
@@ -104,6 +108,7 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
             if (event.getEventId() == EventsIds.ID_HANDOVER) {
                 showToast(event.getMessage());
                 showProgressDialog(R.string.please_wait);
+                noContent.setVisibility(View.GONE);
                 NetworkController.getInstance().getCustomerCompletedJob();
             }
         } else {
@@ -125,22 +130,23 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
                 showToast(event.getMessage());
             } else {
                 dismissProgress();
-                showToast(event.getMessage());
-            }
-        } else {
-            if (event.getEventId() == EventsIds.ID_GETCUSTOMERCOMPLETEDJOB) {
-                if (event.getMessage().equals("No job is completed by this agent")) {
-                    if (resultData != null) {
-                        resultData.clear();
-                    }
-                    adapter.notifyDataSetChanged();
-                    dismissProgress();
-                }
-            } else {
-                dismissProgress();
-                showToast(event.getMessage());
+                //showToast(event.getMessage());
             }
         }
+//        else {
+//            if (event.getEventId() == EventsIds.ID_GETCUSTOMERCOMPLETEDJOB) {
+//                if (event.getMessage().equals("No job is completed by this agent")) {
+//                    if (resultData != null) {
+//                        resultData.clear();
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                    dismissProgress();
+//                }
+//            } else {
+//                dismissProgress();
+//                showToast(event.getMessage());
+//            }
+//        }
     }
 
     @Subscribe
@@ -149,9 +155,13 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
             if (event.getEventId() == EventsIds.ID_GETINSURANCETYPE) {
                 for (int i = 0; i < resultData.size(); i ++) {
                     Integer selectItem = Integer.parseInt(resultData.get(i).getInsuranceType());
-                    resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    if (selectItem < event.getListData().size() + 1) {
+                        resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    } else {
+                        resultData.get(i).setInsuranceType("none insurance");
+                    }
                 }
-                NetworkController.getInstance().getAllAssignedJobs();
+                //NetworkController.getInstance().getAllAssignedJobs();
                 adapter = new OrderHistoryAdapter(getContext(),resultData);
                 mRecyclerView.setAdapter(adapter);
                 adapter.setRecyclerViewItemSelectedListener(this);
@@ -159,13 +169,13 @@ public class PurchasedFragment extends ListBaseFragment<Dummy> {
                 dismissProgress();
             }
         } else {
-            showToast(event.getMessage());
+            //showToast(event.getMessage());
             dismissProgress();
         }
     }
 
     @Override
-    public void onItemSelected(Object item, int position) {
+    public void onItemSelected(Object item, int position, int status) {
         changeFragment(PurchasedDetailFragment.newInstance(item),R.id.fragmentContainer);
     }
 

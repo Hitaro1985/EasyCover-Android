@@ -36,7 +36,12 @@ import com.insurance.easycover.shared.Utils.AppUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -308,23 +313,26 @@ public class ProfileActivity extends BaseActivity {
         dummy3.name = "English";
         languageList.add(dummy3);
         Dummy dummy4 = new Dummy();
-        dummy4.name = "Chinese (Mandarin)";
+        dummy4.name = "Chinese";
         languageList.add(dummy4);
-        Dummy dummy5 = new Dummy();
-        dummy5.name = "Chinese (Cantonese)";
-        languageList.add(dummy5);
-        Dummy dummy6 = new Dummy();
-        dummy6.name = "Chinese (Hokkien)";
-        languageList.add(dummy6);
-        Dummy dummy7 = new Dummy();
-        dummy7.name = "Chinese (Hakka)";
-        languageList.add(dummy7);
-        Dummy dummy8 = new Dummy();
-        dummy8.name = "Chinese (TeoChew)";
-        languageList.add(dummy8);
-        Dummy dummy9 = new Dummy();
-        dummy9.name = "Chinese (Other)";
-        languageList.add(dummy9);
+//        Dummy dummy4 = new Dummy();
+//        dummy4.name = "Chinese (Mandarin)";
+//        languageList.add(dummy4);
+//        Dummy dummy5 = new Dummy();
+//        dummy5.name = "Chinese (Cantonese)";
+//        languageList.add(dummy5);
+//        Dummy dummy6 = new Dummy();
+//        dummy6.name = "Chinese (Hokkien)";
+//        languageList.add(dummy6);
+//        Dummy dummy7 = new Dummy();
+//        dummy7.name = "Chinese (Hakka)";
+//        languageList.add(dummy7);
+//        Dummy dummy8 = new Dummy();
+//        dummy8.name = "Chinese (TeoChew)";
+//        languageList.add(dummy8);
+//        Dummy dummy9 = new Dummy();
+//        dummy9.name = "Chinese (Other)";
+//        languageList.add(dummy9);
         Dummy dummy = new Dummy();
         dummy.name = "Select Language";
         languageList.add(dummy);
@@ -379,7 +387,20 @@ public class ProfileActivity extends BaseActivity {
 
         edtUserName.setText(mUserData.getUsername());
         edtEmailAddress.setText(mUserData.getEmail());
-        tvDateOfBirth.setText((mUserData.getDob() != null && !mUserData.getDob().equals("null")) ? mUserData.getDob() : "");
+        if (mUserData.getDob() != null && !mUserData.getDob().equals("null")){
+            SimpleDateFormat oldformat = new SimpleDateFormat("yyyy-MM-dd");
+            Date convertedCurrentDate = null;
+            try {
+                convertedCurrentDate = oldformat.parse(mUserData.getDob());
+                SimpleDateFormat newformat = new SimpleDateFormat("dd-MM-yyyy");
+                String date = newformat.format(convertedCurrentDate);
+                tvDateOfBirth.setText(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            tvDateOfBirth.setText("");
+        }
         edtNricNumber.setText((mUserData.getNrc() != null && !mUserData.getNrc().equals("null")) ? mUserData.getNrc() : "");
         edtPhoneno.setText((mUserData.getPhoneno() != null && !mUserData.getPhoneno().equals("null")) ? mUserData.getPhoneno() : "");
         edtAddress.setText((mUserData.getAddress() != null && !mUserData.getAddress().equals("null")) ? mUserData.getAddress() : "");
@@ -476,7 +497,8 @@ public class ProfileActivity extends BaseActivity {
         datePickerDialogFragment.setOnDateSelected(new DatePickerDialogFragment.OnDateSelected() {
             @Override
             public void onAppDate(int year, int month, int dayOfMonth, String dateFormat) {
-                tvDateOfBirth.setText(year + "-" + month + "-" + dayOfMonth);
+                //tvDateOfBirth.setText(year + "-" + month + "-" + dayOfMonth);
+                tvDateOfBirth.setText(dayOfMonth + "-" + month + "-" + year);
                 //tvDateOfBirth.setText(dateFormat);
             }
         });
@@ -501,7 +523,16 @@ public class ProfileActivity extends BaseActivity {
                 map.put("email", "" + edtEmailAddress.getText().toString());
                 map.put("phoneno", "" + edtPhoneno.getText().toString());
                 map.put("nrc", "" + edtNricNumber.getText().toString());
-                map.put("dob", "" + tvDateOfBirth.getText().toString());
+                SimpleDateFormat oldformat = new SimpleDateFormat("dd-MM-yyyy");
+                Date convertedCurrentDate = null;
+                try {
+                    convertedCurrentDate = oldformat.parse(tvDateOfBirth.getText().toString());
+                    SimpleDateFormat newformat =new SimpleDateFormat("yyyy-MM-dd");
+                    String date = newformat.format(convertedCurrentDate);
+                    map.put("dob", "" + date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 map.put("address", "" + edtAddress.getText().toString());
                 map.put("postcode", "" + edtPostCode.getText().toString());
                 if (spinnerstate.getSelectedItemPosition() != 16) {
@@ -665,18 +696,7 @@ public class ProfileActivity extends BaseActivity {
         boolean isValidData = true;
         String phoneno = edtPhoneno.getText().toString();
 
-        if (!phoneno.isEmpty()) {
-            if (phoneno.length() < 3) {
-                isValidData = false;
-                edtPhoneno.setError("Invalid phone number");
-            } else {
-                String region = phoneno.substring(0, 3);
-                if (!region.equals("+60")) {
-                    isValidData = false;
-                    edtPhoneno.setError("Input Malaysia Phone number.");
-                }
-            }
-        }
+        if (!mValidationHelper.isContactValid(edtPhoneno)) isValidData = false;
         if (spinnerLanguageType.getSelectedItem().toString().equals("Malay")) {
             if (!edtNricNumber.getText().toString().isEmpty()) {
                 if (edtNricNumber.getText().toString().length() != 12) {
@@ -692,23 +712,19 @@ public class ProfileActivity extends BaseActivity {
                 }
             }
         }
-//        String oldPassword = edtOldPass.getText().toString();
-//        if (!AppSession.getInstance().getPassword().equals(oldPassword)) {
-//            edtOldPass.setError(getString(R.string.password_mismatch));
-//            isValidData = false;
-//        }
-        /*if (!newPassword.isEmpty()) {
-            if (mValidationHelper.isPasswordValid(edtNewPass)) {
-                String oldPassword = edtOldPass.getText().toString();
-                if (!AppSession.getInstance().getPassword().equals(oldPassword)) {
-                    edtOldPass.setError(getString(R.string.password_mismatch));
-                    isValidData = false;
-                }
-            } else {
-                edtNewPass.setError(getString(R.string.invalid_password));
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(df.parse(tvDateOfBirth.getText().toString()));
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+            if (c.get(Calendar.YEAR) > year-18) {
                 isValidData = false;
+                showToast("You must be at least 18 years of age in order to purchase any insurance products on your own");
             }
-        }*/
+        } catch (ParseException e) {
+            isValidData = false;
+            tvDateOfBirth.setError("Invalid date format");
+        }
         return isValidData;
     }
 

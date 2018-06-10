@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import com.insurance.easycover.data.models.response.ResponseHandOverData;
 import com.insurance.easycover.data.models.response.ResponseOrderHistory;
 import com.insurance.easycover.data.models.response.assignJob.JobAssignJob;
 import com.insurance.easycover.data.network.NetworkController;
+import com.insurance.easycover.shared.Utils.DownLoadImageTask;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -33,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,7 +89,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             @Override
             public void onClick(View view) {
                 if (recyclerViewItemSelectedListener != null) {
-                    recyclerViewItemSelectedListener.onItemSelected(quotationList.get(position), position);
+                    recyclerViewItemSelectedListener.onItemSelected(quotationList.get(position), position, 0);
                 } else
                     Toast.makeText(mCtx, "Work In progress", Toast.LENGTH_SHORT).show();
             }
@@ -102,15 +106,27 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         });
 
         //holder.tvInsurance.setText(quot.getInsuranceType());
-        holder.tvName.setText(quot.getName());
+        holder.rating.setVisibility(View.GONE);
+        holder.tvName.setText(quot.getUsername());
+        if (quot.getLanguage().toString().equals("Select Language")) {
+            holder.tvLanguage.setText("None");
+        } else {
+            holder.tvLanguage.setText(quot.getLanguage());
+        }
         //holder.tvLanguage.setText(AppSharedPreferences.getInstance(mCtx).getCurrentLanguage());
         holder.tvQuotPrice.setText(quot.getQuotationPrice());
         holder.tvCountry.setText(quot.getCountry());
+        if (quot.getImage() != null) {
+            if (!quot.getImage().equals("null")) {
+                new DownLoadImageTask(holder.imvProfile).execute(quot.getImage());
+            }
+        }
         String dtStart = quot.getExpiredDate();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //holder.btnRenew.setVisibility(View.VISIBLE);//MUST DELETE
         try {
-            Date date = format.parse(dtStart);
+            Date date = format.parse(dtStart.trim());
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date now = Calendar.getInstance().getTime();
             long diff = date.getTime() - now.getTime();
             long diffDays = diff / (24 * 60 * 60 * 1000);
@@ -122,7 +138,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         }
         dtStart = quot.getUpdatedAt();
         try {
-            Date date = format.parse(dtStart);
+            Date date = format.parse(dtStart.trim());
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date now = Calendar.getInstance().getTime();
             long diff = now.getTime() - date.getTime();
             String SinceDate = String.valueOf("Since ");
@@ -157,6 +174,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         TextView tvCountry;
         AppButton btnRenew;
         TextView tvDate;
+        LinearLayout rating;
+        ImageView imvProfile;
+        TextView tvLanguage;
+
 
         @BindView(R.id.layoutRoot)
         public RelativeLayout layoutRoot;
@@ -170,6 +191,9 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             tvCountry = itemView.findViewById(R.id.tvCountry);
             btnRenew = itemView.findViewById(R.id.btnRenew);
             tvDate = itemView.findViewById(R.id.tvDate);
+            tvLanguage = itemView.findViewById(R.id.tvLanguage);
+            imvProfile = itemView.findViewById(R.id.imvUser);
+            rating = itemView.findViewById(R.id.rating);
         }
     }
 }

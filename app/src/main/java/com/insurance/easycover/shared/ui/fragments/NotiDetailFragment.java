@@ -58,6 +58,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -237,13 +238,23 @@ public class NotiDetailFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
         //tvInsuranceName.setText(((ResponseAcceptedJobs) job).getInsuranceType());
-        tvLanguage.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
+        if (((ResponseAcceptedJobs) job).getLanguage() != null) {
+            if (((ResponseAcceptedJobs) job).getLanguage().toString().equals("Select Language")) {
+                tvLanguage.setText("None");
+                tvLanguageDetail.setText("None");
+            } else {
+                tvLanguage.setText(((ResponseAcceptedJobs) job).getLanguage().toString());
+                tvLanguageDetail.setText(((ResponseAcceptedJobs) job).getLanguage().toString());
+            }
+        } else {
+            tvLanguage.setText("None");
+            tvLanguageDetail.setText("None");
+        }
         tvPostCode.setText(((ResponseAcceptedJobs) job).getPostcode());
         tvCountry.setText(((ResponseAcceptedJobs) job).getCountry());
         tvName.setText(((ResponseAcceptedJobs) job).getName());
         tvNRIC.setText(String.valueOf(((ResponseAcceptedJobs) job).getNric()));
         tvMobile.setText(((ResponseAcceptedJobs) job).getPhoneno());
-        tvLanguageDetail.setText(AppSharedPreferences.getInstance(getContext()).getCurrentLanguage());
         tvInterestedInsurance.setText(((ResponseAcceptedJobs) job).getInsuranceType());
         tvIndicativeSum.setText(String.valueOf(((ResponseAcceptedJobs) job).getIndicativeSum()));
         layoutAccept.setVisibility(View.GONE);
@@ -256,7 +267,8 @@ public class NotiDetailFragment extends BaseFragment {
         String dtStart = ((ResponseAcceptedJobs) job).getUpdatedAt();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = format.parse(dtStart);
+            Date date = format.parse(dtStart.trim());
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date now = Calendar.getInstance().getTime();
             long diff = now.getTime() - date.getTime();
             String SinceDate = String.valueOf("Since ");

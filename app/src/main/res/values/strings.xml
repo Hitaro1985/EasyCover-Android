@@ -71,6 +71,7 @@
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="renew">Renew</string>
     <string name="interested">Interested</string>
+    <string name="quotation_sum">Quotation Sum</string>
     <string name="indicative_sum">Indicative Sum</string>
     <string name="expired_date">Expired Date</string>
     <string name="phoneno">Mobile number</string>
@@ -81,11 +82,17 @@
     <string name="complete">Complete</string>
     <string name="reject">Reject</string>
     <string name="piam_number">PIAM Number</string>
-    <string name="service_location">Service Location</string>
+    <string name="service_location">Residence Address</string>
+    <string name="noneNoti">Currently that is no notification</string>
+    <string name="noneJobWall">Currently that is no Job</string>
+    <string name="noneCompleteJob">Currently that is no Completed Job</string>
+    <string name="noneAcceptedJob">Currently that is no Accepted Job</string>
+    <string name="noneQuot">Currently that is no quotation given</string>
+    <string name="noneOrder">Currently that is no order in place</string>
     <string name="clear">Clear</string>
     <string name="quotation_remarks">Quotation Remarks...</string>
     <string name="quotation_total_sum">Quotation Total Sum</string>
-    <string name="please_wait">Plesae wait</string>
+    <string name="please_wait">Please wait</string>
     <string name="accept_done">Accepted</string>
     <string name="verify">Verify</string>
     <string name="sendCode">Send Verify Code</string>

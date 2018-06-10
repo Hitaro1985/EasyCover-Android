@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.insurance.easycover.AppSession;
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.events.AlertEvent;
 import com.insurance.easycover.data.events.SimpleEvent;
@@ -84,6 +85,11 @@ public class SendEmailFragment extends BaseFragment {
             showProgressDialog(getString(R.string.please_wait));
             ForgotPassword forgotPassword = new ForgotPassword();
             forgotPassword.mEmail = edtEmailAddress.getText().toString();
+            if (AppSession.getInstance().getUserRole() == AppSession.ROLE_AGENT) {
+                forgotPassword.userrole = "agent";
+            } else if (AppSession.getInstance().getUserRole() == AppSession.ROLE_CUSTOMER) {
+                forgotPassword.userrole = "customer";
+            }
             NetworkController.getInstance().forgetPassword(forgotPassword);
         } else showToast(R.string.no_internet);
     }

@@ -167,7 +167,8 @@
                 app:srb_numberOfStars="5"
                 app:srb_rating="3.5"
                 app:srb_starSize="15dp"
-                app:srb_stepSize="0.5" />
+                app:srb_stepSize="0.5"
+                android:visibility="gone"/>
 
             <TextView
                 style="@style/field_header_txt"
@@ -175,7 +176,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:text="7.5 / 10"
-                android:textSize="@dimen/_12sdp" />
+                android:textSize="@dimen/_12sdp"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -4,9 +4,12 @@ package com.insurance.easycover.customer.ui.fragments;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -49,6 +52,13 @@ import com.insurance.easycover.shared.ui.adapters.UploadFileAdapter;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -160,6 +170,16 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
         if (AppSession.getInstance().getUserData().getNrc() != null) {
             if (!AppSession.getInstance().getUserData().getNrc().equals("null")) {
                 edtNricNumber.setText(AppSession.getInstance().getUserData().getNrc());
+            }
+        }
+        if (AppSession.getInstance().getUserData().getAddress() != null) {
+            if (!AppSession.getInstance().getUserData().getAddress().equals("null")) {
+                edtAddress.setText(AppSession.getInstance().getUserData().getAddress());
+            }
+        }
+        if (AppSession.getInstance().getUserData().getPostcode() != null) {
+            if (!AppSession.getInstance().getUserData().getPostcode().equals("null")) {
+                edtPostCode.setText(AppSession.getInstance().getUserData().getPostcode());
             }
         }
         initcountrySpinner();
@@ -371,7 +391,7 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
                     insuranceType = new InsuranceType(i, event.getListData().get(i).getInsuranceName());
                     insuranceTypes.add(insuranceType);
                 }
-                insuranceType = new InsuranceType(event.getListData().size(), "Select Insurance Type");
+                insuranceType = new InsuranceType(event.getListData().size(), "Preferred Insurance Type");
                 insuranceTypes.add(insuranceType);
                 ArrayAdapter adapter = new SpinnerAdapter<InsuranceType>(getContext(), R.layout.item_spinner,insuranceTypes);
                 spinnerInsuranceType.setAdapter(adapter);
@@ -396,7 +416,7 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
                     companyType = new CompanyType(i, event.getListData().get(i).getCompanyName());
                     companyTypes.add(companyType);
                 }
-                companyType = new CompanyType(event.getListData().size(), "Select Company Type");
+                companyType = new CompanyType(event.getListData().size(), "Preferred Insurance Company");
                 companyTypes.add(companyType);
                 ArrayAdapter adapter = new SpinnerAdapter<CompanyType>(getContext(), R.layout.item_spinner,companyTypes);
                 spinnerCompany.setAdapter(adapter);
@@ -428,6 +448,10 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
 
     @OnClick(R.id.btnChooseFile)
     public void onClickAttachFileBtn() {
+        if (uploadedDocs.size() > 2) {
+            showToast("Limit is 3 attach files");
+            return;
+        }
         if (!AppUtils.arePermissionGranted(getContext(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})) {
             areGrantedPermissions = false;
         } else areGrantedPermissions = true;
@@ -484,6 +508,7 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
                             || ext.equals("jpeg")
                             || ext.equals("docx")
                             || mimeType.equals("image/jpeg")
+                            || mimeType.equals("image/png")
                             || mimeType.equals("application/pdf")
                             || mimeType.equals("application/msword")
                             || mimeType.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
@@ -574,6 +599,7 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
         String state = spinnerstate.getSelectedItem().toString();
         String country = spinnercountry.getSelectedItem().toString();
         String indicativeSum = edtIndicativeSum.getText().toString();
+        String postCode = edtPostCode.getText().toString();
         if (country.isEmpty()) {
             isValidate = false;
             ((TextView)spinnercountry.getSelectedView()).setError("Please select Country");
@@ -596,42 +622,44 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
         }
         if (!validationHelper.isFullNameValid(edtFullName)) {
             isValidate = false;
-            edtFullName.setError("Invalid Full Name");
         }
         if (!validationHelper.isContactValid(edtContact)){
             isValidate = false;
-            edtContact.setError("Invalid PhoneNumber");
         }
 
         if (nricNumbere.isEmpty()) {
             edtNricNumber.setError("Input NRIC.");
         } else {
-            if (nricNumbere.length() < 12) {
+            if (nricNumbere.length() != 12) {
                 isValidate = false;
-                edtNricNumber.setError("Invalid NRIC. more than 12 digits.");
+                edtNricNumber.setError("Invalid NRIC. Malaysia NRIC number must be 12 numbers.");
             }
         }
         if (spinnerInsuranceType.getSelectedItemPosition() == spinnerInsuranceType.getAdapter().getCount()) {
             isValidate = false;
             ((TextView)spinnerInsuranceType.getSelectedView()).setError("Please select InsuranceType");
         }
-        if (spinnerCompany.getSelectedItemPosition() == spinnerCompany.getAdapter().getCount()) {
+        /*if (spinnerCompany.getSelectedItemPosition() == spinnerCompany.getAdapter().getCount()) {
             isValidate = false;
             ((TextView)spinnerCompany.getSelectedView()).setError("Please select InsuranceType");
-        }
+        }*/
         if (indicativeSum.isEmpty()) {
-            isValidate = false;
-            edtIndicativeSum.setError("Please Input IndicativeSum");
+            /*isValidate = false;
+            edtIndicativeSum.setError("Please Input IndicativeSum");*/
         } else {
-            if (Integer.parseInt(indicativeSum) < 0) {
+            if (Integer.parseInt(indicativeSum) <= 0) {
                 isValidate = false;
                 edtIndicativeSum.setError("Indicative sum must be bigger than 0");
             }
         }
-        if (uploadedDocs.size() == 0) {
+        if (postCode.isEmpty()) {
+            isValidate = false;
+            edtPostCode.setError("Input PostCode.");
+        }
+        /*if (uploadedDocs.size() == 0) {
             isValidate = false;
             btnChooseFile.setError("Please upload document");
-        }
+        }*/
         return isValidate;
     }
 
@@ -655,7 +683,7 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
                 createJob.name = edtFullName.getText().toString();
                 createJob.phoneno = edtContact.getText().toString();
                 //createJob.indicative_sum = Long.parseLong(edtIndicativeSum.getText().toString());
-                createJob.indicative_sum = edtIndicativeSum.getText().toString();
+                //createJob.indicative_sum = edtIndicativeSum.getText().toString();
                 Calendar cal = Calendar.getInstance();
                 Date today = cal.getTime();
                 cal.add(Calendar.YEAR, 1); // to get previous year add -1
@@ -750,7 +778,7 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
                 } else {
                     dayOfMonth_m = String.valueOf(dayOfMonth);
                 }
-                expired_date.setText(year + "-" + month_m + "-" + dayOfMonth_m);
+                expired_date.setText(dayOfMonth_m + "-" + month_m + "-" + year);
             }
         });
         datePickerDialogFragment.show(getActivity().getSupportFragmentManager(), JobDatePickerDialogFragment.TAG);
@@ -798,9 +826,129 @@ public class CreateJobFragment extends BaseFragment implements RecyclerViewItemS
     };
 
     @Override
-    public void onItemSelected(Object item, int position) {
-        uploadedDocs.remove(position);
-        filesAdapter.notifyDataSetChanged();
-        showToast("Removed" + Integer.toString(position + 1));
+    public void onItemSelected(Object item, int position, int status) {
+        if (status == 1) {
+            uploadedDocs.remove(position);
+            filesAdapter.notifyDataSetChanged();
+            showToast("Removed" + Integer.toString(position + 1));
+        } else {
+            new DownloadFileFromURL().execute(((UploadedDoc)item).id);
+            //Toast.makeText(getContext(), ((UploadedDoc)item).id, Toast.LENGTH_LONG);
+        }
+    }
+
+    /**
+     * Background Async Task to download file
+     * */
+    class DownloadFileFromURL extends AsyncTask<String, String, String> {
+
+        public String filename;
+        public String filePath;
+
+        /**
+         * Before starting background thread Show Progress Bar Dialog
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog(R.string.please_wait);
+            //showDialog(progress_bar_type);
+        }
+
+        /**
+         * Downloading file in background thread
+         * */
+        @Override
+        protected String doInBackground(String... f_url) {
+            int count;
+            try {
+                URL url = new URL(f_url[0]);
+                filename=url.getPath().substring(url.getPath().lastIndexOf("/")+1);
+                URLConnection conection = url.openConnection();
+                conection.connect();
+
+                // this will be useful so that you can show a tipical 0-100%
+                // progress bar
+                int lenghtOfFile = conection.getContentLength();
+
+                // download the file
+                InputStream input = new BufferedInputStream(url.openStream(),
+                        8192);
+
+
+                filePath = Environment
+                        .getExternalStorageDirectory().toString()
+                        + "/easycover/" +filename;
+
+                String easycoverFolder = Environment
+                        .getExternalStorageDirectory().toString()
+                        + "/easycover";
+                File dir = new File(easycoverFolder);
+
+                if (!dir.exists())
+                    dir.mkdir();
+
+                // Output stream
+                OutputStream output = new FileOutputStream(Environment
+                        .getExternalStorageDirectory().toString()
+                        + "/easycover/" + filename);
+
+
+                byte data[] = new byte[1024];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+
+                    // writing data to file
+                    output.write(data, 0, count);
+                }
+
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return null;
+        }
+
+        /**
+         * Updating progress bar
+         * */
+        protected void onProgressUpdate(String... progress) {
+            // setting progress percentage
+            //pDialog.setProgress(Integer.parseInt(progress[0]));
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        @Override
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after the file was downloaded
+            //dismissDialog(progress_bar_type);
+            dismissProgress();
+            showToast(String.valueOf("Download File Success to ") + filename);
+            if (filePath != null) {
+                File file = new File( filePath  );
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri fileUri = FileProvider.getUriForFile(getContext(),
+                        "com.insurance.easycover",
+                        file);
+                intent.setData(fileUri);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(intent);
+            }
+        }
     }
 }

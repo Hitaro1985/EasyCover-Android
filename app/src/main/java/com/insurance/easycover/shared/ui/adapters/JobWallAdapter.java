@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -138,12 +140,13 @@ public class JobWallAdapter extends RecyclerView.Adapter<JobWallAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 if (recyclerViewItemSelectedListener != null) {
-                    recyclerViewItemSelectedListener.onItemSelected(jobList.get(position), position);
+                    recyclerViewItemSelectedListener.onItemSelected(jobList.get(position), position, 0);
                 } else
                     Toast.makeText(mCtx, "Work In progress", Toast.LENGTH_SHORT).show();
             }
         });
-        holder.tvName.setText(job.getInsuranceType());
+        //holder.tvName.setText(job.getInsuranceType());
+        holder.tvName.setText(job.getName());
         //holder.tvLanguage.setText(AppSharedPreferences.getInstance(mCtx).getCurrentLanguage());
         holder.tvPostCode.setText(job.getPostcode());
         holder.tvCountry.setText(job.getCountry());
@@ -152,11 +155,12 @@ public class JobWallAdapter extends RecyclerView.Adapter<JobWallAdapter.ViewHold
                 new DownLoadImageTask(holder.imvProfile).execute(job.getImage());
             }
         }
-        String dtStart = job.getUpdatedAt();
+        String dtStart = job.getAssUpdatedAt();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = format.parse(dtStart);
             Date now = Calendar.getInstance().getTime();
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = format.parse(dtStart.trim());
             long diff = now.getTime() - date.getTime();
             Log.i("updatedAt", job.getUpdatedAt());
             Log.i("now", now.toString());
@@ -178,6 +182,8 @@ public class JobWallAdapter extends RecyclerView.Adapter<JobWallAdapter.ViewHold
             }
             holder.tvDate.setText(SinceDate);
         } catch (ParseException e) {
+            Date now = Calendar.getInstance().getTime();
+            holder.tvDate.setText(dtStart + now.toString());
             e.printStackTrace();
         }
         holder.edtusername.setText(job.getName());

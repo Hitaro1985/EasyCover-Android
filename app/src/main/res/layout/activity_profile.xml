@@ -134,7 +134,7 @@
                             android:hint="@string/piam_number"
                             android:paddingLeft="@dimen/_5sdp"
                             android:paddingRight="@dimen/_5sdp"
-                            android:visibility="visible" />
+                            android:visibility="gone" />
 
 
                         <LinearLayout
@@ -142,7 +142,8 @@
                             android:layout_height="@dimen/_30sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:background="@drawable/bg_spinner_agent"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <android.support.v7.widget.AppCompatSpinner
                                 android:id="@+id/spinner1"
@@ -158,7 +159,8 @@
                             android:layout_height="@dimen/_30sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:background="@drawable/bg_spinner_agent"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <android.support.v7.widget.AppCompatSpinner
                                 android:id="@+id/spinner2"
@@ -248,18 +250,19 @@
                         android:paddingLeft="@dimen/_5sdp"
                         android:paddingRight="@dimen/_5sdp" />
 
-                    <EditText
+                    <com.bachors.prefixinput.EditText
                         android:id="@+id/edtPhoneno"
                         style="@style/edit_txt_single_line"
+                        android:text="+601"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:hint="@string/contact_num"
+                        android:maxLength="12"
+                        android:layout_below="@+id/edtConfirmPass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/edtFullName"
-                        android:layout_marginTop="@dimen/_5sdp"
-
-                        android:hint="@string/phoneno"
-                        android:inputType="textEmailAddress"
-                        android:paddingLeft="@dimen/_5sdp"
-                        android:paddingRight="@dimen/_5sdp" />
+                        android:inputType="number" />
 
                     <EditText
                         android:id="@+id/edtNricNumber"
@@ -361,7 +364,8 @@
                         android:background="@drawable/bg_white_edit"
                         android:minHeight="@dimen/_30sdp"
                         android:paddingLeft="@dimen/_5sdp"
-                        android:paddingRight="@dimen/_5sdp">
+                        android:paddingRight="@dimen/_5sdp"
+                        android:visibility="visible">
 
                         <Spinner
                             android:id="@+id/spinnercountry"

@@ -18,10 +18,13 @@ import android.widget.ImageView;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.insurance.easycover.R;
+import com.insurance.easycover.data.local.AppSharedPreferences;
 import com.insurance.easycover.shared.ui.activities.HomeActivity;
 import com.insurance.easycover.shared.ui.activities.SplashActivity;
 
 import naveed.khakhrani.miscellaneous.base.BaseActivity;
+
+import static android.app.Notification.BADGE_ICON_SMALL;
 
 /**
  * Created by PDC100 on 3/22/2018.
@@ -46,6 +49,9 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        int messageCount;
+        messageCount = AppSharedPreferences.getInstance(getApplicationContext()).getMessageCount() + 1;
+        AppSharedPreferences.getInstance(getApplicationContext()).setMessageCount(messageCount);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "4655")
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -53,6 +59,8 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
                 .setContentTitle("FCM Test")
                 .setContentText(message)
                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setBadgeIconType(BADGE_ICON_SMALL)
+                .setNumber(messageCount)
                 .setContentIntent(pendingIntent);
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

@@ -10,5 +10,6 @@ public class ForgotPassword {
     @SerializedName("email")
     public String mEmail;
 
-
+    @SerializedName("userrole")
+    public String userrole;
 }

@@ -297,7 +297,7 @@
                         style="@style/field_header_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/indicative_sum"
+                        android:text="@string/quotation_sum"
 
                         />
 

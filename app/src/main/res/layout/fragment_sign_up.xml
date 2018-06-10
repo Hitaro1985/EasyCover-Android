@@ -106,19 +106,54 @@
 
             />
 
-        <EditText
+        <!--<EditText-->
+            <!--android:id="@+id/edtContact"-->
+            <!--style="@style/edit_txt_single_line"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/edtConfirmPass"-->
+            <!--android:layout_marginTop="@dimen/_5sdp"-->
+            <!--android:hint="@string/contact_num"-->
+            <!--android:inputType="phone"-->
+            <!--android:digits="+601"-->
+            <!--android:paddingLeft="@dimen/_5sdp"-->
+            <!--android:paddingRight="@dimen/_5sdp"-->
+
+            <!--/>-->
+        <com.bachors.prefixinput.EditText
             android:id="@+id/edtContact"
             style="@style/edit_txt_single_line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/edtConfirmPass"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:hint="@string/contact_num"
-            android:inputType="phone"
+            android:text="+601"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:hint="@string/contact_num"
+            android:maxLength="12"
+            android:layout_below="@+id/edtConfirmPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
 
-            />
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="TextView" />
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CheckBox" />
+
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -134,6 +169,5 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         app:btn_color="?attr/colorPrimary" />
-    />
 
 </RelativeLayout>

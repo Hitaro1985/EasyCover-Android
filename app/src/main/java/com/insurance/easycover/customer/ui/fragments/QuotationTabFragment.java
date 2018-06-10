@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.insurance.easycover.R;
 import com.insurance.easycover.data.events.EventsIds;
@@ -39,6 +40,8 @@ public class QuotationTabFragment extends ListBaseFragment<Dummy> {
     private Unbinder mUnbinder = null;
     @BindView(R.id.recyclerView)
     protected RecyclerView mRecyclerView;
+    @BindView(R.id.noContent)
+    protected TextView noContent;
     private List<ResponseGetQuotation> resultData;
 
     public QuotationTabFragment() {
@@ -63,6 +66,7 @@ public class QuotationTabFragment extends ListBaseFragment<Dummy> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
+        noContent.setText(R.string.noneQuot);
         initAdapter();
     }
 
@@ -87,8 +91,14 @@ public class QuotationTabFragment extends ListBaseFragment<Dummy> {
     public void onEvent(ListDataEvent<ResponseGetQuotation> event){
         if (event.getStatus()) {
             if (event.getEventId() == EventsIds.ID_GETQUOTATION) {
-                NetworkController.getInstance().getInsuranceType();
-                resultData = event.getListData();
+                if (event.getListData().size() == 0) {
+                    dismissProgress();
+                }
+                else {
+                    noContent.setVisibility(View.GONE);
+                    NetworkController.getInstance().getInsuranceType();
+                    resultData = event.getListData();
+                }
             } else {
                 showToast(event.getMessage());
             }
@@ -106,7 +116,11 @@ public class QuotationTabFragment extends ListBaseFragment<Dummy> {
                 for (int i = 0; i < resultData.size(); i++) {
                     //Log.i("aaaaaaaa", resultData.get(i).getInsuranceType());
                     Integer selectItem = Integer.parseInt(resultData.get(i).getInsuranceType());
-                    resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    if (selectItem < event.getListData().size() + 1) {
+                        resultData.get(i).setInsuranceType(event.getListData().get(selectItem - 1).getInsuranceName());
+                    } else {
+                        resultData.get(i).setInsuranceType("none insurance");
+                    }
                     /*if (resultData.get(i).getJobstatus() != null) {
                         //if (resultData.get(i).getJobstatus().equals("3")) {
                             tempList.add(resultData.get(i));
@@ -124,7 +138,7 @@ public class QuotationTabFragment extends ListBaseFragment<Dummy> {
 
 
     @Override
-    public void onItemSelected(Object item, int position) {
+    public void onItemSelected(Object item, int position, int status) {
         changeFragment(QuotationDetailFragment.newInstance(item), R.id.fragmentContainer);
     }
 

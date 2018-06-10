@@ -64,7 +64,7 @@ public class HistoryCompletedAdapter extends RecyclerView.Adapter<HistoryComplet
             @Override
             public void onClick(View view) {
                 if (recyclerViewItemSelectedListener != null) {
-                    recyclerViewItemSelectedListener.onItemSelected(jobList.get(position), position);
+                    recyclerViewItemSelectedListener.onItemSelected(jobList.get(position), position, 0);
                 } else
                     Toast.makeText(mCtx, "Work In progress", Toast.LENGTH_SHORT).show();
             }

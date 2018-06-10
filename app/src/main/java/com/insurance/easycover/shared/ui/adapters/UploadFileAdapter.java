@@ -57,19 +57,19 @@ public class UploadFileAdapter extends RecyclerBaseAdapter<UploadedDoc, UploadFi
             holder.circleProgressView.setValue(uploadedDoc.uploadProgress);
         }
 
-        /*holder.layoutRoot.setOnClickListener(new View.OnClickListener() {
+        holder.layoutRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (recyclerViewItemSelectedListener != null)
-                    recyclerViewItemSelectedListener.onItemSelected(mDataList.get(position), position);
+                    recyclerViewItemSelectedListener.onItemSelected(mDataList.get(position), position, 0);
             }
-        });*/
+        });
 
         holder.imvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (recyclerViewItemSelectedListener != null)
-                    recyclerViewItemSelectedListener.onItemSelected(mDataList.get(position), position);
+                    recyclerViewItemSelectedListener.onItemSelected(mDataList.get(position), position, 1);
             }
             }
         );
